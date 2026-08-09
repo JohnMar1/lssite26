@@ -1,26 +1,26 @@
 <!doctype html>
 <html lang="cs">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>0. Úvod - Jan Marval & Jakub Pokorný</title>
-    <link rel="stylesheet" href="dist/reset.css">
-    <link rel="stylesheet" href="dist/reveal.css">
-    <link rel="stylesheet" href="dist/theme/white.css" id="theme">
-    <link rel="stylesheet" href="dist/plugin/highlight/monokai.css">
-    <link rel="stylesheet" href="css/presentation.css">
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="dist/plugin/highlight/monokai.css" />
+    <link rel="stylesheet" href="css/presentation.css" />
     <style>
       .schedule-list {
         text-align: left;
-        font-size: 0.8em;
-        line-height: 1.6;
+        font-size: 0.75em;
+        line-height: 1.5;
       }
       .schedule-list li {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
       }
       .time-badge {
         background: #f3f4f6;
-        padding: 2px 8px;
+        padding: 2px 6px;
         border-radius: 4px;
         font-family: monospace;
         font-weight: bold;
@@ -33,79 +33,190 @@
       <div class="slides">
         <section>
           <h1>Letní škola sítí</h1>
-          <p>Úvod & Harmonogram týdne</p>
-          <p><small>Lektoři: <strong>Jan Marval & Jakub Pokorný</strong></small></p>
+          <p>Jan Marval & Jakub Pokorný</p>
         </section>
 
         <section>
-          <h2>Vítejte na Letní škole!</h2>
-          <ul>
-            <li>5 dní plných praktických sítí, Linuxu a kyberbezpečnosti</li>
-            <li>Práce na reálném hardware i ve virtuálním prostředí</li>
-            <li>CTF soutěž o ceny na konci týdne</li>
-          </ul>
+          <section>
+            <h2>Seznámení s řádem učebny</h2>
+          </section>
+          <section>
+            <h2>Seznámení s řádem učebny</h2>
+            <ul>
+              <li class="fragment">jídlo a nápoje mimo klávesnice a myši</li>
+              <li class="fragment">v případě potřeby na toaletu se nemusíte ptát</li>
+              <li class="fragment">v případě jakéhokoli problému se obraťte na lektora</li>
+              <li class="fragment">obědy probíhají v prvním patře budovy školy v místnosti 108</li>
+            </ul>
+          </section>
         </section>
 
         <section>
-          <h2>📅 1. den: Úvod do Linuxu & Základy sítí</h2>
-          <ul class="schedule-list">
-            <li><span class="time-badge">09:00 – 12:00</span> <strong>Úvod do Linuxu</strong><br><small>Terminál, základní příkazy, práva, práce s Haxagonem</small></li>
-            <li><span class="time-badge">12:00 – 13:00</span> 🍕 <strong>Oběd</strong></li>
-            <li><span class="time-badge">13:00 – 16:00</span> <strong>Základy sítí</strong><br><small>IP adresace, masky, subnetting, ping, traceroute + DHCP & DNS</small></li>
-          </ul>
+          <h2>Kontakt</h2>
+          <h4>Jan Marval & Jakub Pokorný</h4>
+          <p>
+            <strong>Email:</strong> jan.marval@ssps.cz / jakub.pokorny@ssps.cz
+          </p>
+          <p>
+            <strong>Discord:</strong> johnmar1
+          </p>
         </section>
 
         <section>
-          <h2>📅 2. den: MikroTik, Cisco & Krimpování</h2>
-          <ul class="schedule-list">
-            <li><span class="time-badge">09:00 – 12:00</span> <strong>Úvod do sítí s MikroTikem</strong><br><small>WinBox, NAT, routing, nastavení firewallu</small></li>
-            <li><span class="time-badge">12:00 – 13:00</span> 🍕 <strong>Oběd</strong></li>
-            <li><span class="time-badge">13:00 – 15:00</span> <strong>Úvod do konfigurace Cisco zařízení</strong><br><small>CLI, základní příkazy, VLANy, switch/router</small></li>
-            <li><span class="time-badge">15:00 – 16:00</span> 🛠️ <strong>Krimpování kabelů</strong><br><small>Rychlostní závod a testování kabeláže</small></li>
-          </ul>
+          <h2>Kdo jsme?</h2>
+          <p>Studenti Smíchovské střední.</p>
         </section>
 
         <section>
-          <h2>📅 3. den: Docker & Herní servery</h2>
-          <ul class="schedule-list">
-            <li><span class="time-badge">09:00 – 10:30</span> <strong>Úvod do Dockeru</strong><br><small>Architektura, izolace, <code>docker run</code>, <code>Dockerfile</code></small></li>
-            <li><span class="time-badge">10:30 – 12:00</span> 🎮 <strong>Stavba Minecraft serveru v Dockeru</strong><br><small><code>docker-compose.yml</code>, persistentní volumy, port mapping</small></li>
-            <li><span class="time-badge">12:00 – 13:00</span> 🍕 <strong>Oběd</strong></li>
-            <li><span class="time-badge">13:00 – 15:00</span> 🕹️ <strong>Hraní na vlastním serveru + správa za běhu</strong><br><small>Docker logy, attach konzole, úprava pluginů</small></li>
-            <li><span class="time-badge">15:00 – 16:00</span> 🌐 <strong>Zabezpečení & Publikace serveru</strong><br><small>Port Forwarding, Cloudflare Tunnel, UFW firewall</small></li>
-          </ul>
+          <h2>Teď vy!</h2>
+          <p>Krátké seznámení — kdo jste a co vás přivedlo na Letní školu sítí?</p>
         </section>
 
         <section>
-          <h2>📅 4. den: Programování & Kyberbezpečnost</h2>
-          <ul class="schedule-list">
-            <li><span class="time-badge">09:00 – 12:00</span> 🐍 <strong>Programování sítí v Pythonu</strong><br><small>Sockets, Scapy, tvorba jednoduchých nástrojů</small></li>
-            <li><span class="time-badge">12:00 – 13:00</span> 🍕 <strong>Oběd</strong></li>
-            <li><span class="time-badge">13:00 – 15:00</span> 🔍 <strong>Hackování Wi-Fi, MITM & Wireshark</strong><br><small>MITM útoky a odchytávání provozu ve Wiresharku</small></li>
-            <li><span class="time-badge">15:00 – 16:00</span> 🚩 <strong>Úlohy na Haxagonu</strong><br><small>Příprava a warm-up na CTF</small></li>
-          </ul>
+          <h2>Přihlášení k počítačům</h2>
+          <p>Uživatelské jméno: <strong>student</strong></p>
+          <p>Heslo: <strong>student</strong></p>
         </section>
 
         <section>
-          <h2>📅 5. den: CTF Soutěž & Vyhodnocení</h2>
-          <ul class="schedule-list">
-            <li><span class="time-badge">09:00 – 12:00</span> 🏆 <strong>CTF Soutěž – 1. část</strong></li>
-            <li><span class="time-badge">12:00 – 13:00</span> 🍕 <strong>Oběd</strong></li>
-            <li><span class="time-badge">13:00 – 15:00</span> 🏆 <strong>CTF Soutěž – 2. část</strong></li>
-            <li><span class="time-badge">15:00 – 16:00</span> 🎖️ <strong>Vyhodnocení, rozbor řešení úloh & Networking</strong></li>
-          </ul>
+          <section>
+            <h2>Něco o škole</h2>
+          </section>
+          <section>
+            <h2>Smíchovská střední</h2>
+          </section>
+          <section>
+            <h2>6 oborů</h2>
+            <ul>
+              <li class="fragment">Informační technologie</li>
+              <li class="fragment">Kybernetická bezpečnost</li>
+              <li class="fragment">Gymnázium</li>
+              <li class="fragment">Všeobecné lyceum zaměřené na sportovní management</li>
+              <li class="fragment">Hotelnictví</li>
+              <li class="fragment">Cestovní ruch</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Plusy školy</h2>
+            <ul>
+              <li class="fragment">Aktivní studenti</li>
+              <li class="fragment">Next Zone</li>
+              <li class="fragment">Startupy</li>
+              <li class="fragment">Pan ředitel</li>
+            </ul>
+          </section>
         </section>
 
         <section>
-          <h2>🚀 Jdeme na to!</h2>
-          <p>Přejeme vám hodně úspěchů a nových znalostí.</p>
+          <section>
+            <h2>Motivace</h2>
+          </section>
+          <section>
+            <p>Každým dnem přibývají ve světě nové technologie (– Vývojáři a síťaři jsou ti, kteří je ovládají).</p>
+          </section>
+          <section>
+            <p>Počítačovou síť, servery nebo kybernetickou bezpečnost dnes potřebuje každá firma i organizace.</p>
+          </section>
+          <section>
+            <p>A dobře za to zaplatí.</p>
+          </section>
+          <section>
+            <p>Způsob jak porozumět tomu, jak funguje dnešní propojený svět.</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Program týdne</h2>
+          </section>
+          <section>
+            <h2>1. den: Úvod do Linuxu & Základy sítí</h2>
+            <ul class="schedule-list">
+              <li><span class="time-badge">09:00 – 12:00</span> <strong>Úvod do Linuxu</strong><br><small>Terminál, základní příkazy, práva, práce s Haxagonem</small></li>
+              <li><span class="time-badge">12:00 – 13:00</span> <strong>Oběd</strong></li>
+              <li><span class="time-badge">13:00 – 16:00</span> <strong>Základy sítí</strong><br><small>IP adresace, masky, subnetting, ping, traceroute + DHCP & DNS</small></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>2. den: MikroTik, Cisco & Krimpování</h2>
+            <ul class="schedule-list">
+              <li><span class="time-badge">09:00 – 12:00</span> <strong>Úvod do sítí s MikroTikem</strong><br><small>WinBox, NAT, routing, nastavení firewallu</small></li>
+              <li><span class="time-badge">12:00 – 13:00</span> <strong>Oběd</strong></li>
+              <li><span class="time-badge">13:00 – 15:00</span> <strong>Úvod do konfigurace Cisco zařízení</strong><br><small>CLI, základní příkazy, VLANy, switch/router</small></li>
+              <li><span class="time-badge">15:00 – 16:00</span> <strong>Krimpování kabelů</strong><br><small>Rychlostní závod a testování kabeláže</small></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>3. den: Docker & Herní servery</h2>
+            <ul class="schedule-list">
+              <li><span class="time-badge">09:00 – 10:30</span> <strong>Úvod do Dockeru</strong><br><small>Architektura, izolace, <code>docker run</code>, <code>Dockerfile</code></small></li>
+              <li><span class="time-badge">10:30 – 12:00</span> <strong>Stavba Minecraft serveru v Dockeru</strong><br><small><code>docker-compose.yml</code>, persistentní volumy, port mapping</small></li>
+              <li><span class="time-badge">12:00 – 13:00</span> <strong>Oběd</strong></li>
+              <li><span class="time-badge">13:00 – 15:00</span> <strong>Hraní na vlastním serveru + správa za běhu</strong><br><small>Docker logy, attach konzole, úprava pluginů</small></li>
+              <li><span class="time-badge">15:00 – 16:00</span> <strong>Zabezpečení & Publikace serveru</strong><br><small>Port Forwarding, Cloudflare Tunnel, UFW firewall</small></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>4. den: Programování & Kyberbezpečnost</h2>
+            <ul class="schedule-list">
+              <li><span class="time-badge">09:00 – 12:00</span> <strong>Programování sítí v Pythonu</strong><br><small>Sockets, Scapy, tvorba jednoduchých nástrojů</small></li>
+              <li><span class="time-badge">12:00 – 13:00</span> <strong>Oběd</strong></li>
+              <li><span class="time-badge">13:00 – 15:00</span> <strong>Hackování Wi-Fi, MITM & Wireshark</strong><br><small>MITM útoky a odchytávání provozu ve Wiresharku</small></li>
+              <li><span class="time-badge">15:00 – 16:00</span> <strong>Úlohy na Haxagonu</strong><br><small>Příprava a warm-up na CTF</small></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>5. den: CTF Soutěž & Vyhodnocení</h2>
+            <ul class="schedule-list">
+              <li><span class="time-badge">09:00 – 12:00</span> <strong>CTF Soutěž – 1. část</strong></li>
+              <li><span class="time-badge">12:00 – 13:00</span> <strong>Oběd</strong></li>
+              <li><span class="time-badge">13:00 – 15:00</span> <strong>CTF Soutěž – 2. část</strong></li>
+              <li><span class="time-badge">15:00 – 16:00</span> <strong>Vyhodnocení, rozbor řešení úloh & Networking</strong></li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Co očekávat?</h2>
+            <ul>
+              <li class="fragment">Všeobecný přehled síťových a serverových technologií</li>
+              <li class="fragment">Naučíš se základy práce v Linuxu, konfiguraci prvků i Dockeru</li>
+              <li class="fragment">Solidní základ pro pokračování kariéry v IT a kyberbezpečnosti</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Co neočekávat?</h2>
+            <ul>
+              <li class="fragment">Že z tebe za týden bude seniorní síťový architekt</li>
+              <li class="fragment">Že se všechno naučíš bez vlastní práce</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Naše očekávání od vás</h2>
+            <ul>
+              <li class="fragment">Zájem</li>
+              <li class="fragment">Aktivita</li>
+              <li class="fragment">Přátelský přístup</li>
+              <li class="fragment">Ptejte se!</li>
+            </ul>
+          </section>
         </section>
       </div>
     </div>
     <script src="dist/reveal.js"></script>
     <script src="dist/plugin/highlight.js"></script>
     <script>
-      Reveal.initialize({ hash: true, transition: 'slide', slideNumber: 'c/t', plugins: [RevealHighlight] });
+      Reveal.initialize({
+        hash: true,
+        transition: "slide",
+        slideNumber: "c/t",
+        plugins: [RevealHighlight],
+      });
     </script>
   </body>
 </html>
