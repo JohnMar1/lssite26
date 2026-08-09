@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Síťová bezpečnost</title>
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/white.css" id="theme">
+    <link rel="stylesheet" href="dist/plugin/highlight/monokai.css">
+    <link rel="stylesheet" href="css/presentation.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section><h1>Síťová bezpečnost</h1><p>Hackdays</p><p><small>Autoři: Pavel Vrána, Jan Marval</small></p></section>
+        <section><h2>Úvod a úplné základy</h2></section>
+        <section><h2>Co je internet?</h2><ul><li class="fragment">Celosvětová decentralizovaná síť navzájem propojených zařízení.</li><li class="fragment">Umožňuje komunikaci, webové stránky, e-shopy i cloudové služby.</li></ul></section>
+        <section><h2>Jak to funguje?</h2><ol><li class="fragment">Přenos dat</li><li class="fragment">Připojení k serveru</li><li class="fragment">Adresace</li><li class="fragment">Porty a protokoly</li></ol></section>
+        <section><h2>Přenos dat</h2><ul><li class="fragment"><strong>Síťová média:</strong> měděné a optické kabely, bezdrátové Wi‑Fi připojení.</li><li class="fragment"><strong>Pakety:</strong> základní přenášené jednotky; nesou informace a po přijetí se musí správně poskládat.</li></ul></section>
+        <section><h2>Síťová zařízení</h2><ul><li class="fragment"><strong>Síťové prvky:</strong> router, switch, access point.</li><li class="fragment"><strong>Koncová zařízení:</strong> počítač, telefon, tiskárna.</li><li class="fragment"><strong>Servery:</strong> poskytují služby ostatním zařízením.</li></ul></section>
+        <section><h2>Adresace, porty a protokoly</h2></section>
+        <section><h2>Adresace a důležité pojmy</h2><ul><li class="fragment"><strong>MAC adresa:</strong> <code>48:2e:72:09:68:aa</code></li><li class="fragment"><strong>IP adresa a maska sítě</strong>; default gateway, síťová a broadcastová adresa.</li><li class="fragment">Statická vs. dynamická adresa; VPN.</li></ul></section>
+        <section><h2>IPv4 a IPv6</h2><ul><li class="fragment"><strong>IPv4:</strong> <code>1.1.1.1</code></li><li class="fragment"><strong>Privátní IPv4 rozsahy:</strong> <code>10.0.0.0–10.255.255.255</code>, <code>172.16.0.0–172.31.255.255</code>, <code>192.168.0.0–192.168.255.255</code></li><li class="fragment"><strong>IPv6:</strong> <code>2001:db8:1::ab9:C0A8:102</code></li></ul></section>
+        <section><h2>Síťové vrstvy</h2><ol><li class="fragment">Aplikační vrstva</li><li class="fragment">Transportní vrstva</li><li class="fragment">Síťová vrstva</li><li class="fragment">Linková / fyzická vrstva</li></ol></section>
+        <section><h2>Porty</h2><p>Logická adresa přidělená službě používající internet. Slouží ke směrování dat ke správné aplikaci.</p><p class="fragment"><code>20</code> FTP · <code>22</code> SSH · <code>23</code> Telnet · <code>25</code> SMTP · <code>53</code> DNS · <code>80</code> HTTP · <code>443</code> HTTPS</p></section>
+        <section><h2>Protokoly</h2><p>Pravidla, podle kterých probíhá přenos dat.</p><ul><li class="fragment">Určují formát a pořadí komunikace.</li><li class="fragment">Definují, jak zařízení reagují na chyby.</li></ul></section>
+        <section><h2>TCP vs. UDP</h2><div class="columns"><div><h3>TCP</h3><ul><li class="fragment">Ztrátu dat detekuje a automaticky opraví.</li><li class="fragment">Spojení navazuje pomocí <em>three-way handshaku</em>.</li></ul></div><div><h3>UDP</h3><ul><li class="fragment">Nemá mechanismy pro kontrolu ztráty dat.</li><li class="fragment">Je rychlejší než TCP.</li></ul></div></div></section>
+        <section><h2>Protokoly síťové vrstvy</h2><ul><li class="fragment"><strong>ARP</strong> — zjistí MAC adresu, když známe jen IP adresu.</li><li class="fragment"><strong>DHCP</strong> — automaticky nastavuje IP konfiguraci.</li><li class="fragment"><strong>DNS</strong> — převádí doménová jména a IP adresy.</li></ul></section>
+        <section><h2>Protokoly aplikační vrstvy</h2><ul><li class="fragment">Telnet a SSH</li><li class="fragment">FTP, SFTP a FTPS</li><li class="fragment">HTTP a HTTPS</li><li class="fragment">SMTP, POP3 a IMAP</li></ul></section>
+        <section><h2>Síťová bezpečnost</h2></section>
+        <section><h2>Základní síťové příkazy</h2><pre><code data-trim>ip a       ifconfig
+ping       traceroute
+ip r       arp
+nslookup   netstat</code></pre></section>
+        <section><h2>Nástroje síťové bezpečnosti</h2><ul><li class="fragment"><strong>nmap</strong> — skenování sítě</li><li class="fragment"><strong>Wireshark</strong> — analýza síťového provozu</li><li class="fragment"><strong>whois</strong> — OSINT a informace o doméně</li><li class="fragment"><strong>Packet Tracer</strong> — simulace síťového provozu</li></ul></section>
+        <section><h2>Síťové útoky</h2><ul><li class="fragment">DoS a DDoS</li><li class="fragment">Man in the Middle</li><li class="fragment">SQL injection a XSS</li><li class="fragment">DNS spoofing a URL spoofing</li></ul></section>
+        <section><h2>DoS vs. DDoS</h2><ul><li class="fragment"><strong>DoS:</strong> odepření služby útokem z jednoho zařízení.</li><li class="fragment"><strong>DDoS:</strong> stejný cíl, ale útok vede více zařízení, často botnet.</li><li class="fragment">Cílem je přetížit službu tak, aby nebyla dostupná.</li></ul></section>
+        <section><h2>Man in the Middle</h2><p>Útočník se vloží mezi dvě komunikující strany a může provoz odposlouchávat nebo upravovat.</p></section>
+        <section><h2>SQL injection</h2><ul><li class="fragment">Vložení škodlivého kódu do databázového vstupu.</li><li class="fragment">Například: <code>heslo' OR '1'='1</code></li><li class="fragment">Při špatném ošetření vstupu může databáze vrátit citlivé informace.</li></ul></section>
+        <section><h2>XSS</h2><ul><li class="fragment">Cross-site scripting: spuštění škodlivého skriptu na webu.</li><li class="fragment">Příklad: <code>&lt;script&gt;alert('Toto je úspěšný XSS útok.');&lt;/script&gt;</code></li></ul></section>
+        <section><h2>XSS — praktická část</h2><p><a href="https://xss-game.appspot.com/" target="_blank" rel="noreferrer">https://xss-game.appspot.com/</a></p></section>
+        <section><h2>DNS spoofing</h2><p>Úprava nebo podvržení DNS odpovědi, která uživatele přesměruje na falešnou stránku.</p></section>
+        <section><h2>URL spoofing</h2><ul><li class="fragment">Útočník vlastní stránku s podobným názvem, která je škodlivá.</li><li class="fragment"><code>google.com → goggle.com</code></li><li class="fragment"><code>discord.com → dlscord.com</code></li><li class="fragment"><code>ib.airbank.cz → ib.airbaпk.cz</code></li></ul></section>
+        <section><h1>Děkuji</h1><p>Otázky?</p></section>
+      </div>
+    </div>
+    <script src="dist/reveal.js"></script>
+    <script src="dist/plugin/highlight.js"></script>
+    <script>
+      Reveal.initialize({ hash: true, transition: 'slide', slideNumber: 'c/t', plugins: [RevealHighlight] });
+    </script>
+  </body>
+</html>

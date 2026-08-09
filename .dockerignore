@@ -1,0 +1,8 @@
+.git
+.gitignore
+.gitattributes
+.mimocode
+Dockerfile
+docker-compose.yml
+*.txt
+*.pptx

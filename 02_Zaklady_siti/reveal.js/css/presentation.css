@@ -1,0 +1,11 @@
+.reveal .columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.reveal code { padding: 0.08em 0.2em; }
+
+@media (max-width: 800px) {
+  .reveal .columns { grid-template-columns: 1fr; }
+}

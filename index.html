@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <title>Letní škola sítí - Prezentace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #fff;
+      color: #222;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #1a1a1a;
+        color: #eee;
+      }
+      .presentation-item { border-color: #333; }
+      .presentation-link:hover { background: #242424; }
+      .presentation-meta { color: #999; }
+      .arrow { color: #777; }
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .presentations-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .presentation-item {
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .presentation-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.9rem 1rem 0.9rem 0.25rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .presentation-link:hover {
+      background: #f5f5f5;
+    }
+
+    .presentation-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .presentation-title {
+      font-size: 1.05rem;
+      font-weight: 500;
+    }
+
+    .presentation-meta {
+      font-size: 0.85rem;
+      color: #777;
+      margin-top: 0.15rem;
+    }
+
+    .arrow {
+      font-size: 1.1rem;
+      color: #aaa;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Letní škola sítí - Prezentace</h1>
+
+  <ul class="presentations-list">
+    <li class="presentation-item">
+      <a href="01_Uvod_do_Linuxu/reveal.js/index.html" class="presentation-link">
+        <div class="presentation-body">
+          <div class="presentation-title">1. Úvod do Linuxu</div>
+          <div class="presentation-meta">Prezentace · Terminál, souborový systém, práva</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+    <li class="presentation-item">
+      <a href="02_Zaklady_siti/reveal.js/index.html" class="presentation-link">
+        <div class="presentation-body">
+          <div class="presentation-title">2. Základy sítí</div>
+          <div class="presentation-meta">Prezentace · IP adresace, porty, síťové vrstvy a bezpečnost</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+    <li class="presentation-item">
+      <a href="03_Zakladni_sluzby_DHCP_DNS/reveal.js/index.html" class="presentation-link">
+        <div class="presentation-body">
+          <div class="presentation-title">3. Základní služby: DHCP a DNS</div>
+          <div class="presentation-meta">Prezentace · DORA, DNS záznamy a resolver na Linuxu</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+    <li class="presentation-item">
+      <a href="04_MikroTik_konfigurace/reveal.js/index.html" class="presentation-link">
+        <div class="presentation-body">
+          <div class="presentation-title">4. MikroTik konfigurace</div>
+          <div class="presentation-meta">Prezentace · Připravuje se</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+    <li class="presentation-item">
+      <a href="05_Cisco/reveal.js/index.html" class="presentation-link">
+        <div class="presentation-body">
+          <div class="presentation-title">5. Cisco</div>
+          <div class="presentation-meta">Prezentace · Připravuje se</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+    <li class="presentation-item">
+      <a href="06_Navod_na_krimpovani/reveal.js/index.html" class="presentation-link">
+        <div class="presentation-body">
+          <div class="presentation-title">6. Návod na krimpování</div>
+          <div class="presentation-meta">Prezentace · Připravuje se</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+    <li class="presentation-item">
+      <a href="07_Docker/reveal.js/index.html" class="presentation-link">
+        <div class="presentation-body">
+          <div class="presentation-title">7. Docker</div>
+          <div class="presentation-meta">Prezentace · Připravuje se</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+    <li class="presentation-item">
+      <a href="08_Minecraft_v_Dockeru/reveal.js/index.html" class="presentation-link">
+        <div class="presentation-body">
+          <div class="presentation-title">8. Minecraft v Dockeru</div>
+          <div class="presentation-meta">Prezentace · Připravuje se</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+    <li class="presentation-item">
+      <a href="09_Cloudflare_veci/reveal.js/index.html" class="presentation-link">
+        <div class="presentation-body">
+          <div class="presentation-title">9. Cloudflare věci</div>
+          <div class="presentation-meta">Prezentace · Připravuje se</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+    <li class="presentation-item">
+      <a href="10_Python_pro_site/reveal.js/index.html" class="presentation-link">
+        <div class="presentation-body">
+          <div class="presentation-title">10. Python pro sítě</div>
+          <div class="presentation-meta">Prezentace · Připravuje se</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+    <li class="presentation-item">
+      <a href="11_Wireshark/reveal.js/index.html" class="presentation-link">
+        <div class="presentation-body">
+          <div class="presentation-title">11. Wireshark</div>
+          <div class="presentation-meta">Prezentace · Připravuje se</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+    <li class="presentation-item">
+      <a href="12_Hackovani_WiFi/reveal.js/index.html" class="presentation-link">
+        <div class="presentation-body">
+          <div class="presentation-title">12. Hacking Wi-Fi</div>
+          <div class="presentation-meta">Prezentace · Připravuje se</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+    <li class="presentation-item">
+      <a href="13_Navod_na_CTF/reveal.js/index.html" class="presentation-link">
+        <div class="presentation-body">
+          <div class="presentation-title">13. Návod na CTF</div>
+          <div class="presentation-meta">Prezentace · Připravuje se</div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </li>
+  </ul>
+</body>
+</html>

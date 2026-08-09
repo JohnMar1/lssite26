@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Základní služby: DHCP a DNS</title>
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/white.css" id="theme">
+    <link rel="stylesheet" href="dist/plugin/highlight/monokai.css">
+    <link rel="stylesheet" href="css/presentation.css">
+  </head>
+  <body>
+    <div class="reveal"><div class="slides">
+      <section>
+        <h1>Základní služby</h1>
+        <p>DHCP · DNS · Konfigurace na Linuxu</p>
+        <p><small>Příprava na síťovou administraci</small></p>
+      </section>
+
+      <section>
+        <h2>Co dnes probereme</h2>
+        <ol>
+          <li><strong>DHCP:</strong> Jak počítač získá adresu</li>
+          <li><strong>Konfigurace klienta:</strong> Jak to vypadá v Linuxu</li>
+          <li><strong>DNS:</strong> Telefonní seznam internetu</li>
+          <li><strong>Záznamy a resolver:</strong> Kam se systém dívá</li>
+          <li><strong>Diagnostika:</strong> Když „nejde internet“</li>
+        </ol>
+      </section>
+
+      <!-- SECTION: DHCP -->
+      <section>
+        <section>
+          <h2>DHCP</h2>
+          <p>Dynamic Host Configuration Protocol</p>
+        </section>
+        <section>
+          <h2>Proč DHCP?</h2>
+          <ul>
+            <li class="fragment">Ruční nastavování IP adres je u stovek zařízení nemožné.</li>
+            <li class="fragment">Zabraňuje konfliktům (duplicitní IP adresy).</li>
+            <li class="fragment">Umožňuje centrální správu (změna DNS pro celou síť naráz).</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Jak to funguje? (DORA)</h2>
+          <ol>
+            <li class="fragment"><strong>Discovery:</strong> Klient volá „Je tu nějaký server?“ (Broadcast)</li>
+            <li class="fragment"><strong>Offer:</strong> Server odpovídá „Mám pro tebe tuhle IP“.</li>
+            <li class="fragment"><strong>Request:</strong> Klient říká „Super, beru si ji“.</li>
+            <li class="fragment"><strong>Acknowledgement:</strong> Server potvrdí „Ok, je tvoje“.</li>
+          </ol>
+        </section>
+        <section>
+          <h2>DHCP Lease (Pronájem)</h2>
+          <ul>
+            <li class="fragment">IP adresa není tvoje navždy.</li>
+            <li class="fragment"><strong>Lease Time:</strong> Doba, na kterou máš adresu půjčenou.</li>
+            <li class="fragment">V polovině doby se klient pokusí o obnovení (Renewal).</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Co všechno DHCP posílá?</h2>
+          <ul>
+            <li>IP adresa a maska sítě</li>
+            <li>Výchozí brána (Default Gateway)</li>
+            <li>DNS servery</li>
+            <li>Někdy i jméno počítače nebo časový server (NTP)</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- SECTION: DHCP na Linuxu -->
+      <section>
+        <section>
+          <h2>DHCP na Linuxu</h2>
+          <p>Klient a diagnostika</p>
+        </section>
+        <section>
+          <h2>Správci sítě</h2>
+          <ul>
+            <li class="fragment"><strong>NetworkManager:</strong> Běžný na desktopech (příkaz <code>nmcli</code>).</li>
+            <li class="fragment"><strong>systemd-networkd:</strong> Častý na serverech.</li>
+            <li class="fragment"><strong>dhclient:</strong> Klasický nízkoúrovňový nástroj.</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Jak získat novou adresu?</h2>
+          <pre><code data-trim class="language-bash">
+# Přes NetworkManager
+sudo nmcli device reapply eth0
+
+# Klasicky přes dhclient
+sudo dhclient -r eth0  # uvolnění staré
+sudo dhclient eth0     # žádost o novou
+          </code></pre>
+        </section>
+        <section>
+          <h2>Kde hledat chybu?</h2>
+          <pre><code data-trim class="language-bash">
+# Logy systému
+journalctl -u NetworkManager
+# nebo
+grep -i "dhcp" /var/log/syslog
+          </code></pre>
+        </section>
+      </section>
+
+      <!-- SECTION: DNS -->
+      <section>
+        <section>
+          <h2>DNS</h2>
+          <p>Domain Name System</p>
+        </section>
+        <section>
+          <h2>K čemu to je?</h2>
+          <p>Lidé si pamatují <code>google.com</code>, počítače potřebují <code>142.250.184.206</code>.</p>
+          <p class="fragment">DNS funguje jako distribuovaná databáze, která tento překlad zajišťuje.</p>
+        </section>
+        <section>
+          <h2>Hierarchie DNS</h2>
+          <pre><code data-trim>
+. (Root)
+├── com.
+│   ├── google.com.
+│   └── github.com.
+├── cz.
+│   ├── seznam.cz.
+│   └── nic.cz.
+└── org.
+          </code></pre>
+          <p><small>Tečka na konci značí absolutní kořen, i když ji běžně nepíšeme.</small></p>
+        </section>
+        <section>
+          <h2>Typy záznamů</h2>
+          <table>
+            <thead>
+              <tr><th>Typ</th><th>Význam</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>A</strong></td><td>IPv4 adresa (jméno -> IP)</td></tr>
+              <tr><td><strong>AAAA</strong></td><td>IPv6 adresa</td></tr>
+              <tr><td><strong>CNAME</strong></td><td>Alias (jméno -> jméno)</td></tr>
+              <tr><td><strong>MX</strong></td><td>Mail Server (kam doručit e-mail)</td></tr>
+              <tr><td><strong>TXT</strong></td><td>Textová data (ověření, SPF)</td></tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+
+      <!-- SECTION: DNS Resolver -->
+      <section>
+        <section>
+          <h2>DNS v Linuxu</h2>
+          <p>Resolver — jak se systém ptá</p>
+        </section>
+        <section>
+          <h2>/etc/resolv.conf</h2>
+          <p>Hlavní konfigurační soubor pro překlad jmen.</p>
+          <pre><code data-trim class="language-bash">
+nameserver 8.8.8.8
+nameserver 1.1.1.1
+search moje-sit.local
+          </code></pre>
+          <p class="fragment"><small>Pozor: Dnes je tento soubor často spravován automaticky (symlink na systemd-resolved).</small></p>
+        </section>
+        <section>
+          <h2>/etc/hosts</h2>
+          <p>„Lokální DNS“ — má přednost před servery v internetu.</p>
+          <pre><code data-trim>
+127.0.0.1   localhost
+192.168.1.5 muj-server.test
+          </code></pre>
+        </section>
+        <section>
+          <h2>Diagnostika: dig</h2>
+          <pre><code data-trim class="language-bash">
+dig seznam.cz
+dig @8.8.8.8 google.com MX
+dig -x 8.8.8.8  # reverzní dotaz (IP -> jméno)
+          </code></pre>
+        </section>
+        <section>
+          <h2>Rychlejší alternativy</h2>
+          <pre><code data-trim class="language-bash">
+host seznam.cz
+nslookup github.com
+          </code></pre>
+        </section>
+      </section>
+
+      <!-- SECTION: Praktické cvičení -->
+      <section>
+        <section>
+          <h2>Praktické cvičení</h2>
+        </section>
+        <section>
+          <h2>1. DHCP Kontrola</h2>
+          <pre><code data-trim class="language-bash">
+# Zjisti, jakou máš IP a jestli je z DHCP
+ip a
+# Podívej se na logy ohledně DHCP
+journalctl -g dhcp
+          </code></pre>
+        </section>
+        <section>
+          <h2>2. DNS Průzkum</h2>
+          <pre><code data-trim class="language-bash">
+# Kdo je tvůj DNS server?
+cat /etc/resolv.conf
+
+# Zjisti MX záznamy pro tvůj e-mail
+dig google.com MX
+
+# Zkus najít IP adresu seznam.cz pomocí host
+host seznam.cz
+          </code></pre>
+        </section>
+        <section>
+          <h2>3. Vlastní hostitel</h2>
+          <p>Uprav <code>/etc/hosts</code> tak, aby adresa <code>moje.lokalka</code> vedla na <code>127.0.0.1</code>.</p>
+          <p>Ověř pomocí <code>ping moje.lokalka</code>.</p>
+        </section>
+      </section>
+
+    </div></div>
+    <script src="dist/reveal.js"></script>
+    <script src="dist/plugin/highlight.js"></script>
+    <script>
+      Reveal.initialize({ 
+        hash: true, 
+        transition: 'slide', 
+        slideNumber: 'c/t', 
+        plugins: [RevealHighlight] 
+      });
+    </script>
+  </body>
+</html>
