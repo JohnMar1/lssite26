@@ -6,6 +6,124 @@
 
 .reveal code { padding: 0.08em 0.2em; }
 
+/* Image and Grid Layout Enhancements */
+.reveal .img-grid {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.reveal .img-grid img {
+  max-height: 280px;
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  object-fit: contain;
+  background: white;
+}
+
+.reveal .img-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.reveal .img-card img {
+  max-height: 250px;
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  object-fit: contain;
+  background: white;
+}
+
+.reveal .img-card p {
+  font-size: 0.7em;
+  margin-top: 0.5em;
+  color: #555;
+  font-weight: 500;
+}
+
+.reveal .slide-img {
+  max-height: 380px;
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-top: 1rem;
+  object-fit: contain;
+  background: white;
+}
+
+.reveal .side-by-side {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reveal .side-by-side > div {
+  flex: 1;
+}
+
+.reveal .img-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.reveal .img-row .img-card {
+  flex: 1;
+  max-width: 45%;
+}
+
+.reveal .img-row .img-card img {
+  max-height: 320px;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: white;
+}
+
+.reveal .img-row-3 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.2rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.reveal .img-row-3 .img-card {
+  flex: 1;
+  max-width: 31%;
+}
+
+.reveal .img-row-3 .img-card img {
+  max-height: 230px;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: white;
+}
+
 @media (max-width: 800px) {
   .reveal .columns { grid-template-columns: 1fr; }
+  .reveal .side-by-side { flex-direction: column; }
+  .reveal .img-grid { flex-direction: column; }
+  .reveal .img-row { flex-direction: column; }
+  .reveal .img-row-3 { flex-direction: column; }
 }
+
+
+

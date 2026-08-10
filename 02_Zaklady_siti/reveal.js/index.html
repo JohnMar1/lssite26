@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Síťová bezpečnost</title>
+    <title>Základy sítí</title>
     <link rel="stylesheet" href="dist/reset.css">
     <link rel="stylesheet" href="dist/reveal.css">
     <link rel="stylesheet" href="dist/theme/white.css" id="theme">
@@ -13,36 +13,283 @@
   <body>
     <div class="reveal">
       <div class="slides">
-        <section><h1>Síťová bezpečnost</h1><p>Hackdays</p><p><small>Autoři: Pavel Vrána, Jan Marval</small></p></section>
-        <section><h2>Úvod a úplné základy</h2></section>
-        <section><h2>Co je internet?</h2><ul><li class="fragment">Celosvětová decentralizovaná síť navzájem propojených zařízení.</li><li class="fragment">Umožňuje komunikaci, webové stránky, e-shopy i cloudové služby.</li></ul></section>
-        <section><h2>Jak to funguje?</h2><ol><li class="fragment">Přenos dat</li><li class="fragment">Připojení k serveru</li><li class="fragment">Adresace</li><li class="fragment">Porty a protokoly</li></ol></section>
-        <section><h2>Přenos dat</h2><ul><li class="fragment"><strong>Síťová média:</strong> měděné a optické kabely, bezdrátové Wi‑Fi připojení.</li><li class="fragment"><strong>Pakety:</strong> základní přenášené jednotky; nesou informace a po přijetí se musí správně poskládat.</li></ul></section>
-        <section><h2>Síťová zařízení</h2><ul><li class="fragment"><strong>Síťové prvky:</strong> router, switch, access point.</li><li class="fragment"><strong>Koncová zařízení:</strong> počítač, telefon, tiskárna.</li><li class="fragment"><strong>Servery:</strong> poskytují služby ostatním zařízením.</li></ul></section>
-        <section><h2>Adresace, porty a protokoly</h2></section>
-        <section><h2>Adresace a důležité pojmy</h2><ul><li class="fragment"><strong>MAC adresa:</strong> <code>48:2e:72:09:68:aa</code></li><li class="fragment"><strong>IP adresa a maska sítě</strong>; default gateway, síťová a broadcastová adresa.</li><li class="fragment">Statická vs. dynamická adresa; VPN.</li></ul></section>
-        <section><h2>IPv4 a IPv6</h2><ul><li class="fragment"><strong>IPv4:</strong> <code>1.1.1.1</code></li><li class="fragment"><strong>Privátní IPv4 rozsahy:</strong> <code>10.0.0.0–10.255.255.255</code>, <code>172.16.0.0–172.31.255.255</code>, <code>192.168.0.0–192.168.255.255</code></li><li class="fragment"><strong>IPv6:</strong> <code>2001:db8:1::ab9:C0A8:102</code></li></ul></section>
-        <section><h2>Síťové vrstvy</h2><ol><li class="fragment">Aplikační vrstva</li><li class="fragment">Transportní vrstva</li><li class="fragment">Síťová vrstva</li><li class="fragment">Linková / fyzická vrstva</li></ol></section>
-        <section><h2>Porty</h2><p>Logická adresa přidělená službě používající internet. Slouží ke směrování dat ke správné aplikaci.</p><p class="fragment"><code>20</code> FTP · <code>22</code> SSH · <code>23</code> Telnet · <code>25</code> SMTP · <code>53</code> DNS · <code>80</code> HTTP · <code>443</code> HTTPS</p></section>
-        <section><h2>Protokoly</h2><p>Pravidla, podle kterých probíhá přenos dat.</p><ul><li class="fragment">Určují formát a pořadí komunikace.</li><li class="fragment">Definují, jak zařízení reagují na chyby.</li></ul></section>
-        <section><h2>TCP vs. UDP</h2><div class="columns"><div><h3>TCP</h3><ul><li class="fragment">Ztrátu dat detekuje a automaticky opraví.</li><li class="fragment">Spojení navazuje pomocí <em>three-way handshaku</em>.</li></ul></div><div><h3>UDP</h3><ul><li class="fragment">Nemá mechanismy pro kontrolu ztráty dat.</li><li class="fragment">Je rychlejší než TCP.</li></ul></div></div></section>
-        <section><h2>Protokoly síťové vrstvy</h2><ul><li class="fragment"><strong>ARP</strong> — zjistí MAC adresu, když známe jen IP adresu.</li><li class="fragment"><strong>DHCP</strong> — automaticky nastavuje IP konfiguraci.</li><li class="fragment"><strong>DNS</strong> — převádí doménová jména a IP adresy.</li></ul></section>
-        <section><h2>Protokoly aplikační vrstvy</h2><ul><li class="fragment">Telnet a SSH</li><li class="fragment">FTP, SFTP a FTPS</li><li class="fragment">HTTP a HTTPS</li><li class="fragment">SMTP, POP3 a IMAP</li></ul></section>
-        <section><h2>Síťová bezpečnost</h2></section>
-        <section><h2>Základní síťové příkazy</h2><pre><code data-trim>ip a       ifconfig
+        <section>
+          <h1>Základy sítí</h1>
+        </section>
+
+        <!-- KATEGORIE 1: Úvod a úplné základy -->
+        <section>
+          <section>
+            <h2>Úvod a úplné základy</h2>
+          </section>
+          <section>
+            <h2>Co je internet?</h2>
+            <ul>
+              <li class="fragment">Celosvětová decentralizovaná síť navzájem propojených zařízení.</li>
+              <li class="fragment"><strong>LAN</strong> — lokální síť (domácnost, škola).</li>
+              <li class="fragment"><strong>WAN</strong> — rozsáhlá síť propojená routery.</li>
+              <li class="fragment"><strong>Internet</strong> — celosvětové propojení všech sítí.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Jak to funguje?</h2>
+            <ol>
+              <li class="fragment">Přenos dat</li>
+              <li class="fragment">Připojení k serveru</li>
+              <li class="fragment">Adresace</li>
+              <li class="fragment">Porty a protokoly</li>
+            </ol>
+          </section>
+          <section>
+            <h2>Přenos dat</h2>
+            <ul>
+              <li class="fragment"><strong>Síťová média:</strong> měděné (RJ-45) a optické kabely, Wi‑Fi.</li>
+              <li class="fragment"><strong>Měděný kabel:</strong> <em>UTP</em> (nestíněný) vs. <em>STP</em> (stíněný proti šumu).</li>
+              <li class="fragment"><strong>Pakety:</strong> základní přenášené jednotky dat (bity 0 a 1).</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Přenos dat — kabely</h2>
+            <div class="img-row">
+              <div class="img-card">
+                <img src="images/image9.png" alt="Měděné kabely">
+                <p class="fragment">Měděný kabel (kroucená dvoulinka / RJ-45)</p>
+              </div>
+              <div class="img-card">
+                <img src="images/image8.png" alt="Optické kabely">
+                <p class="fragment">Optický kabel (světlovod)</p>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2>Síťová zařízení</h2>
+            <ul>
+              <li class="fragment"><strong>Síťové prvky:</strong> router (směrování mimo LAN), switch (propojení v LAN), access point.</li>
+              <li class="fragment"><strong>Koncová zařízení:</strong> počítač, telefon, tiskárna, server.</li>
+              <li class="fragment"><strong>Modely komunikace:</strong> <em>Server-Client</em> vs. <em>Peer-to-Peer (P2P)</em>.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Síťová zařízení — ukázky</h2>
+            <div class="img-row-3">
+              <div class="img-card">
+                <img src="images/image12.png" alt="Router / AP">
+                <p class="fragment">Router / AP</p>
+              </div>
+              <div class="img-card">
+                <img src="images/image11.png" alt="Switch">
+                <p class="fragment">Switch</p>
+              </div>
+              <div class="img-card">
+                <img src="images/image10.png" alt="Síťová topologie">
+                <p class="fragment">Síťová topologie</p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 2: Adresace, porty a protokoly -->
+        <section>
+          <section>
+            <h2>Adresace, porty a protokoly</h2>
+          </section>
+          <section>
+            <h2>Adresace a důležité pojmy</h2>
+            <ul>
+              <li class="fragment"><strong>MAC adresa:</strong> fyzická 48-bit hex adresa síťové karty (<code>00:0a:95:9d:67:16</code>).</li>
+              <li class="fragment"><strong>IP adresa & maska sítě:</strong> adresa sítě, použitelné IP pro hosty, broadcast.</li>
+              <li class="fragment"><strong>Loopback (localhost):</strong> posílání dat sám sobě (vyhrazeno <code>127.0.0.0/8</code>, např. <code>127.0.0.1</code>).</li>
+              <li class="fragment">Statická vs. dynamická (DHCP) adresace; Default Gateway; VPN.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>IPv4 a IPv6</h2>
+            <ul>
+              <li class="fragment"><strong>IPv4:</strong> 32-bitová adresa (cca 4,3 miliardy adres) — <code>1.1.1.1</code></li>
+              <li class="fragment"><strong>Privátní IPv4 rozsahy:</strong> <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code></li>
+              <li class="fragment"><strong>IPv6:</strong> 128-bitová adresa (340 undecillionů adres) — <code>2001:db8:1::ab9:C0A8:102</code></li>
+            </ul>
+          </section>
+          <section>
+            <h2>Síťové vrstvy</h2>
+            <div class="side-by-side">
+              <div>
+                <ol>
+                  <li class="fragment">Aplikační vrstva</li>
+                  <li class="fragment">Transportní vrstva</li>
+                  <li class="fragment">Síťová vrstva</li>
+                  <li class="fragment">Linková / fyzická vrstva</li>
+                </ol>
+              </div>
+              <div>
+                <img src="images/image28.png" alt="Síťové vrstvy" class="slide-img fragment">
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2>Porty</h2>
+            <p>Logická adresa přidělená službě používající internet. Slouží ke směrování dat ke správné aplikaci.</p>
+            <p class="fragment"><code>20</code> FTP · <code>22</code> SSH · <code>23</code> Telnet · <code>25</code> SMTP · <code>53</code> DNS · <code>80</code> HTTP · <code>443</code> HTTPS</p>
+          </section>
+          <section>
+            <h2>Protokoly & Wi-Fi</h2>
+            <p>Pravidla, podle kterých probíhá přenos dat.</p>
+            <ul>
+              <li class="fragment">Určují formát, pořadí komunikace a reakci na chyby.</li>
+              <li class="fragment"><strong>Wi-Fi zabezpečení:</strong> WEP, WPA2 Personal/Enterprise, WPA3.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>TCP vs. UDP</h2>
+            <div class="columns">
+              <div>
+                <h3>TCP</h3>
+                <ul>
+                  <li class="fragment">Ztrátu dat detekuje a automaticky opraví.</li>
+                  <li class="fragment">Spojení navazuje pomocí <em>three-way handshaku</em>.</li>
+                </ul>
+              </div>
+              <div>
+                <h3>UDP</h3>
+                <ul>
+                  <li class="fragment">Nemá mechanismy pro kontrolu ztráty dat.</li>
+                  <li class="fragment">Je rychlejší než TCP.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2>TCP Three-Way Handshake</h2>
+            <img src="images/image15.png" alt="TCP Handshake" class="slide-img" style="max-height: 450px;">
+          </section>
+          <section>
+            <h2>Protokoly síťové vrstvy</h2>
+            <ul>
+              <li class="fragment"><strong>ARP</strong> — zjištění MAC adresy zařízení, pokud známe jen jeho IP.</li>
+              <li class="fragment"><strong>DHCP</strong> — automatická konfigurace IP adres, masky a brány.</li>
+              <li class="fragment"><strong>DNS</strong> — převod doménových jmen a IP adres (1., 2. a 3. řád domén).</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Protokoly síťové vrstvy</h2>
+            <img src="images/image21.png" alt="Protokoly vtip" class="slide-img" style="max-height: 480px;">
+          </section>
+          <section>
+            <h2>Protokoly aplikační vrstvy</h2>
+            <ul>
+              <li class="fragment">Telnet (nešifrovaný CLI, p:23) vs. SSH (šifrovaný CLI, p:22)</li>
+              <li class="fragment">FTP, SFTP a FTPS (přenášení souborů)</li>
+              <li class="fragment">HTTP (p:80 plain text) a HTTPS (p:443 šifrovaný web)</li>
+              <li class="fragment">SMTP, POP3 a IMAP (e-mailové protokoly)</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 3: Síťová bezpečnost -->
+        <section>
+          <section>
+            <h2>Síťová bezpečnost</h2>
+          </section>
+          <section>
+            <h2>Základní síťové příkazy</h2>
+            <pre><code data-trim>ip a       ifconfig
 ping       traceroute
 ip r       arp
-nslookup   netstat</code></pre></section>
-        <section><h2>Nástroje síťové bezpečnosti</h2><ul><li class="fragment"><strong>nmap</strong> — skenování sítě</li><li class="fragment"><strong>Wireshark</strong> — analýza síťového provozu</li><li class="fragment"><strong>whois</strong> — OSINT a informace o doméně</li><li class="fragment"><strong>Packet Tracer</strong> — simulace síťového provozu</li></ul></section>
-        <section><h2>Síťové útoky</h2><ul><li class="fragment">DoS a DDoS</li><li class="fragment">Man in the Middle</li><li class="fragment">SQL injection a XSS</li><li class="fragment">DNS spoofing a URL spoofing</li></ul></section>
-        <section><h2>DoS vs. DDoS</h2><ul><li class="fragment"><strong>DoS:</strong> odepření služby útokem z jednoho zařízení.</li><li class="fragment"><strong>DDoS:</strong> stejný cíl, ale útok vede více zařízení, často botnet.</li><li class="fragment">Cílem je přetížit službu tak, aby nebyla dostupná.</li></ul></section>
-        <section><h2>Man in the Middle</h2><p>Útočník se vloží mezi dvě komunikující strany a může provoz odposlouchávat nebo upravovat.</p></section>
-        <section><h2>SQL injection</h2><ul><li class="fragment">Vložení škodlivého kódu do databázového vstupu.</li><li class="fragment">Například: <code>heslo' OR '1'='1</code></li><li class="fragment">Při špatném ošetření vstupu může databáze vrátit citlivé informace.</li></ul></section>
-        <section><h2>XSS</h2><ul><li class="fragment">Cross-site scripting: spuštění škodlivého skriptu na webu.</li><li class="fragment">Příklad: <code>&lt;script&gt;alert('Toto je úspěšný XSS útok.');&lt;/script&gt;</code></li></ul></section>
-        <section><h2>XSS — praktická část</h2><p><a href="https://xss-game.appspot.com/" target="_blank" rel="noreferrer">https://xss-game.appspot.com/</a></p></section>
-        <section><h2>DNS spoofing</h2><p>Úprava nebo podvržení DNS odpovědi, která uživatele přesměruje na falešnou stránku.</p></section>
-        <section><h2>URL spoofing</h2><ul><li class="fragment">Útočník vlastní stránku s podobným názvem, která je škodlivá.</li><li class="fragment"><code>google.com → goggle.com</code></li><li class="fragment"><code>discord.com → dlscord.com</code></li><li class="fragment"><code>ib.airbank.cz → ib.airbaпk.cz</code></li></ul></section>
-        <section><h1>Děkuji</h1><p>Otázky?</p></section>
+nslookup   netstat</code></pre>
+            <div class="img-grid fragment">
+              <img src="images/image16.png" alt="Síťové příkazy ukázka 1">
+              <img src="images/image19.png" alt="Síťové příkazy ukázka 2">
+            </div>
+          </section>
+          <section>
+            <h2>Nástroje síťové bezpečnosti</h2>
+            <ul>
+              <li class="fragment"><strong>nmap</strong> — skenování sítě (CLI / Zenmap GUI)</li>
+              <li class="fragment"><strong>Wireshark / tcpdump</strong> — analýza a zachytávání síťového provozu</li>
+              <li class="fragment"><strong>whois</strong> — OSINT a informace o doméně</li>
+              <li class="fragment"><strong>Packet Tracer</strong> — simulace síťového provozu</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Wireshark — ukázka</h2>
+            <img src="images/image24.png" alt="Wireshark ukázka" class="slide-img" style="max-height: 480px;">
+          </section>
+          <section>
+            <h2>Zenmap (Nmap GUI) — ukázka</h2>
+            <img src="images/image25.png" alt="Zenmap GUI ukázka" class="slide-img" style="max-height: 480px;">
+          </section>
+          <section>
+            <h2>Síťové útoky</h2>
+            <ul>
+              <li class="fragment">DoS a DDoS</li>
+              <li class="fragment">Man in the Middle</li>
+              <li class="fragment">SQL injection a XSS</li>
+              <li class="fragment">DNS spoofing a URL spoofing</li>
+            </ul>
+          </section>
+          <section>
+            <h2>DoS vs. DDoS</h2>
+            <ul>
+              <li class="fragment"><strong>DoS:</strong> odepření služby útokem z jednoho zařízení.</li>
+              <li class="fragment"><strong>DDoS:</strong> stejný cíl, ale útok vede více zařízení, často botnet.</li>
+              <li class="fragment">Cílem je přetížit službu tak, aby nebyla dostupná.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>DDoS útok — schéma</h2>
+            <img src="images/image20.png" alt="DDoS útok" class="slide-img" style="max-height: 450px;">
+          </section>
+          <section>
+            <h2>Man in the Middle</h2>
+            <p>Útočník se vloží mezi dvě komunikující strany a může provoz odposlouchávat nebo upravovat.</p>
+            <img src="images/image13.png" alt="Man in the Middle útok" class="slide-img fragment" style="max-height: 320px;">
+          </section>
+          <section>
+            <h2>SQL injection</h2>
+            <ul>
+              <li class="fragment">Vložení škodlivého kódu do databázového vstupu.</li>
+              <li class="fragment">Například: <code>heslo' OR '1'='1</code></li>
+              <li class="fragment">Při špatném ošetření vstupu může databáze vrátit citlivé informace.</li>
+            </ul>
+            <div class="img-grid fragment">
+              <img src="images/image18.png" alt="SQL injection ukázka 1">
+              <img src="images/image26.png" alt="SQL injection ukázka 2">
+            </div>
+          </section>
+          <section>
+            <h2>XSS</h2>
+            <ul>
+              <li class="fragment">Cross-site scripting: spuštění škodlivého skriptu na webu.</li>
+              <li class="fragment">Příklad: <code>&lt;script&gt;alert('Toto je úspěšný XSS útok.');&lt;/script&gt;</code></li>
+            </ul>
+            <img src="images/image29.png" alt="XSS útok" class="slide-img fragment" style="max-height: 250px;">
+          </section>
+          <section>
+            <h2>XSS — praktická část</h2>
+            <p><a href="https://xss-game.appspot.com/" target="_blank" rel="noreferrer">https://xss-game.appspot.com/</a></p>
+          </section>
+          <section>
+            <h2>DNS spoofing</h2>
+            <p>Úprava nebo podvržení DNS odpovědi, která uživatele přesměruje na falešnou stránku.</p>
+            <img src="images/image32.png" alt="DNS spoofing diagram" class="slide-img fragment" style="max-height: 340px;">
+          </section>
+          <section>
+            <h2>URL spoofing</h2>
+            <div class="side-by-side">
+              <div>
+                <ul>
+                  <li class="fragment">Útočník vlastní stránku s podobným názvem, která je škodlivá.</li>
+                  <li class="fragment"><code>google.com → goggle.com</code></li>
+                  <li class="fragment"><code>discord.com → dlscord.com</code></li>
+                  <li class="fragment"><code>ib.airbank.cz → ib.airbaпk.cz</code></li>
+                </ul>
+              </div>
+              <div>
+                <img src="images/image31.png" alt="URL spoofing příklad" class="slide-img fragment" style="max-height: 320px;">
+              </div>
+            </div>
+          </section>
+        </section>
       </div>
     </div>
     <script src="dist/reveal.js"></script>
