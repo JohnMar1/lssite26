@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="cs">
   <head>
     <meta charset="utf-8">
@@ -9,17 +9,407 @@
     <link rel="stylesheet" href="dist/theme/white.css" id="theme">
     <link rel="stylesheet" href="dist/plugin/highlight/monokai.css">
     <link rel="stylesheet" href="css/presentation.css">
+    <style>
+      .code-block {
+        font-size: 0.55em;
+        line-height: 1.35;
+      }
+      .two-cols {
+        display: flex;
+        gap: 1.5rem;
+        text-align: left;
+        font-size: 0.8em;
+      }
+      .col {
+        flex: 1;
+      }
+      .badge-winbox {
+        background: #0284c7;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.8em;
+      }
+      .badge-cli {
+        background: #16a34a;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.8em;
+      }
+    </style>
   </head>
   <body>
     <div class="reveal">
       <div class="slides">
+        <!-- Slide 1: Title -->
         <section>
-          <h1>4. MikroTik konfigurace</h1>
+          <h1>4. MikroTik Konfigurace</h1>
           <p>Letní škola sítí</p>
+          <p><small>První nastavení routeru, RouterOS, WinBox & CLI</small></p>
         </section>
+
+        <!-- Slide 2: Overview -->
         <section>
-          <h2>Připravuje se...</h2>
-          <p>Obsah této prezentace bude brzy doplněn.</p>
+          <h2>Co dnes probereme</h2>
+          <ol>
+            <li class="fragment"><strong>Zapojení a prví přístup:</strong> WinBox vs CLI</li>
+            <li class="fragment"><strong>Lokální síť (LAN):</strong> Bridge, IP adresa a DHCP server</li>
+            <li class="fragment"><strong>Připojení k internetu (WAN):</strong> DHCP klient, Statická IP, PPPoE</li>
+            <li class="fragment"><strong>NAT & Port Forwarding:</strong> Masquerade a DstNat</li>
+            <li class="fragment"><strong>Zabezpečení routeru:</strong> Hesla, služby, firewall a blokování</li>
+            <li class="fragment"><strong>Wi-Fi & Ochrana klientů:</strong> Bezdátová síť a pravidla</li>
+          </ol>
+        </section>
+
+        <!-- Slide 3: Prerequisites -->
+        <section>
+          <h2>Co budeme potřebovat?</h2>
+          <ul>
+            <li class="fragment"><strong>MikroTik router</strong> (libovolný model s RouterOS)</li>
+            <li class="fragment"><strong>Počítač</strong> s Ethernet portem (nebo Wi-Fi)</li>
+            <li class="fragment"><strong>Ethernet kabel (RJ-45)</strong></li>
+            <li class="fragment"><strong>Internetové připojení</strong> od ISP</li>
+            <li class="fragment"><strong>Nástroj WinBox</strong> (ke stažení z <code>mikrotik.com/download</code>)</li>
+          </ul>
+        </section>
+
+        <!-- Slide 4: Key Concepts -->
+        <section>
+          <h2>Klíčové koncepty</h2>
+          <ul>
+            <li class="fragment"><strong>Default Configuration:</strong> Tovární nastavení routeru (obsahuje základní firewall a DHCP).</li>
+            <li class="fragment"><strong>Bridge:</strong> Virtuální přepínač spájející fyzické porty do jedné LAN sítě.</li>
+            <li class="fragment"><strong>DHCP Server:</strong> Automatické přidělování IP adres klientům.</li>
+            <li class="fragment"><strong>NAT (Masquerade):</strong> Překlad soukromých IP adres na jednu veřejnou pro přístup k internetu.</li>
+            <li class="fragment"><strong>Firewall:</strong> Bezpečnostní pravidla pro řízení a blokování provozu.</li>
+          </ul>
+        </section>
+
+        <!-- Slide 5: WinBox vs CLI & Backups -->
+        <section>
+          <h2>WinBox vs. CLI & Zálohování</h2>
+          <div class="two-cols">
+            <div class="col fragment">
+              <h3><span class="badge-winbox">WinBox</span> Grafické GUI</h3>
+              <p>Ideální pro začátečníky. Klikací rozhraní se živým monitoringem.</p>
+              <p><strong>Záloha:</strong> <code>Files</code> &rarr; <code>Backup</code></p>
+            </div>
+            <div class="col fragment">
+              <h3><span class="badge-cli">CLI</span> Příkazový řádek</h3>
+              <p>Rychlé pro pokročilé a skriptování přes SSH / WinBox Terminal.</p>
+              <p><strong>Záloha (Export):</strong></p>
+              <pre><code class="language-bash">/export file=backup-krok3</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 6: Physical Connection -->
+        <section>
+          <h2>Krok 1: Fyzické zapojení</h2>
+          <ul>
+            <li class="fragment"><strong>ether1:</strong> Vstupní kabel z internetu / ISP modemu (WAN port).</li>
+            <li class="fragment"><strong>ether2 až ether5:</strong> Zapoj kabel z počítače do libovolného z těchto portů (LAN).</li>
+            <li class="fragment">Zapoj napájení a počkej cca 1 minutu na dokončení startu RouterOS.</li>
+          </ul>
+          <pre class="fragment"><code class="language-text">Internet --- [ISP Modem] --- [ether1] MikroTik Router [ether2-5] --- [Váš PC / Switch]</code></pre>
+        </section>
+
+        <!-- Slide 7: Connect via WinBox -->
+        <section>
+          <h2>Krok 2 & 3: Připojení přes WinBox</h2>
+          <ol>
+            <li class="fragment">Spusť <code>winbox.exe</code>.</li>
+            <li class="fragment">Klikni na záložku <strong>Neighbors</strong> a tlačítko refresh (<code>...</code>).</li>
+            <li class="fragment">Dvakrát klikni na <strong>MAC adresu</strong> nebo IP adresu routeru v seznamu.</li>
+            <li class="fragment"><strong>Username:</strong> <code>admin</code> | <strong>Password:</strong> <em>(prázdné nebo ze štítku)</em>.</li>
+            <li class="fragment">Klikni na <strong>Connect</strong>.</li>
+          </ol>
+        </section>
+
+        <!-- Slide 8: Default Configuration & Clean Reset -->
+        <section>
+          <h2>Tovární nastavení vs. Čistý reset</h2>
+          <ul>
+            <li class="fragment"><strong>Tovární nastavení (Default Config):</strong> Obsahuje předpřipravený bridge, DHCP server a základní firewall. Pro začátečníky je nejbezpečnější ho ponechat.</li>
+            <li class="fragment"><strong>Čistý reset bez defaultů (Advanced):</strong> Odstraní všechna pravidla. Vhodné pro konfiguraci od nuly.</li>
+          </ul>
+          <pre class="fragment"><code class="language-bash"># Čistý reset v CLI bez továrního nastavení:
+/system reset-configuration no-defaults=yes skip-backup=yes</code></pre>
+        </section>
+
+        <!-- Slide 9: LAN - Creating Bridge -->
+        <section>
+          <h2>LAN Konfigurace: 1. Vytvoření Bridge</h2>
+          <p>Bridge propojí fyzické porty (např. <code>ether2</code>) do jedné lokální sítě.</p>
+          <div class="two-cols">
+            <div class="col fragment">
+              <h4><span class="badge-cli">CLI</span></h4>
+              <pre><code class="language-bash">/interface bridge add name=bridge1
+/interface bridge port add interface=ether2 bridge=bridge1
+/interface bridge port add interface=ether3 bridge=bridge1</code></pre>
+            </div>
+            <div class="col fragment">
+              <h4><span class="badge-winbox">WinBox</span></h4>
+              <ol>
+                <li>Menu <strong>Bridge</strong> &rarr; záložka <em>Bridge</em> &rarr; <code>+</code> &rarr; Name: <code>bridge1</code></li>
+                <li>Záložka <em>Ports</em> &rarr; <code>+</code> &rarr; Interface: <code>ether2</code>, Bridge: <code>bridge1</code></li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 10: LAN - IP Address for Bridge -->
+        <section>
+          <h2>LAN Konfigurace: 2. Pridělení IP adresy</h2>
+          <p>Router potřebuje v lokální síti svou vlastní IP adresu (bránu pro klienty).</p>
+          <div class="two-cols">
+            <div class="col fragment">
+              <h4><span class="badge-cli">CLI</span></h4>
+              <pre><code class="language-bash">/ip address add address=192.168.88.1/24 interface=bridge1</code></pre>
+            </div>
+            <div class="col fragment">
+              <h4><span class="badge-winbox">WinBox</span></h4>
+              <ol>
+                <li>Menu <strong>IP</strong> &rarr; <strong>Addresses</strong></li>
+                <li>Klikni na tlačítko <code>+</code></li>
+                <li>Address: <code>192.168.88.1/24</code></li>
+                <li>Interface: <code>bridge1</code> &rarr; OK</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 11: LAN - DHCP Server Setup -->
+        <section>
+          <h2>LAN Konfigurace: 3. DHCP Server</h2>
+          <p>Automatické přidělování IP adres připojeným počítačům a mobilům.</p>
+          <div class="two-cols">
+            <div class="col fragment">
+              <h4><span class="badge-cli">CLI Setup</span></h4>
+              <pre><code class="language-bash">[admin@MikroTik] > ip dhcp-server/ setup
+Interface: bridge1
+Address space: 192.168.88.0/24
+Gateway: 192.168.88.1
+Pool: 192.168.88.2-192.168.88.254
+DNS: 192.168.88.1
+Lease time: 00:30:00</code></pre>
+            </div>
+            <div class="col fragment">
+              <h4><span class="badge-winbox">WinBox</span></h4>
+              <ol>
+                <li>Menu <strong>IP</strong> &rarr; <strong>DHCP Server</strong></li>
+                <li>Klikni na <strong>DHCP Setup</strong></li>
+                <li>Vyber rozhraní <code>bridge1</code></li>
+                <li>Proklikej průvodce klávesou <em>Next</em></li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 12: WAN Options Overview -->
+        <section>
+          <h2>Připojení k internetu (WAN)</h2>
+          <p>Jaký typ připojení vám poskytuje váš ISP?</p>
+          <ul>
+            <li class="fragment"><strong>Option A: DHCP Client (Nejčastější ~80%):</strong> ISP přiděluje IP adresu automaticky.</li>
+            <li class="fragment"><strong>Option B: Statická IP adresa:</strong> ISP vám dal přesnou IP, masku, bránu a DNS.</li>
+            <li class="fragment"><strong>Option C: PPPoE Client:</strong> ISP vám dal přihlašovací jméno a heslo (DSL / optika).</li>
+          </ul>
+        </section>
+
+        <!-- Slide 13: WAN Option A - DHCP Client -->
+        <section>
+          <h2>WAN Option A: DHCP Client</h2>
+          <p>Získání IP adresy od poskytovatele na rozhraní <code>ether1</code>.</p>
+          <pre class="fragment"><code class="language-bash"># Přidání DHCP klienta na rozhraní ether1:
+/ip dhcp-client add disabled=no interface=ether1
+
+# Kontrola získané adresy (Stav musí být "bound"):
+/ip dhcp-client print</code></pre>
+          <p class="fragment"><small>Ve WinBoxu: <strong>IP</strong> &rarr; <strong>DHCP Client</strong> &rarr; <code>+</code> &rarr; Interface: <code>ether1</code> &rarr; OK.</small></p>
+        </section>
+
+        <!-- Slide 14: WAN Option B - Static IP -->
+        <section>
+          <h2>WAN Option B: Statická IP adresa</h2>
+          <p>Nastavení pevné IP adresy, výchozí brány a DNS od ISP.</p>
+          <pre class="fragment"><code class="language-bash"># 1. Přidání statické adresy na WAN rozhraní:
+/ip address add address=1.2.3.100/24 interface=ether1
+
+# 2. Nastavení výchozí brány (Default Route):
+/ip route add gateway=1.2.3.1
+
+# 3. Nastavení DNS serverů:
+/ip dns set servers=8.8.8.8,1.1.1.1 allow-remote-requests=yes</code></pre>
+        </section>
+
+        <!-- Slide 15: WAN Option C - PPPoE Client -->
+        <section>
+          <h2>WAN Option C: PPPoE Připojení</h2>
+          <p>Navázání šifrovaného tunelu pomocí jména a hesla od ISP.</p>
+          <pre class="fragment"><code class="language-bash"># Vytvoření PPPoE klienta na rozhraní ether1:
+/interface pppoe-client add disabled=no interface=ether1     user="mojejmeno" password="mojeheslo"     add-default-route=yes use-peer-dns=yes</code></pre>
+          <p class="fragment"><small>Poznámka: Při PPPoE se vaším novým WAN rozhraním stává <code>pppoe-out1</code> místo <code>ether1</code>!</small></p>
+        </section>
+
+        <!-- Slide 16: Verify Connectivity -->
+        <section>
+          <h2>Ověření konektivity z routeru</h2>
+          <p>Před dalším nastavováním otestujeme, zda má samotný router přístup k internetu.</p>
+          <pre class="fragment"><code class="language-bash"># 1. Test IP konektivity (ping na IP Google DNS):
+/ping 8.8.8.8
+
+# 2. Test funkčnosti DNS překladu (ping na doménové jméno):
+/ping google.com</code></pre>
+          <p class="fragment">Pokud piny procházejí a vracejí čas v ms, router je úspěšně online!</p>
+        </section>
+
+        <!-- Slide 17: NAT & Masquerade -->
+        <section>
+          <h2>NAT & Masquerade</h2>
+          <p>Počítače v LAN mají soukromé IP adresy (<code>192.168.88.x</code>), které nejsou v internetu směrovatelné. NAT přepíše odesílatele na veřejnou IP routeru.</p>
+          <pre class="fragment"><code class="language-bash"># Přidání NAT pravidla Masquerade pro výstupní rozhraní ether1:
+/ip firewall nat add chain=srcnat out-interface=ether1 action=masquerade</code></pre>
+          <p class="fragment"><small>WinBox: <strong>IP</strong> &rarr; <strong>Firewall</strong> &rarr; záložka <strong>NAT</strong> &rarr; <code>+</code> &rarr; Chain: <code>srcnat</code>, Out. Interface: <code>ether1</code> &rarr; Action: <code>masquerade</code> &rarr; OK.</small></p>
+        </section>
+
+        <!-- Slide 18: Port Forwarding (DstNAT) -->
+        <section>
+          <h2>Port Forwarding (Destination NAT)</h2>
+          <p>zpřístupnění služby z lokální sítě (např. RDP 3389 nebo Minecraft 25565) z vnějšího internetu.</p>
+          <pre class="fragment"><code class="language-bash"># Přesměrování příchozího RDP portu 3389 z internetu na PC 192.168.88.254:
+/ip firewall nat add chain=dstnat protocol=tcp dst-port=3389     in-interface=ether1 action=dst-nat to-addresses=192.168.88.254 to-ports=3389</code></pre>
+        </section>
+
+        <!-- Slide 19: Security - Admin Password & User Management -->
+        <section>
+          <h2>Zabezpečení 1: Změna hesla a uživatelů</h2>
+          <ul>
+            <li class="fragment">RouterOS přichází bez hesla! Nastavení silného hesla je nutnost.</li>
+            <li class="fragment">Best practice: Vytvořit nového admin uživatele a výchozí účet <code>admin</code> smazat.</li>
+          </ul>
+          <pre class="fragment"><code class="language-bash"># Změna hesla stávajícího uživatele:
+/password
+
+# Vytvoření nového uživatele a smazání výchozího účtu admin:
+/user add name="spravce" password="SilneHeslo123!#" group=full
+# DŮLEŽITÉ: Nejdřív se přihlas pod novým jménem, až pak smaž admina!
+/user remove admin</code></pre>
+        </section>
+
+        <!-- Slide 20: Security - MAC Access & Neighbor Discovery -->
+        <section>
+          <h2>Zabezpečení 2: MAC přístup & Neighbor Discovery</h2>
+          <p>Zamezení přístupu ke správa routeru z veřejného WAN portu.</p>
+          <pre class="fragment"><code class="language-bash"># 1. Vytvoření Interface Listu pro LAN:
+/interface list add name=LAN
+/interface list member add list=LAN interface=bridge1
+
+# 2. Omezení MAC Telnetu a WinBoxu pouze na LAN:
+/tool mac-server set allowed-interface-list=LAN
+/tool mac-server mac-winbox set allowed-interface-list=LAN
+
+# 3. Vypnutí objevování sousedů (Neighbor Discovery) na WAN:
+/ip neighbor discovery-settings set discover-interface-list=LAN</code></pre>
+        </section>
+
+        <!-- Slide 21: Security - Firewall Rules -->
+        <section>
+          <h2>Zabezpečení 3: Pravidla Firewallu (Input Chain)</h2>
+          <p>Ochrana samotného routeru před útoky z internetu.</p>
+          <pre class="code-block fragment"><code class="language-bash"># Povolit již navázaná a příbuzná spojení (šetří CPU):
+/ip firewall filter add chain=input action=accept connection-state=established,related,untracked comment="accept established,related,untracked"
+# Zahodit neplatné pakety:
+/ip firewall filter add chain=input action=drop connection-state=invalid comment="drop invalid"
+# Povolit ping (ICMP) z WAN:
+/ip firewall filter add chain=input in-interface=ether1 action=accept protocol=icmp comment="accept ICMP"
+# Povolit WinBox (8291) a SSH (22) z WAN (pokud je potřeba):
+/ip firewall filter add chain=input in-interface=ether1 action=accept protocol=tcp port=8291 comment="allow Winbox"
+/ip firewall filter add chain=input in-interface=ether1 action=accept protocol=tcp port=22 comment="allow SSH"
+# Zablokovat veškerý ostatní příchozí provoz z internetu:
+/ip firewall filter add chain=input in-interface=ether1 action=drop comment="block everything else WAN"</code></pre>
+        </section>
+
+        <!-- Slide 22: Disable Unused Services -->
+        <section>
+          <h2>Zabezpečení 4: Vypnutí služeb & SSH Crypto</h2>
+          <p>Vypnutí nešifrovaných nebo nepotřebných správcovských služeb.</p>
+          <pre class="fragment"><code class="language-bash"># Vypnutí nevyužívaných služeb (Telnet, FTP, WWW, API):
+/ip service disable telnet,ftp,www,api
+
+# Změna výchozího SSH portu (např. na 2200):
+/ip service set ssh port=2200
+
+# Zapnutí silného šifrování pro SSH:
+/ip ssh set strong-crypto=yes
+
+# Vypnutí Bandwidth serveru a DNS Cache pro vnější sítě:
+/tool bandwidth-server set enabled=no
+/ip dns set allow-remote-requests=yes</code></pre>
+        </section>
+
+        <!-- Slide 23: Wireless Setup -->
+        <section>
+          <h2>Nastavení Wi-Fi (Wireless)</h2>
+          <ol>
+            <li class="fragment"><strong>Vytvoření bezpečnostního profilu (Heslo WPA2):</strong>
+              <pre><code class="language-bash">/interface wireless security-profiles add name=mojeWifiProf     authentication-types=wpa2-psk mode=dynamic-keys wpa2-pre-shared-key="TajneHesloNaWifi"</code></pre>
+            </li>
+            <li class="fragment"><strong>Konfigurace Wi-Fi rozhraní (wlan1):</strong>
+              <pre><code class="language-bash">/interface wireless enable wlan1
+/interface wireless set wlan1 mode=ap-bridge ssid="SSPS-MikroTik"     band=2ghz-b/g/n channel-width=20/40mhz-Ce security-profile=mojeWifiProf</code></pre>
+            </li>
+            <li class="fragment"><strong>Přidání wlan1 do bridge sítě:</strong>
+              <pre><code class="language-bash">/interface bridge port add interface=wlan1 bridge=bridge1</code></pre>
+            </li>
+          </ol>
+        </section>
+
+        <!-- Slide 24: Protect Clients (Forward Chain) -->
+        <section>
+          <h2>Ochrana klientů v LAN (Forward Chain)</h2>
+          <p>Řízení provozu procházejícího přes router mezi LAN a WAN.</p>
+          <pre class="code-block fragment"><code class="language-bash"># FastTrack pro navázaná spojení (dramatické snížení zátěže procesoru):
+/ip firewall filter add chain=forward action=fasttrack-connection connection-state=established,related comment="fast-track"
+/ip firewall filter add chain=forward action=accept connection-state=established,related comment="accept established,related"
+
+# Drop invalid:
+/ip firewall filter add chain=forward action=drop connection-state=invalid comment="drop invalid"
+
+# Zablokovat nové nevyžádané pokusy o spojení z WAN do LAN:
+/ip firewall filter add chain=forward action=drop connection-state=new connection-nat-state=!dstnat in-interface=ether1 comment="drop WAN to LAN"</code></pre>
+        </section>
+
+        <!-- Slide 25: Website Blocking via Web Proxy -->
+        <section>
+          <h2>Blokování nežádoucích webů (Web Proxy)</h2>
+          <p>Přesměrování HTTP provozu na vestavěnou Web Proxy pro blokování domén.</p>
+          <pre class="fragment"><code class="language-bash"># 1. Přesměrování portu 80 (HTTP) na Proxy port 8080:
+/ip firewall nat add chain=dstnat protocol=tcp dst-port=80 src-address=192.168.88.0/24     action=redirect to-ports=8080
+
+# 2. Zapnutí Web Proxy a přidání pravidel pro blokování:
+/ip proxy set enabled=yes
+/ip proxy access add dst-host=www.facebook.com action=deny
+/ip proxy access add dst-host=*.youtube.* action=deny</code></pre>
+        </section>
+
+        <!-- Slide 26: Troubleshooting & Summary -->
+        <section>
+          <h2>Diagnostika & Řešení problémů</h2>
+          <ul>
+            <li class="fragment"><strong>Ping selhal na IP (8.8.8.8):</strong> Zkontrolujte fyzický kabel v <code>ether1</code>, stav DHCP klienta (<code>bound</code>) nebo výchozí bránu.</li>
+            <li class="fragment"><strong>Ping selhal na doménu (google.com):</strong> Zkontrolujte nastavení DNS serveru (<code>/ip dns print</code>).</li>
+            <li class="fragment"><strong>PC v LAN nemá IP adresu:</strong> Zkontrolujte, zda běží DHCP server na správném rozhraní <code>bridge1</code>.</li>
+            <li class="fragment"><strong>Nástroje v RouterOS:</strong> <code>Ping</code>, <code>Traceroute</code>, <code>Torch</code> (monitoring provozu v reálném čase), <code>Packet Sniffer</code>.</li>
+          </ul>
+        </section>
+
+        <!-- Slide 27: Conclusion -->
+        <section>
+          <h2>Skvělá práce!</h2>
+          <p>Nyní máte kompletně nakonfigurovaný a zabezpečený MikroTik router.</p>
+          <p><small>Máte k dnešní konfiguraci jakékoliv dotazy?</small></p>
         </section>
       </div>
     </div>
