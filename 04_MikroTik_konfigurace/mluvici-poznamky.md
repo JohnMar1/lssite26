@@ -231,4 +231,4 @@ U konfiguračních slajdů nečti příkazy jako text; ukaž postup živě ve Wi
 
 **Zapojení / ukázka:** Otevřete prostor pro dotazy účastníků a individuální pomoc s konfigurací.
 
-**Přechod:** „V dalším modulu se podíváme na Cisco zařízení.“
+**Přechod:** „V dalším modulu se podíváme na Docker a kontejnerizaci.“

@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. Docker</title>
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/white.css" id="theme">
+    <link rel="stylesheet" href="dist/plugin/highlight/monokai.css">
+    <link rel="stylesheet" href="css/presentation.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1>Docker</h1>
+          <p>Kontejnerizace a virtualizace na úrovni OS</p>
+        </section>
+
+        <!-- KATEGORIE 1: Co je Docker a proč ho používat -->
+        <section>
+          <section>
+            <h2>Co je Docker a proč ho používat</h2>
+          </section>
+          <section>
+            <h2>Co to je Docker?</h2>
+            <ul>
+              <li class="fragment"><strong>Virtualizace na úrovni OS:</strong><span class="fragment"> Nástroj pro běh aplikací v izolovaných prostředích.</span></li>
+              <li class="fragment"><strong>Virtuální filesystem:</strong><span class="fragment"> Vytváří oddělený souborový systém pro guest OS.</span></li>
+              <li class="fragment"><strong>Kontejner:</strong><span class="fragment"> Běžící izolovaná instance vytvořená z obrazu (image).</span></li>
+            </ul>
+          </section>
+          <section>
+            <h2>Architektura Dockeru</h2>
+            <ul>
+              <li class="fragment"><strong>Docker Client (CLI):</strong><span class="fragment"> Rozhraní pro zadávání příkazů uživatelem (<code>docker run</code>, <code>docker ps</code>).</span></li>
+              <li class="fragment"><strong>Docker Daemon (Engine):</strong><span class="fragment"> Služba na pozadí, která vytváří a spravuje kontejnery a imagi.</span></li>
+              <li class="fragment"><strong>Docker Registry (Hub):</strong><span class="fragment"> Úložiště a veřejný katalog hotových Docker imagů (hub.docker.com).</span></li>
+            </ul>
+          </section>
+          <section>
+            <h2>Jaká jsou využití a výhody?</h2>
+            <ul>
+              <li class="fragment"><strong>Izolace:</strong><span class="fragment"> Různé verze závislostí, žádný zásah do host OS, kontrola výkonu.</span></li>
+              <li class="fragment"><strong>Kompatibilita:</strong><span class="fragment"> Stejné prostředí u vývojáře, na testu i na produkci.</span></li>
+              <li class="fragment"><strong>Jednoduchost:</strong><span class="fragment"> Plně připravené prostředí ke spuštění jedním příkazem.</span></li>
+            </ul>
+          </section>
+          <section>
+            <h2>VM vs. Kontejner</h2>
+            <table class="fragment">
+              <thead>
+                <tr>
+                  <th>Vlastnost</th>
+                  <th>Virtuální stroj (VM)</th>
+                  <th>Docker kontejner</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="fragment">
+                  <td><strong>Typ virtualizace</strong></td>
+                  <td>Hardwareová (Hypervizor)</td>
+                  <td>Operačního systému (Jádro OS)</td>
+                </tr>
+                <tr class="fragment">
+                  <td><strong>Velikost instalačního souboru (Debian)</strong></td>
+                  <td>~ 3.7 GB</td>
+                  <td>~ 117 MB</td>
+                </tr>
+                <tr class="fragment">
+                  <td><strong>Využití RAM na idle</strong></td>
+                  <td>~ 250 MB</td>
+                  <td>~ 5 MB</td>
+                </tr>
+                <tr class="fragment">
+                  <td><strong>Start-up čas</strong></td>
+                  <td>Desítky sekund</td>
+                  <td>Sekundy až milisekundy</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 2: Koncepty, Sítě a Dockerfile -->
+        <section>
+          <section>
+            <h2>Koncepty, Sítě a Dockerfile</h2>
+          </section>
+          <section>
+            <h2>Docker Image vs. Kontejner</h2>
+            <ul>
+              <li class="fragment">
+                <strong>Docker Image:</strong>
+                <span class="fragment"> Statický neměnný snapshot (šablona) vytvořená z Dockerfile. Spustitelný kdekoliv (~200–1000 MB).</span>
+              </li>
+              <li class="fragment">
+                <strong>Docker Kontejner:</strong>
+                <span class="fragment"> Běžící instance obrazu (image). Je <em>stateless</em> (neukládá stav trvale bez Volumes).</span>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h2>Persistence dat (Volumes)</h2>
+            <ul>
+              <li class="fragment"><strong>Stateless nátura:</strong><span class="fragment"> Po smazání kontejneru se veškerá změněná data v něm ztratí.</span></li>
+              <li class="fragment"><strong>Docker Volumes:</strong><span class="fragment"> Přenositelná datová úložiště spravovaná Dockerem.</span></li>
+              <li class="fragment"><strong>Bind Mounts:</strong><span class="fragment"> Propojení složky v hostitelském systému do kontejneru (<code>-v /host/path:/container/path</code>).</span></li>
+            </ul>
+          </section>
+          <section>
+            <h2>Mapování síťových portů</h2>
+            <ul>
+              <li class="fragment"><strong>Izolovaný síťový zásobník:</strong><span class="fragment"> Kontejner má vlastní IP a uzavřené porty.</span></li>
+              <li class="fragment"><strong>Port Forwarding (<code>-p</code>):</strong><span class="fragment"> Přesměrování portu z hostitele do kontejneru.</span></li>
+              <li class="fragment"><strong>Příklad:</strong><span class="fragment"> <code>-p 8080:80</code> zpřístupní web z kontejneru (port 80) na hostitelském portu 8080.</span></li>
+            </ul>
+          </section>
+          <section>
+            <h2>Dockerfile — Základní instrukce</h2>
+            <ul>
+              <li class="fragment"><strong>FROM:</strong><span class="fragment"> Určuje základní obraz (např. <code>debian:latest</code>).</span></li>
+              <li class="fragment"><strong>WORKDIR:</strong><span class="fragment"> Nastavuje pracovní adresář pro následující příkazy.</span></li>
+              <li class="fragment"><strong>COPY / ADD:</strong><span class="fragment"> Kopíruje soubory z hostitelského počítače do obrazu.</span></li>
+            </ul>
+          </section>
+          <section>
+            <h2>Dockerfile — Běh a příkazy</h2>
+            <ul>
+              <li class="fragment"><strong>RUN:</strong><span class="fragment"> Spouští příkazy při vytváření image (např. <code>apt install</code>).</span></li>
+              <li class="fragment"><strong>USER:</strong><span class="fragment"> Nastavuje neprivilegovaného uživatele (bezpečnostní best-practice).</span></li>
+              <li class="fragment"><strong>CMD:</strong><span class="fragment"> Výchozí příkaz spuštěný při startu kontejneru.</span></li>
+            </ul>
+          </section>
+          <section>
+            <h2>Ukázka Dockerfile</h2>
+            <pre><code class="language-dockerfile" data-trim>
+FROM debian:latest
+
+RUN apt update && apt install -y curl
+
+RUN mkdir /app
+WORKDIR /app
+
+COPY ./script.sh .
+RUN chmod +x script.sh
+
+RUN useradd appuser
+USER appuser
+
+CMD ["/app/script.sh"]
+            </code></pre>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 3: Práce s CLI a Docker Compose -->
+        <section>
+          <section>
+            <h2>Práce s CLI a Docker Compose</h2>
+          </section>
+          <section>
+            <h2>Instalace na Kali Linux</h2>
+            <p>V Kali Linuxu je Docker v oficiálních repozitářích:</p>
+            <pre><code class="language-bash" data-trim>
+# 1. Instalace Dockeru a Docker Compose
+sudo apt update
+sudo apt install -y docker.io docker-compose
+
+# 2. Povolení automatického spouštění služby po startu
+sudo systemctl enable --now docker
+
+# 3. Přidání uživatele do skupiny docker
+sudo usermod -aG docker $USER
+newgrp docker
+            </code></pre>
+          </section>
+          <section>
+            <h2>Práce s imagi v CLI</h2>
+            <ul>
+              <li class="fragment"><strong>Stáhnutí obrazu:</strong><span class="fragment"> <code>docker pull ubuntu</code></span></li>
+              <li class="fragment"><strong>Zobrazení stažených imagů:</strong><span class="fragment"> <code>docker images</code></span></li>
+              <li class="fragment"><strong>Sestavení image z Dockerfile:</strong><span class="fragment"> <code>docker build -t moje-aplikace .</code></span></li>
+            </ul>
+          </section>
+          <section>
+            <h2>Spouštění kontejnerů</h2>
+            <p>Interaktivní spustění kontejneru s terminálem:</p>
+            <pre><code class="language-bash" data-trim>
+docker run -it --rm ubuntu bash
+            </code></pre>
+            <p class="fragment">Spuštění na pozadí (detached mode) s portem:</p>
+            <pre class="fragment"><code class="language-bash" data-trim>
+docker run -d -p 8080:80 --name muj-web nginx
+            </code></pre>
+          </section>
+          <section>
+            <h2>Správa a kontrola kontejnerů</h2>
+            <ul>
+              <li class="fragment"><strong>Výpis kontejnerů:</strong><span class="fragment"> <code>docker ps</code> (běžící) / <code>docker ps -a</code> (všechny)</span></li>
+              <li class="fragment"><strong>Zastavení &amp; Smazání:</strong><span class="fragment"> <code>docker stop &lt;id&gt;</code> / <code>docker rm &lt;id&gt;</code></span></li>
+              <li class="fragment"><strong>Logy &amp; Vstup do kontejneru:</strong><span class="fragment"> <code>docker logs &lt;id&gt;</code> / <code>docker exec -it &lt;id&gt; bash</code></span></li>
+            </ul>
+          </section>
+          <section>
+            <h2>Docker Compose</h2>
+            <ul>
+              <li class="fragment"><strong>Nástroj pro vícekontejnerové aplikace:</strong><span class="fragment"> Umožňuje definovat a spouštět více propojených služeb najednou.</span></li>
+              <li class="fragment"><strong>Deklarativní konfigurační soubor:</strong><span class="fragment"> Vše se zapisuje přehledně do <code>docker-compose.yml</code>.</span></li>
+            </ul>
+          </section>
+          <section>
+            <h2>Ukázka docker-compose.yml</h2>
+            <pre><code class="language-yaml" data-trim>
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: superheslo
+            </code></pre>
+          </section>
+          <section>
+            <h2>Příkazy Docker Compose</h2>
+            <ul>
+              <li class="fragment"><strong>Spuštění všech služeb na pozadí:</strong><span class="fragment"> <code>docker-compose up -d</code></span></li>
+              <li class="fragment"><strong>Kontrola stavu a logů:</strong><span class="fragment"> <code>docker-compose ps</code> / <code>docker-compose logs</code></span></li>
+              <li class="fragment"><strong>Zastavení a úklid:</strong><span class="fragment"> <code>docker-compose down</code></span></li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+    <script src="dist/reveal.js"></script>
+    <script src="dist/plugin/highlight.js"></script>
+    <script>
+      Reveal.initialize({ hash: true, transition: 'slide', slideNumber: 'c/t', plugins: [RevealHighlight] });
+    </script>
+  </body>
+</html>

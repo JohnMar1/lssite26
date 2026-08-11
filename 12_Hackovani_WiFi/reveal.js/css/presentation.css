@@ -1,5 +1,0 @@
-.reveal .columns { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
-.reveal code { padding:.08em .2em; }
-.reveal table { font-size:.68em; }
-.reveal kbd { border:1px solid #888; border-radius:4px; padding:.05em .25em; font-family:monospace; font-size:.75em; }
-@media (max-width:800px) { .reveal .columns { grid-template-columns:1fr; } }
