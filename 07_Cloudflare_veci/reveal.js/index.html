@@ -3,30 +3,319 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>7. Cloudflare věci</title>
+    <title>7. Cloudflare a publikování služeb</title>
     <link rel="stylesheet" href="dist/reset.css">
     <link rel="stylesheet" href="dist/reveal.css">
     <link rel="stylesheet" href="dist/theme/white.css" id="theme">
     <link rel="stylesheet" href="dist/plugin/highlight/monokai.css">
     <link rel="stylesheet" href="css/presentation.css">
+    <style>
+      .code-block {
+        font-size: 0.6em;
+        line-height: 1.4;
+      }
+      .two-cols {
+        display: flex;
+        gap: 1.5rem;
+        text-align: left;
+        font-size: 0.8em;
+      }
+      .col {
+        flex: 1;
+      }
+    </style>
   </head>
   <body>
     <div class="reveal">
       <div class="slides">
+
+        <!-- Slide 1: Titulní slajd -->
         <section>
-          <h1>9. Cloudflare věci</h1>
+          <h1>7. Cloudflare a publikování služeb</h1>
           <p>Letní škola sítí</p>
+          <p><small>Jak dostat vlastní služby do internetu přes vlastní doménu</small></p>
         </section>
+
+        <!-- Slide 2: Co dnes probereme -->
         <section>
-          <h2>Připravuje se...</h2>
-          <p>Obsah této prezentace bude brzy doplněn.</p>
+          <h2>Co dnes probereme</h2>
+          <ol style="font-size: 0.8em; line-height: 1.6;">
+            <li class="fragment">Vlastní doména a co je Cloudflare</li>
+            <li class="fragment">Princip Cloudflare Tunnel bez veřejné IP</li>
+            <li class="fragment">Instalace a přihlášení nástroje <code>cloudflared</code></li>
+            <li class="fragment">Vytvoření a konfigurace tunelu</li>
+            <li class="fragment">Publikování webové aplikace a Minecraft serveru</li>
+            <li class="fragment">Samostatné cvičení a zabezpečení firewallem</li>
+          </ol>
         </section>
+
+        <!-- KATEGORIE 1: Vlastní doména a co je Cloudflare -->
+        <section>
+          <section>
+            <h2>Kategorie 1</h2>
+            <h3>Vlastní doména a Cloudflare</h3>
+          </section>
+          <section>
+            <h2>Máme vlastní doménu!</h2>
+            <ul>
+              <li class="fragment">Každý účastník Letní školy sítí dostal svoji vlastní doménu.</li>
+              <li class="fragment">Doménu použijeme k publikování vašich projektů do celého internetu.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Co je to doména (DNS)?</h2>
+            <ul>
+              <li class="fragment">Lidsky čitelná adresa (např. <code>mojedomena.cz</code>).</li>
+              <li class="fragment">Nahrazuje těžko zapamatovatelné číselné IP adresy.</li>
+              <li class="fragment">Systém DNS překládá názvy domén na IP adresy.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Co je Cloudflare?</h2>
+            <ul>
+              <li class="fragment">Celosvětová síť serverů a DNS poskytovatel.</li>
+              <li class="fragment">Chrání servery před útoky (DDoS).</li>
+              <li class="fragment">Automaticky poskytuje bezplatné SSL certifikáty (HTTPS).</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Jak se běžně publikují služby?</h2>
+            <ul>
+              <li class="fragment">Potřebujete od poskytovatele veřejnou IP adresu.</li>
+              <li class="fragment">Musíte na domácím routeru nastavit Port Forwarding.</li>
+              <li class="fragment">Vaše zařízení je přímo vystaveno útokům z internetu.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Proč je veřejná IP problém?</h2>
+            <ul>
+              <li class="fragment">Většina domácností i škol veřejnou IP adresu nemá.</li>
+              <li class="fragment">Poskytovatelé internetu si za veřejnou IP účtují poplatky.</li>
+              <li class="fragment">Nesprávně nastavený router může ohrozit celou síť.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 2: Princip Cloudflare Tunnel -->
+        <section>
+          <section>
+            <h2>Kategorie 2</h2>
+            <h3>Princip Cloudflare Tunnel</h3>
+          </section>
+          <section>
+            <h2>Co je Cloudflare Tunnel?</h2>
+            <ul>
+              <li class="fragment">Šifrovaný tunel mezi vaším počítačem a sítí Cloudflare.</li>
+              <li class="fragment">Umožňuje publikovat služby <strong>bez veřejné IP adresy</strong>.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Hlavní výhoda tunelu</h2>
+            <ul>
+              <li class="fragment">Nemusíte se dotýkat nastavení vašich routerů.</li>
+              <li class="fragment">Funguje i na školní síti nebo mobilním hotspotu.</li>
+              <li class="fragment">Vaše služba je okamžitě dostupná pro celý svět.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Jak tunel funguje?</h2>
+            <ul>
+              <li class="fragment">Náš počítač naváže <strong>odchozí</strong> spojení do Cloudflare.</li>
+              <li class="fragment">Návštěvník přistupuje na servery Cloudflare.</li>
+              <li class="fragment">Cloudflare přeposílá provoz přes tunel k nám.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Bezpečnostní přínos</h2>
+            <ul>
+              <li class="fragment">Všechny příchozí porty na vašem počítači zůstanou zavřené.</li>
+              <li class="fragment">Útočníci nevidí vaši skutečnou IP adresu.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 3: Instalace a přihlášení cloudflared -->
+        <section>
+          <section>
+            <h2>Kategorie 3</h2>
+            <h3>Instalace a přihlášení cloudflared</h3>
+          </section>
+          <section>
+            <h2>Co je program <code>cloudflared</code>?</h2>
+            <ul>
+              <li class="fragment">Pomocný program v terminálu Linuxu.</li>
+              <li class="fragment">Zajišťuje udržování a správu spojení tunelu.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Krok 1: Instalace <code>cloudflared</code></h2>
+            <p>V terminálu zadejte příkaz pro instalaci:</p>
+            <pre><code class="language-bash code-block" data-trim>
+sudo apt update
+sudo apt install -y cloudflared
+            </code></pre>
+          </section>
+          <section>
+            <h2>Krok 2: Ověření instalace</h2>
+            <p>Zkontrolujte správné nainstalování programu:</p>
+            <pre><code class="language-bash code-block" data-trim>
+cloudflared --version
+            </code></pre>
+          </section>
+          <section>
+            <h2>Krok 3: Přihlášení k účtu</h2>
+            <p>Propojíme program s vaším Cloudflare účtem:</p>
+            <pre><code class="language-bash code-block" data-trim>
+cloudflared tunnel login
+            </code></pre>
+          </section>
+          <section>
+            <h2>Krok 4: Autorizace domény</h2>
+            <ol style="font-size: 0.85em;">
+              <li class="fragment">V terminálu se zobrazí webový odkaz.</li>
+              <li class="fragment">Otevřete odkaz v prohlížeči.</li>
+              <li class="fragment">Přihlaste se a vyberte vaši přidělenou doménu.</li>
+              <li class="fragment">Potvrďte autorizaci tlačítkem.</li>
+            </ol>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 4: Vytvoření a konfigurace tunelu -->
+        <section>
+          <section>
+            <h2>Kategorie 4</h2>
+            <h3>Vytvoření a konfigurace tunelu</h3>
+          </section>
+          <section>
+            <h2>Krok 5: Vytvoření tunelu</h2>
+            <p>Vytvoříme novou instanci tunelu s názvem <code>moje-lss</code>:</p>
+            <pre><code class="language-bash code-block" data-trim>
+cloudflared tunnel create moje-lss
+            </code></pre>
+          </section>
+          <section>
+            <h2>Co se stalo?</h2>
+            <ul>
+              <li class="fragment">Vytvořilo se unikátní ID vášho tunelu.</li>
+              <li class="fragment">Uložil se certifikát a klíč do složky <code>~/.cloudflared/</code>.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Krok 6: Propojení domény s tunelem</h2>
+            <p>Nasměrujeme subdoménu (např. <code>web</code>) na náš tunel:</p>
+            <pre><code class="language-bash code-block" data-trim>
+cloudflared tunnel route dns moje-lss web.mojedomena.cz
+            </code></pre>
+            <p class="fragment"><small>Nahraďte <code>mojedomena.cz</code> vaší skutečnou doménou.</small></p>
+          </section>
+          <section>
+            <h2>Co je to CNAME záznam?</h2>
+            <ul>
+              <li class="fragment">Příkaz automaticky vytvoří CNAME záznam v DNS.</li>
+              <li class="fragment">Nasměruje vaši doménu na unikátní adresu tunelu v Cloudflare.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Krok 7: Vytvoření konfigurace</h2>
+            <p>Otevřeme soubor pro nastavení směrování provozu:</p>
+            <pre><code class="language-bash code-block" data-trim>
+nano ~/.cloudflared/config.yml
+            </code></pre>
+          </section>
+          <section>
+            <h2>Ukázka <code>config.yml</code></h2>
+            <pre><code class="language-yaml code-block" data-trim>
+tunnel: MOJE_TUNNEL_ID
+credentials-file: /home/student/.cloudflared/MOJE_TUNNEL_ID.json
+
+ingress:
+  - hostname: web.mojedomena.cz
+    service: http://localhost:80
+  - service: http_status:404
+            </code></pre>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 5: Spuštění a testování služby -->
+        <section>
+          <section>
+            <h2>Kategorie 5</h2>
+            <h3>Spuštění a testování služby</h3>
+          </section>
+          <section>
+            <h2>Krok 8: Spuštění tunelu</h2>
+            <p>V terminálu spustíme náš tunel:</p>
+            <pre><code class="language-bash code-block" data-trim>
+cloudflared tunnel run moje-lss
+            </code></pre>
+          </section>
+          <section>
+            <h2>Testování v prohlížeči</h2>
+            <ol style="font-size: 0.85em;">
+              <li class="fragment">Otevřete webový prohlížeč.</li>
+              <li class="fragment">Zadejte adresu: <code>https://web.mojedomena.cz</code>.</li>
+              <li class="fragment">Uvidíte vaši webovou stránku spuštěnou na vašem počítači!</li>
+            </ol>
+          </section>
+          <section>
+            <h2>Automatický SSL certifikát</h2>
+            <ul>
+              <li class="fragment">Cloudflare automaticky zabezpečil komunikaci pomocí HTTPS.</li>
+              <li class="fragment">Uživatelé vidí zelený zámek v prohlížeči.</li>
+              <li class="fragment">Nemusíte ručně generovat žádné certifikáty.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Zabezpečení firewallem UFW</h2>
+            <p>Zabezpečíme náš počítač lokálním firewallem:</p>
+            <pre><code class="language-bash code-block" data-trim>
+# Zapnutí firewallu UFW
+sudo ufw enable
+
+# Zablokování všech příchozích spojení
+sudo ufw default deny incoming
+            </code></pre>
+            <p class="fragment"><small>Tunel bude stále fungovat, protože využívá odchozí spojení!</small></p>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 6: Samostatné cvičení a shrnutí -->
+        <section>
+          <section>
+            <h2>Kategorie 6</h2>
+            <h3>Samostatné cvičení a shrnutí</h3>
+          </section>
+          <section>
+            <h2>Samostatné cvičení</h2>
+            <ol style="font-size: 0.8em;">
+              <li class="fragment">Nainstalujte program <code>cloudflared</code> na váš systém.</li>
+              <li class="fragment">Přihlaste se k účtu pomocí <code>cloudflared tunnel login</code>.</li>
+              <li class="fragment">Vytvořte tunel <code>moje-lss</code> a nastavte směrování domény.</li>
+              <li class="fragment">Spusťte tunel a vyzkoušejte přístup z mobilního telefonu přes HTTPS.</li>
+            </ol>
+          </section>
+          <section>
+            <h2>Shrnutí modulu</h2>
+            <ul>
+              <li class="fragment">Rozumíme funkci domén a principu Cloudflare.</li>
+              <li class="fragment">Umíme publikovat služby bez veřejné IP adresy.</li>
+              <li class="fragment">Používáme nástroj <code>cloudflared</code> a tunely.</li>
+              <li class="fragment">Naše webové aplikace i servery jsou bezpečně dostupné v internetu.</li>
+            </ul>
+          </section>
+        </section>
+
       </div>
     </div>
     <script src="dist/reveal.js"></script>
     <script src="dist/plugin/highlight.js"></script>
     <script>
-      Reveal.initialize({ hash: true, transition: 'slide', slideNumber: 'c/t', plugins: [RevealHighlight] });
+      Reveal.initialize({
+        hash: true,
+        transition: 'slide',
+        slideNumber: 'c/t',
+        plugins: [RevealHighlight]
+      });
     </script>
   </body>
 </html>
