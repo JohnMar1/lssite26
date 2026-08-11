@@ -11,8 +11,16 @@
     <link rel="stylesheet" href="css/presentation.css">
     <style>
       .code-block {
-        font-size: 0.55em;
-        line-height: 1.35;
+        font-size: 0.6em;
+        line-height: 1.4;
+      }
+      .highlight-box {
+        background: #f8fafc;
+        border-left: 4px solid #0284c7;
+        padding: 0.8rem 1rem;
+        margin-top: 1rem;
+        text-align: left;
+        font-size: 0.85em;
       }
       .two-cols {
         display: flex;
@@ -29,72 +37,92 @@
     <div class="reveal">
       <div class="slides">
 
-        <!-- Slide 1: Title -->
+        <!-- Slide 1: Titulní slajd -->
         <section>
           <h1>6. Minecraft v Dockeru</h1>
           <p>Letní škola sítí</p>
-          <p><small>Kontejnerizace herního serveru pomocí Docker Compose</small></p>
+          <p><small>Jednoduchý průvodce spuštěním herního serveru</small></p>
         </section>
 
-        <!-- Slide 2: Overview -->
+        <!-- Slide 2: Co dnes probereme -->
         <section>
           <h2>Co dnes probereme</h2>
-          <ol>
-            <li class="fragment"><strong>Tradiční server vs. Docker:</strong> Výhody kontejnerizace herního serveru</li>
-            <li class="fragment"><strong>Konfigurace Compose:</strong> Soubor <code>docker-compose.yml</code> a obraz <code>itzg/minecraft-server</code></li>
-            <li class="fragment"><strong>Volumes &amp; Porty:</strong> Persistence světa a síťové rozhraní</li>
-            <li class="fragment"><strong>Spuštění a logy:</strong> Příkazy <code>up</code>, <code>logs</code> a připojení hráče</li>
-            <li class="fragment"><strong>Správa konzole &amp; RCON:</strong> Udílení OP práv a úprava vlastností</li>
-            <li class="fragment"><strong>Pluginy &amp; Zálohování:</strong> Spigot/Paper pluginy, Bedrock podpora a archivace</li>
+          <ol style="font-size: 0.8em; line-height: 1.6;">
+            <li class="fragment">Proč spouštět Minecraft v Dockeru</li>
+            <li class="fragment">Vytvoření konfiguračního souboru <code>docker-compose.yml</code></li>
+            <li class="fragment">Síťové porty a uložení světa na disk</li>
+            <li class="fragment">Spuštění serveru a připojení ze hry</li>
+            <li class="fragment">Správa admin práv a konzole (RCON)</li>
+            <li class="fragment">Zálohování a samostatné cvičení</li>
           </ol>
         </section>
 
-        <!-- KATEGORIE 1: Teorie a výhody kontejnerizace -->
+        <!-- KATEGORIE 1: Úvod a základní pojmy -->
         <section>
           <section>
-            <h2>Teorie a výhody kontejnerizace</h2>
+            <h2>Kategorie 1</h2>
+            <h3>Úvod a základní pojmy</h3>
           </section>
           <section>
-            <h2>Tradiční instalace vs. Docker</h2>
-            <div class="two-cols">
-              <div class="col fragment">
-                <h4>Tradiční instalace</h4>
-                <ul>
-                  <li>Ruční správa konkrétní verze Javy (Java 8, 17, 21).</li>
-                  <li>Složité spouštění na pozadí (screen, tmux, systemd).</li>
-                  <li>Riziko závislostí a konfliktů v hostitelském OS.</li>
-                  <li>Obtížná přenositelnost na jiný server.</li>
-                </ul>
-              </div>
-              <div class="col fragment">
-                <h4>Docker řešení</h4>
-                <ul>
-                  <li>Java i server jsou zabalené v jediném obrazu.</li>
-                  <li>Jednoduché spouštění přes <code>docker-compose up -d</code>.</li>
-                  <li>Striktní izolace paměti, procesů a souborů.</li>
-                  <li>Plná přenositelnost mezi systémy.</li>
-                </ul>
-              </div>
-            </div>
+            <h2>Co je to herní server?</h2>
+            <ul>
+              <li class="fragment">Program běžící na počítači, ke kterému se připojují hráči.</li>
+              <li class="fragment">Počítá fyziku, uchovává bloky a synchronizuje hráče.</li>
+              <li class="fragment">Klasicky vyžaduje instalaci Javy a nastavení systému.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Proč použít Docker?</h2>
+            <ul>
+              <li class="fragment"><strong>Nemusíme instalovat Javu:</strong> Vše je připraveno uvnitř kontejneru.</li>
+              <li class="fragment"><strong>Žádný nepořádek:</strong> Server běží v izolované složce.</li>
+              <li class="fragment"><strong>Snadné spuštění:</strong> Stačí jediný příkaz.</li>
+            </ul>
           </section>
           <section>
             <h2>Obraz <code>itzg/minecraft-server</code></h2>
             <ul>
-              <li class="fragment">Oficiálně podporovaný komunitní obraz na Docker Hubu.</li>
-              <li class="fragment"><strong>Podpora typů serverů:</strong> Vanilla, Paper, Spigot, Forge, Fabric, Purpur.</li>
-              <li class="fragment"><strong>Konfigurace:</strong> Vše se nastavuje přes proměnné prostředí (Environment variables).</li>
-              <li class="fragment"><strong>Automatizace:</strong> Automatické stažení požadované verze Minecraftu i Javy.</li>
+              <li class="fragment">Hotový balíček připravený komunitou.</li>
+              <li class="fragment">Obsahuje v sobě Minecraft i potřebnou verzi Javy.</li>
+              <li class="fragment">Stáhne se automaticky z internetu při prvním spuštění.</li>
             </ul>
           </section>
         </section>
 
-        <!-- KATEGORIE 2: Konfigurace docker-compose.yml -->
+        <!-- KATEGORIE 2: Příprava konfigurace -->
         <section>
           <section>
-            <h2>Konfigurace docker-compose.yml</h2>
+            <h2>Kategorie 2</h2>
+            <h3>Konfigurace docker-compose.yml</h3>
           </section>
           <section>
-            <h2>Struktura souboru <code>docker-compose.yml</code></h2>
+            <h2>Co je <code>docker-compose.yml</code>?</h2>
+            <ul>
+              <li class="fragment">Textový soubor, který funguje jako recept.</li>
+              <li class="fragment">Říká Dockeru, jaký server chceme spustit.</li>
+              <li class="fragment">Zapisuje se v přehledném formátu YAML.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Krok 1: Vytvoření složky</h2>
+            <p>V terminálu si nejprve vytvoříme složku pro náš server:</p>
+            <pre><code class="language-bash code-block" data-trim>
+# Vytvořit složku mc-server
+mkdir mc-server
+
+# Přepnout se do vytvořené složky
+cd mc-server
+            </code></pre>
+          </section>
+          <section>
+            <h2>Krok 2: Vytvoření souboru</h2>
+            <p>Otevřeme textový editor <code>nano</code>:</p>
+            <pre><code class="language-bash code-block" data-trim>
+nano docker-compose.yml
+            </code></pre>
+          </section>
+          <section>
+            <h2>Ukázka <code>docker-compose.yml</code></h2>
             <pre><code class="language-yaml code-block" data-trim>
 version: '3.8'
 
@@ -109,158 +137,237 @@ services:
       TYPE: "PAPER"
       VERSION: "1.20.4"
       MEMORY: "2G"
-      MOTD: "Letní škola sítí Minecraft Server"
     volumes:
       - ./data:/data
     restart: unless-stopped
             </code></pre>
           </section>
           <section>
-            <h2>Klíčové Environment proměnné</h2>
-            <table style="font-size: 0.65em;">
-              <thead>
-                <tr>
-                  <th>Proměnná</th>
-                  <th>Výchozí / Příklad</th>
-                  <th>Popis</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="fragment">
-                  <td><code>EULA</code></td>
-                  <td><code>"TRUE"</code></td>
-                  <td>Souhlas s licencí Mojang EULA (povinné)</td>
-                </tr>
-                <tr class="fragment">
-                  <td><code>TYPE</code></td>
-                  <td><code>PAPER</code> / <code>SPIGOT</code> / <code>VANILLA</code></td>
-                  <td>Typ Minecraft serveru (Paper pro vyšší výkon)</td>
-                </tr>
-                <tr class="fragment">
-                  <td><code>VERSION</code></td>
-                  <td><code>LATEST</code> / <code>1.20.4</code></td>
-                  <td>Verze hry Minecraft</td>
-                </tr>
-                <tr class="fragment">
-                  <td><code>MEMORY</code></td>
-                  <td><code>1G</code> / <code>2G</code> / <code>4G</code></td>
-                  <td>Maximální alokovaná paměť RAM</td>
-                </tr>
-                <tr class="fragment">
-                  <td><code>MOTD</code></td>
-                  <td><code>"Text zprávy"</code></td>
-                  <td>Zpráva dne v seznamu serverů</td>
-                </tr>
-                <tr class="fragment">
-                  <td><code>OPS</code></td>
-                  <td><code>"student"</code></td>
-                  <td>Seznam uživatelů s admin právy</td>
-                </tr>
-              </tbody>
-            </table>
-          </section>
-        </section>
-
-        <!-- KATEGORIE 3: Síťové porty a Persistence dat -->
-        <section>
-          <section>
-            <h2>Síťové porty a Persistence dat</h2>
-          </section>
-          <section>
-            <h2>Mapování síťových portů</h2>
+            <h2>Vysvětlení: Souhlas s EULA</h2>
+            <pre><code class="language-yaml code-block" data-trim>
+environment:
+  EULA: "TRUE"
+            </code></pre>
             <ul>
-              <li class="fragment">Minecraft Java Edition používá výchozí port <code>25565</code> (TCP).</li>
-              <li class="fragment">Zápis v Compose: <code>- "25565:25565"</code> (Port hostitele : Port kontejneru).</li>
-              <li class="fragment">Běh více serverů na 1 stroji:
-                <br><code>- "25565:25565"</code> (1. server)
-                <br><code>- "25566:25565"</code> (2. server)
-              </li>
+              <li class="fragment">Souhlas s podmínkami použití od tvůrců hry Mojang.</li>
+              <li class="fragment">Bez tohoto řádku se server z bezpečnostních důvodů nespustí.</li>
             </ul>
           </section>
           <section>
-            <h2>Persistence dat (Volumes)</h2>
+            <h2>Vysvětlení: Typ a verze serveru</h2>
+            <pre><code class="language-yaml code-block" data-trim>
+environment:
+  TYPE: "PAPER"
+  VERSION: "1.20.4"
+            </code></pre>
             <ul>
-              <li class="fragment">Kontejnery jsou bezstavové (stateless).</li>
-              <li class="fragment">Bez volume se při zastavení kontejneru smazou všechny změny a světy.</li>
-              <li class="fragment"><strong>Bind Mount:</strong> <code>- ./data:/data</code> propojí lokální složku na disku se složkou v kontejneru.</li>
-              <li class="fragment"><strong>Obsah složky <code>./data</code>:</strong> `world/`, `server.properties`, `plugins/`, `ops.json`.</li>
+              <li class="fragment"><code>TYPE: "PAPER"</code> — Zrychlená verze serveru (doporučeno).</li>
+              <li class="fragment"><code>VERSION: "1.20.4"</code> — Přesná verze hry Minecraft.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Vysvětlení: Paměť RAM</h2>
+            <pre><code class="language-yaml code-block" data-trim>
+environment:
+  MEMORY: "2G"
+            </code></pre>
+            <ul>
+              <li class="fragment">Určuje, kolik operační paměti může server využít.</li>
+              <li class="fragment">Pro běžné hraní v učebně stačí <code>2G</code> (2 Gigabajty).</li>
             </ul>
           </section>
         </section>
 
-        <!-- KATEGORIE 4: Spuštění, Logy a RCON Správa -->
+        <!-- KATEGORIE 3: Síť a Úložiště -->
         <section>
           <section>
-            <h2>Spuštění, Logy a RCON Správa</h2>
+            <h2>Kategorie 3</h2>
+            <h3>Síťové porty a Úložiště</h3>
           </section>
           <section>
-            <h2>Spuštění serveru a sledování logů</h2>
-            <ol>
-              <li class="fragment">Vytvoření adresáře: <code>mkdir mc-server &amp;&amp; cd mc-server</code></li>
-              <li class="fragment">Spuštění na pozadí: <code>docker-compose up -d</code></li>
-              <li class="fragment">Sledování logů: <code>docker-compose logs -f</code></li>
-              <li class="fragment">Připojení z klienta: Direct Connection na adresu <code>localhost</code> (port 25565).</li>
-            </ol>
+            <h2>Co je to síťový port?</h2>
+            <ul>
+              <li class="fragment">Číslo dveří, na kterých síťová služba poslouchá.</li>
+              <li class="fragment">Minecraft Java Edition používá port <strong>25565</strong>.</li>
+            </ul>
           </section>
           <section>
-            <h2>Správa konzole přes RCON</h2>
-            <p>Spouštění příkazů uvnitř běžícího kontejneru:</p>
+            <h2>Mapování portu v Compose</h2>
+            <pre><code class="language-yaml code-block" data-trim>
+ports:
+  - "25565:25565"
+            </code></pre>
+            <ul>
+              <li class="fragment">První číslo: Port na vašem počítači.</li>
+              <li class="fragment">Druhé číslo: Port uvnitř Docker kontejneru.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Proč potřebujeme Úložiště (Volume)?</h2>
+            <ul>
+              <li class="fragment">Docker kontejnery neukládají data trvale.</li>
+              <li class="fragment">Bez úložiště by se po vypnutí kontejneru smazal celý svět.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Nastavení Volume v Compose</h2>
+            <pre><code class="language-yaml code-block" data-trim>
+volumes:
+  - ./data:/data
+            </code></pre>
+            <ul>
+              <li class="fragment">Propojí složku <code>./data</code> na vašem počítači se složkou uvnitř kontejneru.</li>
+              <li class="fragment">Veškeré stavby a mapa zůstanou bezpečně uloženy na disku.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Co se uloží do složky <code>./data</code>?</h2>
+            <ul>
+              <li class="fragment"><code>world/</code> — Soubory mapy a krajiny.</li>
+              <li class="fragment"><code>server.properties</code> — Hlavní nastavení hry.</li>
+              <li class="fragment"><code>ops.json</code> — Seznam administrátorů.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 4: Spuštění a připojení -->
+        <section>
+          <section>
+            <h2>Kategorie 4</h2>
+            <h3>Spuštění serveru a připojení</h3>
+          </section>
+          <section>
+            <h2>Spuštění příkazem <code>up</code></h2>
+            <p>V terminálu ve složce se souborem zadejte:</p>
             <pre><code class="language-bash code-block" data-trim>
-# Udělení OP práv hráči "student"
-docker exec -i mc-server rcon-cli op student
-
-# Změna času ve hře
-docker exec -i mc-server rcon-cli time set day
-
-# Zapnutí seznamu povolených hráčů (whitelist)
-docker exec -i mc-server rcon-cli whitelist on
+docker-compose up -d
             </code></pre>
           </section>
           <section>
-            <h2>Úprava <code>server.properties</code></h2>
+            <h2>Co znamená parametr <code>-d</code>?</h2>
             <ul>
-              <li class="fragment">Soubor se nachází v lokální složce <code>./data/server.properties</code>.</li>
-              <li class="fragment">Umožňuje změnit herní pravidla (pvp, difficulty, max-players).</li>
-              <li class="fragment">Aplikace změn se provede restartem kontejneru: <code>docker-compose restart</code>.</li>
+              <li class="fragment">Spustí kontejner na pozadí (Detached mode).</li>
+              <li class="fragment">Terminál zůstane volný pro další příkazy.</li>
             </ul>
+          </section>
+          <section>
+            <h2>Sledování startu v logu</h2>
+            <p>Stahování a generování světa sledujeme příkazem:</p>
+            <pre><code class="language-bash code-block" data-trim>
+docker-compose logs -f
+            </code></pre>
+            <p class="fragment"><small>Sledování ukončíme stiskem kláves <code>Ctrl + C</code>.</small></p>
+          </section>
+          <section>
+            <h2>Jak poznám, že server běží?</h2>
+            <p>V logu se objeví řádek potvrdzující dokončení:</p>
+            <pre><code class="language-text code-block" data-trim>
+[Server thread/INFO]: Done (18.421s)! For help, type "help"
+            </code></pre>
+          </section>
+          <section>
+            <h2>Připojení ze hry Minecraft</h2>
+            <ol style="font-size: 0.85em;">
+              <li class="fragment">Spusťte Minecraft klient (verze 1.20.4).</li>
+              <li class="fragment">Vyberte <strong>Hra pro více hráčů</strong> (Multiplayer).</li>
+              <li class="fragment">Zvolte <strong>Přímé připojení</strong> (Direct Connection).</li>
+              <li class="fragment">Zadejte adresu: <code>localhost</code>.</li>
+            </ol>
           </section>
         </section>
 
-        <!-- KATEGORIE 5: Pluginy, Bedrock a Zálohování -->
+        <!-- KATEGORIE 5: Admin práva a správa příkazů -->
         <section>
           <section>
-            <h2>Pluginy, Bedrock a Zálohování</h2>
+            <h2>Kategorie 5</h2>
+            <h3>Admin práva a správa</h3>
           </section>
           <section>
-            <h2>Rozšíření serveru (Pluginy &amp; Bedrock)</h2>
+            <h2>Co je RCON konzole?</h2>
             <ul>
-              <li class="fragment"><strong>Pluginy:</strong> Nahrání <code>.jar</code> souborů do složky <code>./data/plugins/</code> + restart kontejneru.</li>
-              <li class="fragment"><strong>Bedrock podpora (GeyserMC):</strong> Připojení z mobilů a konzolí.</li>
-              <li class="fragment">Nutné namapovat UDP port v Compose: <code>- "19132:19132/udp"</code>.</li>
+              <li class="fragment">Nástroj pro posílání příkazů do serveru z terminálu.</li>
+              <li class="fragment">Umožňuje spravovat server bez přihlášení do hry.</li>
             </ul>
           </section>
           <section>
-            <h2>Zálohování a obnova světa</h2>
-            <p>Díky oddělené složce <code>./data</code> je archivace jednoduchá:</p>
+            <h2>Udělení admin práv (OP)</h2>
+            <p>V terminálu zadejte příkaz:</p>
             <pre><code class="language-bash code-block" data-trim>
-# Vytvoření zálohy světa
-tar -czvf zaloha-mc.tar.gz ./data
+docker exec -i mc-server rcon-cli op student
+            </code></pre>
+            <p class="fragment"><small>Nahraďte <code>student</code> vaším herním jménem (Nickem).</small></p>
+          </section>
+          <section>
+            <h2>Základní příkazy v konzoli</h2>
+            <pre><code class="language-bash code-block" data-trim>
+# Nastavení dne ve hře
+docker exec -i mc-server rcon-cli time set day
 
-# Obnova ze zálohy
+# Změna herního módu na Creative
+docker exec -i mc-server rcon-cli gamemode creative student
+            </code></pre>
+          </section>
+          <section>
+            <h2>Úprava nastavení serveru</h2>
+            <ol style="font-size: 0.85em;">
+              <li class="fragment">Otevřete soubor <code>./data/server.properties</code> v nano.</li>
+              <li class="fragment">Upravte požadovaný parametr (např. <code>pvp=false</code>).</li>
+              <li class="fragment">Uložte soubor.</li>
+            </ol>
+          </section>
+          <section>
+            <h2>Restartování kontejneru</h2>
+            <p>Aby se změny v nastavení projevily, restartujeme server:</p>
+            <pre><code class="language-bash code-block" data-trim>
+docker-compose restart
+            </code></pre>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 6: Zálohování a cvičení -->
+        <section>
+          <section>
+            <h2>Kategorie 6</h2>
+            <h3>Zálohování a cvičení</h3>
+          </section>
+          <section>
+            <h2>Jak vytvořit zálohu světa?</h2>
+            <p>Všechna data jsou ve složce <code>./data</code>, stačí ji zabalit:</p>
+            <pre><code class="language-bash code-block" data-trim>
+tar -czvf zaloha-mc.tar.gz ./data
+            </code></pre>
+          </section>
+          <section>
+            <h2>Jak obnovit svět ze zálohy?</h2>
+            <pre><code class="language-bash code-block" data-trim>
+# 1. Zastavit server
 docker-compose down
-rm -rf ./data
+
+# 2. Obnovit složku data ze zálohy
 tar -xzvf zaloha-mc.tar.gz
+
+# 3. Opět spustit server
 docker-compose up -d
             </code></pre>
           </section>
           <section>
             <h2>Samostatné cvičení</h2>
-            <ol style="font-size: 0.85em;">
-              <li class="fragment">Vytvořte složku <code>~/muj-mc-server</code> a soubor <code>docker-compose.yml</code>.</li>
-              <li class="fragment">Nakonfigurujte Paper server verze 1.20.4 s pamětí 2G.</li>
-              <li class="fragment">Spusťte server a ověřte funkčnost přes <code>docker-compose logs -f</code>.</li>
-              <li class="fragment">Připojte se ze svého Minecraft klienta a udělejte se operátorem (OP).</li>
+            <ol style="font-size: 0.8em;">
+              <li class="fragment">Vytvořte složku <code>~/muj-mc-server</code>.</li>
+              <li class="fragment">Vytvořte soubor <code>docker-compose.yml</code> s verzí 1.20.4 a typem PAPER.</li>
+              <li class="fragment">Spusťte server příkazem <code>docker-compose up -d</code>.</li>
+              <li class="fragment">Zkontrolujte stav pomocí <code>docker-compose logs -f</code>.</li>
+              <li class="fragment">Připojte se ze hry na adresu <code>localhost</code>.</li>
             </ol>
+          </section>
+          <section>
+            <h2>Shrnutí modulu</h2>
+            <ul>
+              <li class="fragment">Víme, jak vytvořit Minecraft server v Dockeru.</li>
+              <li class="fragment">Rozumíme souboru <code>docker-compose.yml</code>.</li>
+              <li class="fragment">Umíme namapovat port 25565 a uložit data na disk.</li>
+              <li class="fragment">Umíme spravovat admin práva přes RCON.</li>
+            </ul>
           </section>
         </section>
 
