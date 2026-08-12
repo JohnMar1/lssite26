@@ -7,9 +7,9 @@ if [ "${EULA:-FALSE}" != "TRUE" ]; then
 fi
 
 mkdir -p /data
+chown -R minecraft:minecraft /data
 printf 'eula=true\n' > /data/eula.txt
 
 cd /data
 
-exec java -Xms"${MEMORY:-1G}" -Xmx"${MEMORY:-2G}" \
-  -jar /opt/minecraft/server.jar nogui
+exec su -s /bin/sh minecraft -c "exec java -Xms${MEMORY:-1G} -Xmx${MEMORY:-2G} -jar /opt/minecraft/server.jar nogui"

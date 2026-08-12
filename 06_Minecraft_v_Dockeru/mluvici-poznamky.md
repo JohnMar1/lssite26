@@ -106,9 +106,9 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ## 11. Ukázka `start.sh`
 
-**Řekni:** „Skript zkontroluje proměnnou EULA, zapiše `eula=true` do souboru `/data/eula.txt`, přepne se do složky `/data` (`cd /data`) a spustí `server.jar` s nastavenou pamětí RAM.“
+**Řekni:** „Skript zkontroluje proměnnou EULA, nastavení vlastnictví namapované složky `/data` (`chown`), zapíše `eula=true` do souboru `/data/eula.txt`, přepne se do složky `/data` (`cd /data`) a spustí `server.jar` pod uživatelem `minecraft`.“
 
-**Zapojení / ukázka:** Vysvětlete důležitost `cd /data`, díky kterému se mapa a nastavení ukládají do namapované složky `/data`.
+**Zapojení / ukázka:** Vysvětlete důležitost automatického nastavení vlastnictví složky `/data` před předáním práv neprivilegovanému uživateli.
 
 **Přechod:** „Po uložení musíme skriptu nastavit práva ke spuštění.“
 
@@ -146,7 +146,7 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ## 15. Vysvětlení instrukcí Dockerfile
 
-**Řekni:** „`FROM` vezme Java runtime. `COPY` přenese naše soubory z počítače do image. `RUN` vytvoří neprivilegovaného uživatele `minecraft` kvůli bezpečnosti — server tak neběží jako root. `ENTRYPOINT` spustí náš `start.sh`.“
+**Řekni:** „`FROM` vezme Java runtime. `COPY` přenese naše soubory z počítače do image. `RUN` vytvoří neprivilegovaného uživatele `minecraft`. `ENTRYPOINT` spustí náš `start.sh`, který zajistí správná oprávnění pro složku `/data` a bezpečně spustí Javu pod uživatelem `minecraft`.“
 
 **Zapojení / ukázka:** Zdůrazněte bezpečnostní aspekt běhu pod uživatelem `minecraft`.
 

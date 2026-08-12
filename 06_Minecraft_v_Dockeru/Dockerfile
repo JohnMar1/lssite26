@@ -11,7 +11,6 @@ RUN chmod +x /usr/local/bin/start-minecraft \
     && mkdir -p /data \
     && chown -R minecraft:minecraft /opt/minecraft /data /usr/local/bin/start-minecraft
 
-USER minecraft
 EXPOSE 25565
 VOLUME ["/data"]
 ENTRYPOINT ["start-minecraft"]

@@ -152,12 +152,12 @@ if [ "${EULA:-FALSE}" != "TRUE" ]; then
 fi
 
 mkdir -p /data
+chown -R minecraft:minecraft /data
 printf 'eula=true\n' > /data/eula.txt
 
 cd /data
 
-exec java -Xms"${MEMORY:-1G}" -Xmx"${MEMORY:-2G}" \
-  -jar /opt/minecraft/server.jar nogui
+exec su -s /bin/sh minecraft -c "exec java -Xms${MEMORY:-1G} -Xmx${MEMORY:-2G} -jar /opt/minecraft/server.jar nogui"
             </code></pre>
           </section>
           <section>
@@ -187,9 +187,8 @@ COPY start.sh /usr/local/bin/start-minecraft
 RUN chmod +x /usr/local/bin/start-minecraft && \
     useradd --create-home minecraft && \
     mkdir -p /data && \
-    chown -R minecraft:minecraft /opt/minecraft /data /usr/local/bin/start-minecraft
+    chown -R minecraft:minecraft /opt/minecraft /data
 
-USER minecraft
 EXPOSE 25565
 VOLUME ["/data"]
 ENTRYPOINT ["start-minecraft"]
@@ -201,9 +200,8 @@ ENTRYPOINT ["start-minecraft"]
               <li class="fragment"><code>FROM</code> — Základní image s Java Runtime Environment (Temurin Java 26).</li>
               <li class="fragment"><code>COPY</code> — Zkopíruje <code>server.jar</code> a <code>start.sh</code> do kontejneru.</li>
               <li class="fragment"><code>RUN</code> — Nastaví práva a vytvoří neprivilegovaného uživatele <code>minecraft</code>.</li>
-              <li class="fragment"><code>USER minecraft</code> — Bezpečnostní pravidlo: server neběží jako root.</li>
               <li class="fragment"><code>EXPOSE 25565</code> — Deklaruje síťový port hry.</li>
-              <li class="fragment"><code>ENTRYPOINT</code> — Spustí náš skript při startu kontejneru.</li>
+              <li class="fragment"><code>ENTRYPOINT</code> — Spustí náš skript, který opraví vlastnictví složky <code>/data</code> a spustí Minecraft pod neprivilegovaným uživatelem.</li>
             </ul>
           </section>
         </section>
