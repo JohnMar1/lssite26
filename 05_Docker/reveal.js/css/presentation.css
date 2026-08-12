@@ -5,6 +5,15 @@
 .reveal th { background-color: #f4f6f8; font-weight: bold; }
 .reveal kbd { border:1px solid #888; border-radius:4px; padding:.05em .25em; font-family:monospace; font-size:.75em; }
 
+/* Beginner-friendly layouts: one idea can breathe on each slide. */
+.reveal .big-idea { font-size: 1.35em; line-height: 1.35; max-width: 850px; margin: 1.4rem auto; }
+.reveal .step-list { max-width: 760px; margin: 1rem auto; }
+.reveal .step-list li { margin: .65rem 0; }
+.reveal .analogy, .reveal .docker-flow { display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap; margin:1.5rem auto; }
+.reveal .docker-box { min-width:150px; padding:1rem 1.2rem; border:3px solid #2496ed; border-radius:12px; background:#eef7ff; font-weight:700; text-align:center; }
+.reveal .docker-box.accent { border-color:#0d8a5b; background:#eaf9f1; }
+.reveal .docker-box small { font-weight:400; }
+
 /* VM vs Kontejner Comparison Cards */
 .reveal .comp-grid {
   display: grid;
@@ -93,4 +102,3 @@
   .reveal .columns { grid-template-columns:1fr; }
   .reveal .comp-grid { grid-template-columns: 1fr; }
 }
-

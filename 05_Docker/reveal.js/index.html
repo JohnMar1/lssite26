@@ -18,6 +18,28 @@
           <p>Kontejnerizace a virtualizace na úrovni OS</p>
         </section>
 
+        <section>
+          <h2>Co si dnes odneseme?</h2>
+          <ol class="step-list">
+            <li class="fragment">Co je kontejner a image</li>
+            <li class="fragment">Jak aplikaci spustit</li>
+            <li class="fragment">Jak ji zabalit do Dockerfile</li>
+            <li class="fragment">Jak spustit více služeb přes Compose</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Proč Docker vznikl?</h2>
+          <p class="big-idea">Aplikace často funguje na jednom počítači, ale ne na jiném.</p>
+          <p class="fragment">Důvodem bývají jiné verze knihoven, nastavení nebo operačního systému.</p>
+        </section>
+
+        <section>
+          <h2>Docker v jedné větě</h2>
+          <p class="big-idea">Docker zabalí aplikaci i její prostředí do malé, přenositelné krabičky.</p>
+          <p class="fragment">Krabička se jmenuje <strong>kontejner</strong>.</p>
+        </section>
+
         <!-- KATEGORIE 1: Co je Docker a proč ho používat -->
         <section>
           <section>
@@ -32,20 +54,49 @@
             </ul>
           </section>
           <section>
+            <h2>Analogie: krabička</h2>
+            <div class="analogy">
+              <div class="docker-box">Aplikace</div><span>+</span><div class="docker-box">Knihovny</div><span>+</span><div class="docker-box">Nastavení</div>
+            </div>
+            <p>Všechno cestuje společně. Hostitelský počítač zůstává čistší.</p>
+          </section>
+          <section>
+            <h2>Co je kontejner?</h2>
+            <p class="big-idea">Izolované prostředí pro jeden proces nebo službu.</p>
+            <p class="fragment">Sdílí jádro hostitelského systému, proto startuje rychle.</p>
+          </section>
+          <section>
+            <h2>Co Docker není</h2>
+            <p class="big-idea">Kontejner není celý nový počítač.</p>
+            <p class="fragment">Je to hlavně pohodlný způsob, jak spouštět procesy odděleně.</p>
+          </section>
+          <section>
             <h2>Architektura Dockeru</h2>
             <ul>
-              <li class="fragment"><strong>Docker Client (CLI):</strong><span class="fragment"> Rozhraní pro zadávání příkazů uživatelem (<code>docker run</code>, <code>docker ps</code>).</span></li>
-              <li class="fragment"><strong>Docker Daemon (Engine):</strong><span class="fragment"> Služba na pozadí, která vytváří a spravuje kontejnery a imagi.</span></li>
-              <li class="fragment"><strong>Docker Registry (Hub):</strong><span class="fragment"> Úložiště a veřejný katalog hotových Docker imagů (hub.docker.com).</span></li>
+              <li class="fragment"><strong>Docker Client (CLI):</strong><span class="fragment"> Terminál, do kterého píšeme příkazy jako <code>docker run</code>.</span></li>
             </ul>
+          </section>
+          <section>
+            <h2>Docker Engine</h2>
+            <p class="big-idea">Služba na pozadí, která vytváří a spravuje kontejnery.</p>
+          </section>
+          <section>
+            <h2>Docker Registry</h2>
+            <p class="big-idea">Katalog, odkud stahujeme hotové image, například Docker Hub.</p>
           </section>
           <section>
             <h2>Jaká jsou využití a výhody?</h2>
             <ul>
-              <li class="fragment"><strong>Izolace:</strong><span class="fragment"> Různé verze závislostí, žádný zásah do host OS, kontrola výkonu.</span></li>
-              <li class="fragment"><strong>Kompatibilita:</strong><span class="fragment"> Stejné prostředí u vývojáře, na testu i na produkci.</span></li>
-              <li class="fragment"><strong>Jednoduchost:</strong><span class="fragment"> Plně připravené prostředí ke spuštění jedním příkazem.</span></li>
+              <li class="fragment"><strong>Izolace:</strong><span class="fragment"> Aplikace má své závislosti oddělené od hostitele.</span></li>
             </ul>
+          </section>
+          <section>
+            <h2>Výhoda: stejné prostředí</h2>
+            <p class="big-idea">Stejný image můžeme použít u vývojáře, při testu i v produkci.</p>
+          </section>
+          <section>
+            <h2>Výhoda: rychlý start</h2>
+            <p class="big-idea">Připravený kontejner spustíme jedním příkazem.</p>
           </section>
           <section>
             <h2>VM vs. Kontejner</h2>
@@ -102,6 +153,21 @@
             </ul>
           </section>
           <section>
+            <h2>Image = recept</h2>
+            <p class="big-idea">Image je připravená šablona, ze které kontejner vznikne.</p>
+            <p class="fragment">Příklady: <code>nginx</code>, <code>ubuntu</code>, <code>python</code>.</p>
+          </section>
+          <section>
+            <h2>Kontejner = uvařený recept</h2>
+            <p class="big-idea">Kontejner je spuštěná instance image.</p>
+            <div class="docker-flow"><div class="docker-box">IMAGE<br><small>šablona</small></div><span>→</span><div class="docker-box accent">KONTEJNER<br><small>běží</small></div></div>
+          </section>
+          <section>
+            <h2>Jeden image, více kontejnerů</h2>
+            <p>Stejnou šablonu můžeme spustit vícekrát.</p>
+            <div class="docker-flow"><div class="docker-box">nginx image</div><span>→</span><div class="docker-box">web-1</div><div class="docker-box">web-2</div></div>
+          </section>
+          <section>
             <h2>Persistence dat (Volumes)</h2>
             <ul>
               <li class="fragment"><strong>Stateless nátura:</strong><span class="fragment"> Po smazání kontejneru se veškerá změněná data v něm ztratí.</span></li>
@@ -110,12 +176,37 @@
             </ul>
           </section>
           <section>
+            <h2>Proč data mizí?</h2>
+            <p class="big-idea">Kontejner je dočasný.</p>
+            <p class="fragment">Když ho smažeme, změny uvnitř mohou zmizet také.</p>
+          </section>
+          <section>
+            <h2>Volume = bezpečné místo pro data</h2>
+            <p>Volume uloží data mimo život kontejneru.</p>
+            <ul><li class="fragment">databáze</li><li class="fragment">nahrané soubory</li><li class="fragment">logy</li></ul>
+          </section>
+          <section>
+            <h2>Bind mount = sdílená složka</h2>
+            <pre><code class="language-bash" data-trim>docker run -v ./data:/app/data moje-aplikace</code></pre>
+            <p>Levý konec je složka na počítači. Pravý konec je složka v kontejneru.</p>
+          </section>
+          <section>
             <h2>Mapování síťových portů</h2>
             <ul>
               <li class="fragment"><strong>Izolovaný síťový zásobník:</strong><span class="fragment"> Kontejner má vlastní IP a uzavřené porty.</span></li>
               <li class="fragment"><strong>Port Forwarding (<code>-p</code>):</strong><span class="fragment"> Přesměrování portu z hostitele do kontejneru.</span></li>
               <li class="fragment"><strong>Příklad:</strong><span class="fragment"> <code>-p 8080:80</code> zpřístupní web z kontejneru (port 80) na hostitelském portu 8080.</span></li>
             </ul>
+          </section>
+          <section>
+            <h2>Port = dveře do služby</h2>
+            <p>Aplikace uvnitř kontejneru poslouchá například na portu <strong>80</strong>.</p>
+            <p class="fragment">Bez otevřených dveří ji prohlížeč z hostitele neuvidí.</p>
+          </section>
+          <section>
+            <h2>Jak číst <code>-p 8080:80</code>?</h2>
+            <div class="docker-flow"><div class="docker-box">počítač<br><strong>8080</strong></div><span>→</span><div class="docker-box accent">kontejner<br><strong>80</strong></div></div>
+            <p>Port vlevo je na počítači, port vpravo uvnitř kontejneru.</p>
           </section>
           <section>
             <h2>Dockerfile — Základní instrukce</h2>
@@ -152,6 +243,21 @@ USER appuser
 CMD ["/app/script.sh"]
             </code></pre>
           </section>
+          <section>
+            <h2>Dockerfile: jedna instrukce</h2>
+            <pre><code class="language-dockerfile" data-trim>FROM nginx:alpine</code></pre>
+            <p><code>FROM</code> říká, z jakého image začínáme.</p>
+          </section>
+          <section>
+            <h2>Dockerfile: soubory</h2>
+            <pre><code class="language-dockerfile" data-trim>WORKDIR /app
+COPY . .</code></pre>
+            <p><code>WORKDIR</code> nastaví složku. <code>COPY</code> do ní zkopíruje projekt.</p>
+          </section>
+          <section>
+            <h2>RUN vs. CMD</h2>
+            <table><thead><tr><th>Instrukce</th><th>Kdy běží?</th><th>Příklad</th></tr></thead><tbody><tr><td><code>RUN</code></td><td>při buildu</td><td>instalace balíčku</td></tr><tr><td><code>CMD</code></td><td>po startu</td><td>spuštění serveru</td></tr></tbody></table>
+          </section>
         </section>
 
         <!-- KATEGORIE 3: Práce s CLI a Docker Compose -->
@@ -176,12 +282,30 @@ newgrp docker
             </code></pre>
           </section>
           <section>
+            <h2>Nejdřív ověříme instalaci</h2>
+            <pre><code class="language-bash" data-trim>docker --version</code></pre>
+            <p>Docker odpoví verzí. Když ne, není nainstalovaný nebo neběží služba.</p>
+          </section>
+          <section>
             <h2>Práce s imagi v CLI</h2>
             <ul>
               <li class="fragment"><strong>Stáhnutí obrazu:</strong><span class="fragment"> <code>docker pull ubuntu</code></span></li>
-              <li class="fragment"><strong>Zobrazení stažených imagů:</strong><span class="fragment"> <code>docker images</code></span></li>
-              <li class="fragment"><strong>Sestavení image z Dockerfile:</strong><span class="fragment"> <code>docker build -t moje-aplikace .</code></span></li>
             </ul>
+          </section>
+          <section>
+            <h2>Kolik imagů máme?</h2>
+            <pre><code class="language-bash" data-trim>docker images</code></pre>
+            <p>Příkaz vypíše image uložené lokálně.</p>
+          </section>
+          <section>
+            <h2>Vlastní image</h2>
+            <pre><code class="language-bash" data-trim>docker build -t moje-aplikace .</code></pre>
+            <p>Image sestavíme z Dockerfile v aktuální složce.</p>
+          </section>
+          <section>
+            <h2>První kontejner</h2>
+            <pre><code class="language-bash" data-trim>docker run --rm hello-world</code></pre>
+            <p><code>run</code> vytvoří a spustí kontejner. <code>--rm</code> ho po skončení uklidí.</p>
           </section>
           <section>
             <h2>Spouštění kontejnerů</h2>
@@ -197,10 +321,19 @@ docker run -d -p 8080:80 --name muj-web nginx
           <section>
             <h2>Správa a kontrola kontejnerů</h2>
             <ul>
-              <li class="fragment"><strong>Výpis kontejnerů:</strong><span class="fragment"> <code>docker ps</code> (běžící) / <code>docker ps -a</code> (všechny)</span></li>
-              <li class="fragment"><strong>Zastavení &amp; Smazání:</strong><span class="fragment"> <code>docker stop &lt;id&gt;</code> / <code>docker rm &lt;id&gt;</code></span></li>
-              <li class="fragment"><strong>Logy &amp; Vstup do kontejneru:</strong><span class="fragment"> <code>docker logs &lt;id&gt;</code> / <code>docker exec -it &lt;id&gt; bash</code></span></li>
+              <li class="fragment"><strong>Výpis kontejnerů:</strong><span class="fragment"> <code>docker ps</code> ukáže běžící kontejnery.</span></li>
             </ul>
+          </section>
+          <section>
+            <h2>Zastavení a smazání</h2>
+            <pre><code class="language-bash" data-trim>docker stop &lt;id&gt;
+docker rm &lt;id&gt;</code></pre>
+            <p>Nejdřív kontejner zastavíme, potom odstraníme.</p>
+          </section>
+          <section>
+            <h2>Co se pokazilo?</h2>
+            <pre><code class="language-bash" data-trim>docker logs &lt;id&gt;</code></pre>
+            <p>Logy jsou první místo, kam se podíváme při chybě.</p>
           </section>
           <section>
             <h2>Docker Compose</h2>
@@ -208,6 +341,11 @@ docker run -d -p 8080:80 --name muj-web nginx
               <li class="fragment"><strong>Nástroj pro vícekontejnerové aplikace:</strong><span class="fragment"> Umožňuje definovat a spouštět více propojených služeb najednou.</span></li>
               <li class="fragment"><strong>Deklarativní konfigurační soubor:</strong><span class="fragment"> Vše se zapisuje přehledně do <code>docker-compose.yml</code>.</span></li>
             </ul>
+          </section>
+          <section>
+            <h2>Compose = seznam služeb</h2>
+            <p class="big-idea">Do jednoho souboru zapíšeme, co má běžet a jak jsou služby propojené.</p>
+            <p class="fragment">Nejčastěji se jmenuje <code>compose.yaml</code> nebo <code>docker-compose.yml</code>.</p>
           </section>
           <section>
             <h2>Ukázka docker-compose.yml</h2>
@@ -231,6 +369,34 @@ services:
               <li class="fragment"><strong>Zastavení a úklid:</strong><span class="fragment"> <code>docker-compose down</code></span></li>
             </ul>
           </section>
+          <section>
+            <h2>Nejdůležitější trojice</h2>
+            <p><code>docker compose up -d</code></p>
+            <p><code>docker compose ps</code></p>
+            <p><code>docker compose down</code></p>
+            <p>Spustit, zkontrolovat, zastavit.</p>
+          </section>
+        </section>
+
+        <section>
+          <h2>Mini-cvičení</h2>
+          <ol class="step-list">
+            <li class="fragment">Spusť <code>nginx</code> na portu 8080.</li>
+            <li class="fragment">Ověř stránku v prohlížeči.</li>
+            <li class="fragment">Najdi kontejner přes <code>docker ps</code>.</li>
+            <li class="fragment">Podívej se na logy a kontejner zastav.</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Co si zapamatovat</h2>
+          <ul>
+            <li class="fragment"><strong>Image</strong> je šablona.</li>
+            <li class="fragment"><strong>Kontejner</strong> je běžící instance.</li>
+            <li class="fragment"><strong>Volume</strong> chrání data.</li>
+            <li class="fragment"><strong>Port</strong> otevře službu ven.</li>
+            <li class="fragment"><strong>Compose</strong> řídí více služeb.</li>
+          </ul>
         </section>
       </div>
     </div>
