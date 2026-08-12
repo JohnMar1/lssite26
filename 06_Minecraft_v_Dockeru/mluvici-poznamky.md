@@ -336,7 +336,7 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ## 34. Co je serverová konzole?
 
-**Řekni:** „Serverová konzole je přímo běžící proces Minecraftu. Pomocí příkazu `docker attach mc-server` se připojíme k jeho standardnímu vstupu a výstupu.“
+**Řekni:** „Serverová konzole je přímo běžící proces Minecraftu. Pomocí příkazu `docker attach lss-minecraft-server` se připojíme k jeho standardnímu vstupu a výstupu.“
 
 **Zapojení / ukázka:** Vysvětlete, že nemusíte být přihlášeni ve hře, abyste mohli dělat správu.
 
@@ -346,7 +346,7 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ## 35. Udělení admin práv (OP)
 
-**Řekni:** „V terminálu zadejte `docker attach mc-server` a po připojení zadejte příkaz `op student`. Slovo `student` nahraďte vaším herním jménem. Pro odpojení stiskněte sekvenci `Ctrl+P` a potom `Ctrl+Q`.“
+**Řekni:** „V terminálu zadejte `docker attach lss-minecraft-server` a po připojení zadejte příkaz `op student`. Slovo `student` nahraďte vaším herním jménem. Pro odpojení stiskněte sekvenci `Ctrl+P` a potom `Ctrl+Q`.“
 
 **Zapojení / ukázka:** Předveďte přikoupení konzole, příkaz `op` a bezpečné odpojení přes Ctrl+P, Ctrl+Q.
 

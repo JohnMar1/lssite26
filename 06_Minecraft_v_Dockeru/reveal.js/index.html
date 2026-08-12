@@ -236,7 +236,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: muj-minecraft:1.20.4
-    container_name: mc-server
+    container_name: lss-minecraft-server
     ports:
       - "25565:25565"
     environment:
@@ -370,7 +370,7 @@ docker compose logs -f
             <ul>
               <li class="fragment">Rozhraní pro zadávání příkazů přímo spuštěnému serveru.</li>
               <li class="fragment">Umožňuje spravovat server a příkazy i bez přihlášení do hry.</li>
-              <li class="fragment">Připojíme se k ní příkazem <code>docker attach mc-server</code>.</li>
+              <li class="fragment">Připojíme se k ní příkazem <code>docker attach lss-minecraft-server</code>.</li>
             </ul>
           </section>
           <section>
@@ -378,7 +378,7 @@ docker compose logs -f
             <p>Připojte se ke konzoli kontejneru a zadejte příkaz:</p>
             <pre><code class="language-bash code-block" data-trim>
 # Připojit se ke konzoli
-docker attach mc-server
+docker attach lss-minecraft-server
 
 # Uvnitř konzole zadat:
 op student

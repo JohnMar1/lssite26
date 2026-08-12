@@ -6,7 +6,7 @@ services:
       args:
         MINECRAFT_VERSION: "1.20.4"
     image: muj-minecraft:1.20.4
-    container_name: mc-server
+    container_name: lss-minecraft-server
     ports:
       - "25565:25565/tcp"
     environment:
