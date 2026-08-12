@@ -10,9 +10,21 @@
     <link rel="stylesheet" href="dist/plugin/highlight/monokai.css">
     <link rel="stylesheet" href="css/presentation.css">
     <style>
+      .reveal pre {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 1rem auto !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      }
+      .reveal pre code {
+        max-height: 540px;
+        padding: 1.2rem;
+        font-size: 0.9em !important;
+        line-height: 1.4;
+      }
       .code-block {
-        font-size: 0.75em;
-        line-height: 1.35;
+        font-size: 0.9em !important;
+        line-height: 1.4;
       }
       .highlight-box {
         background: #f8fafc;
@@ -172,10 +184,10 @@ WORKDIR /opt/minecraft
 COPY server.jar /opt/minecraft/server.jar
 COPY start.sh /usr/local/bin/start-minecraft
 
-RUN chmod +x /usr/local/bin/start-minecraft \
-    && useradd --create-home --uid 1000 minecraft \
-    && mkdir -p /data \
-    && chown -R minecraft:minecraft /opt/minecraft /data /usr/local/bin/start-minecraft
+RUN chmod +x /usr/local/bin/start-minecraft && \
+    useradd --create-home --uid 1000 minecraft && \
+    mkdir -p /data && \
+    chown -R minecraft:minecraft /opt/minecraft /data /usr/local/bin/start-minecraft
 
 USER minecraft
 EXPOSE 25565
