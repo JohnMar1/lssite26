@@ -49,6 +49,8 @@
           <h2>Co dnes probereme</h2>
           <ol style="font-size: 0.8em; line-height: 1.6;">
             <li class="fragment">Proč spouštět Minecraft v Dockeru</li>
+            <li class="fragment">Stažení <code>server.jar</code> z oficiální stránky</li>
+            <li class="fragment">Vytvoření vlastního <code>Dockerfile</code> a <code>start.sh</code></li>
             <li class="fragment">Vytvoření konfiguračního souboru <code>docker-compose.yml</code></li>
             <li class="fragment">Síťové porty a uložení světa na disk</li>
             <li class="fragment">Spuštění serveru a připojení ze hry</li>
@@ -74,17 +76,17 @@
           <section>
             <h2>Proč použít Docker?</h2>
             <ul>
-              <li class="fragment"><strong>Nemusíme instalovat Javu:</strong> Vše je připraveno uvnitř kontejneru.</li>
+              <li class="fragment"><strong>Javu nemusíme instalovat do hostitele:</strong> Použijeme ji uvnitř našeho image.</li>
               <li class="fragment"><strong>Žádný nepořádek:</strong> Server běží v izolované složce.</li>
-              <li class="fragment"><strong>Snadné spuštění:</strong> Stačí jediný příkaz.</li>
+              <li class="fragment"><strong>Učíme se build:</strong> Dockerfile si napíšeme sami.</li>
             </ul>
           </section>
           <section>
-            <h2>Obraz <code>itzg/minecraft-server</code></h2>
+            <h2>Náš vlastní Minecraft image</h2>
             <ul>
-              <li class="fragment">Hotový balíček připravený komunitou.</li>
-              <li class="fragment">Obsahuje v sobě Minecraft i potřebnou verzi Javy.</li>
-              <li class="fragment">Stáhne se automaticky z internetu při prvním spuštění.</li>
+              <li class="fragment">Nepoužijeme hotový image s Minecraftem.</li>
+              <li class="fragment">Napíšeme vlastní <code>Dockerfile</code> a vlastní startovací skript.</li>
+              <li class="fragment">Jako základ použijeme pouze Java runtime a serverový <code>server.jar</code>.</li>
             </ul>
           </section>
         </section>
@@ -115,7 +117,20 @@ cd mc-server
             </code></pre>
           </section>
           <section>
-            <h2>Krok 2: Vytvoření souboru</h2>
+            <h2>Krok 2: Připravíme <code>server.jar</code></h2>
+            <p>Stáhneme oficiální Java server a uložíme ho do složky <code>mc-server</code>:</p>
+            <ol style="font-size: 0.8em; line-height: 1.5;">
+              <li class="fragment">Otevřete <code>minecraft.net/en-us/download/server</code>.</li>
+              <li class="fragment">Stáhněte server pro verzi, kterou chcete hrát.</li>
+              <li class="fragment">Přejmenujte soubor na <code>server.jar</code>.</li>
+            </ol>
+            <pre><code class="language-bash code-block" data-trim>
+ls -lh server.jar
+            </code></pre>
+            <p><small>Soubor necommitujeme — patří do lokálního build contextu.</small></p>
+          </section>
+          <section>
+            <h2>Krok 3: Vytvoření souboru</h2>
             <p>Otevřeme textový editor <code>nano</code>:</p>
             <pre><code class="language-bash code-block" data-trim>
 nano docker-compose.yml
@@ -124,18 +139,17 @@ nano docker-compose.yml
           <section>
             <h2>Ukázka <code>docker-compose.yml</code></h2>
             <pre><code class="language-yaml code-block" data-trim>
-version: '3.8'
-
 services:
   mc-server:
-    image: itzg/minecraft-server:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: muj-minecraft:1.20.4
     container_name: mc-server
     ports:
       - "25565:25565"
     environment:
       EULA: "TRUE"
-      TYPE: "PAPER"
-      VERSION: "1.20.4"
       MEMORY: "2G"
     volumes:
       - ./data:/data
@@ -154,15 +168,17 @@ environment:
             </ul>
           </section>
           <section>
-            <h2>Vysvětlení: Typ a verze serveru</h2>
-            <pre><code class="language-yaml code-block" data-trim>
-environment:
-  TYPE: "PAPER"
-  VERSION: "1.20.4"
+            <h2>Vysvětlení: Náš Dockerfile</h2>
+            <pre><code class="language-dockerfile code-block" data-trim>
+FROM eclipse-temurin:17-jre
+COPY server.jar /opt/minecraft/server.jar
+COPY start.sh /usr/local/bin/start-minecraft
+ENTRYPOINT ["start-minecraft"]
             </code></pre>
             <ul>
-              <li class="fragment"><code>TYPE: "PAPER"</code> — Zrychlená verze serveru (doporučeno).</li>
-              <li class="fragment"><code>VERSION: "1.20.4"</code> — Přesná verze hry Minecraft.</li>
+              <li class="fragment"><code>FROM</code> — čistý Java základ, ne hotový Minecraft image.</li>
+              <li class="fragment"><code>COPY</code> — vloží náš server a náš startovací skript.</li>
+              <li class="fragment"><code>ENTRYPOINT</code> — spustí server při startu kontejneru.</li>
             </ul>
           </section>
           <section>
@@ -238,9 +254,10 @@ volumes:
           </section>
           <section>
             <h2>Spuštění příkazem <code>up</code></h2>
-            <p>V terminálu ve složce se souborem zadejte:</p>
+            <p>Nejdřív sestavíme náš image a potom spustíme server:</p>
             <pre><code class="language-bash code-block" data-trim>
-docker-compose up -d
+docker compose build
+docker compose up -d
             </code></pre>
           </section>
           <section>
@@ -354,16 +371,18 @@ docker-compose up -d
             <h2>Samostatné cvičení</h2>
             <ol style="font-size: 0.8em;">
               <li class="fragment">Vytvořte složku <code>~/muj-mc-server</code>.</li>
-              <li class="fragment">Vytvořte soubor <code>docker-compose.yml</code> s verzí 1.20.4 a typem PAPER.</li>
-              <li class="fragment">Spusťte server příkazem <code>docker-compose up -d</code>.</li>
-              <li class="fragment">Zkontrolujte stav pomocí <code>docker-compose logs -f</code>.</li>
+              <li class="fragment">Stáhněte oficiální <code>server.jar</code> a vytvořte <code>Dockerfile</code> se <code>start.sh</code>.</li>
+              <li class="fragment">Vytvořte <code>docker-compose.yml</code> s klíčem <code>build</code>.</li>
+              <li class="fragment">Sestavte vlastní image příkazem <code>docker compose build</code>.</li>
+              <li class="fragment">Spusťte server a zkontrolujte logy.</li>
               <li class="fragment">Připojte se ze hry na adresu <code>localhost</code>.</li>
             </ol>
           </section>
           <section>
             <h2>Shrnutí modulu</h2>
             <ul>
-              <li class="fragment">Víme, jak vytvořit Minecraft server v Dockeru.</li>
+              <li class="fragment">Víme, jak sestavit vlastní Minecraft image.</li>
+              <li class="fragment">Rozumíme souborům <code>Dockerfile</code> a <code>start.sh</code>.</li>
               <li class="fragment">Rozumíme souboru <code>docker-compose.yml</code>.</li>
               <li class="fragment">Umíme namapovat port 25565 a uložit data na disk.</li>
               <li class="fragment">Umíme spravovat admin práva přes RCON.</li>

@@ -1,0 +1,6 @@
+data/
+*.tar.gz
+reveal.js/
+mluvici-poznamky.md
+docker-compose.yml
+.git/

@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02_Zaklady_siti/mluvici-poznamky.md",
+                "file": "06_Minecraft_v_Dockeru/mluvici-poznamky.md",
                 "mode": "source",
                 "source": false
               },
@@ -190,6 +190,11 @@
   },
   "active": "f7d3e46f7aa97240",
   "lastOpenFiles": [
+    "06_Minecraft_v_Dockeru/docker-compose.yml",
+    "06_Minecraft_v_Dockeru/start.sh",
+    "06_Minecraft_v_Dockeru/Dockerfile",
+    "05_Docker/mluvici-poznamky.md",
+    "02_Zaklady_siti/mluvici-poznamky.md",
     "01_Uvod_do_Linuxu/mluvici-poznamky.md",
     "00_Uvod/mluvici-poznamky.md"
   ]
