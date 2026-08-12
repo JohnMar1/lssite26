@@ -86,7 +86,7 @@
             <h2>Náš vlastní Minecraft image</h2>
             <ul>
               <li class="fragment">Nepoužijeme hotový image z Docker Hubu.</li>
-              <li class="fragment">Sestavíme vlastní image z čistého Java základu (JRE 17).</li>
+              <li class="fragment">Sestavíme vlastní image z čistého Java základu (JRE 21).</li>
               <li class="fragment">Přidáme oficiální <code>server.jar</code> a náš startovací skript.</li>
             </ul>
           </section>
@@ -165,7 +165,7 @@ nano Dockerfile
           <section>
             <h2>Ukázka <code>Dockerfile</code></h2>
             <pre><code class="language-dockerfile code-block" data-trim>
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:21-jre
 
 WORKDIR /opt/minecraft
 
@@ -186,7 +186,7 @@ ENTRYPOINT ["start-minecraft"]
           <section>
             <h2>Vysvětlení instrukcí Dockerfile</h2>
             <ul style="font-size: 0.75em;">
-              <li class="fragment"><code>FROM</code> — Základní image s Java Runtime Environment (Temurin Java 17).</li>
+              <li class="fragment"><code>FROM</code> — Základní image s Java Runtime Environment (Temurin Java 21).</li>
               <li class="fragment"><code>COPY</code> — Zkopíruje <code>server.jar</code> a <code>start.sh</code> do kontejneru.</li>
               <li class="fragment"><code>RUN</code> — Nastaví práva a vytvoří neprivilegovaného uživatele <code>minecraft</code>.</li>
               <li class="fragment"><code>USER minecraft</code> — Bezpečnostní pravidlo: server neběží jako root.</li>
