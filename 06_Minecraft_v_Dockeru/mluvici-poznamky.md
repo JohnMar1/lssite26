@@ -56,7 +56,7 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ## 6. Náš vlastní Minecraft image
 
-**Řekni:** „Tentokrát nepoužijeme hotový image z Docker Hubu. Napíšeme vlastní `Dockerfile`, použijeme čistý Java runtime (Temurin JRE 21) jako základ a do něj vložíme oficiální `server.jar` a náš startovací skript.“
+**Řekni:** „Tentokrát nepoužijeme hotový image z Docker Hubu. Napíšeme vlastní `Dockerfile`, použijeme čistý Java runtime (Temurin JRE 26) jako základ a do něj vložíme oficiální `server.jar` a náš startovací skript.“
 
 **Zapojení / ukázka:** Ukažte rozdíl mezi hotovým image a naším buildem: hotový image stáhneme, náš image sestavíme příkazem `docker compose build`.
 
@@ -136,7 +136,7 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ## 14. Ukázka `Dockerfile`
 
-**Řekni:** „Do souboru napíšeme instrukce: použijeme čistý Java 21 image, nakopírujeme `server.jar` a `start.sh`, vytvoříme uživatele `minecraft` a složku `/data`, vystavíme port 25565 a nastavíme spouštěcí bod.“
+**Řekni:** „Do souboru napíšeme instrukce: použijeme čistý Java 26 image, nakopírujeme `server.jar` a `start.sh`, vytvoříme uživatele `minecraft` a složku `/data`, vystavíme port 25565 a nastavíme spouštěcí bod.“
 
 **Zapojení / ukázka:** Projděte řádky v Dockerfile od `FROM` až po `ENTRYPOINT`.
 
