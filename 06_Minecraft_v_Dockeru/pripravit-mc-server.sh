@@ -31,6 +31,31 @@ download_file() {
   fi
 }
 
+stop_and_remove_all_containers() {
+  local container_ids
+
+  if ! command -v docker >/dev/null 2>&1; then
+    printf 'Docker není nainstalovaný nebo není dostupný v PATH.\n' >&2
+    return 1
+  fi
+
+  if ! docker info >/dev/null 2>&1; then
+    printf 'Docker démon neběží nebo k němu nemáš přístup.\n' >&2
+    return 1
+  fi
+
+  container_ids="$(docker container ls -aq)"
+  if [ -z "$container_ids" ]; then
+    printf 'Žádné Docker kontejnery není potřeba zastavovat ani mazat.\n'
+    return 0
+  fi
+
+  printf 'Zastavuji existující Docker kontejnery…\n'
+  docker container stop $container_ids >/dev/null 2>&1 || true
+  printf 'Mažu existující Docker kontejnery…\n'
+  docker container rm $container_ids
+}
+
 main() {
   local target_dir source_url source_dir staging_dir file
 
@@ -38,6 +63,8 @@ main() {
     printf 'Proměnná HOME není nastavena.\n' >&2
     return 1
   fi
+
+  stop_and_remove_all_containers || return 1
 
   target_dir="${MC_SERVER_DIR:-$HOME/mc-server}"
   source_url="${MC_SERVER_SOURCE_URL:-$DEFAULT_SOURCE_URL}"
