@@ -152,7 +152,8 @@ if [ "${EULA:-FALSE}" != "TRUE" ]; then
 fi
 
 mkdir -p /data
-chown -R minecraft:minecraft /data
+chown -R minecraft:minecraft /data 2>/dev/null || true
+chmod 777 /data 2>/dev/null || true
 printf 'eula=true\n' > /data/eula.txt
 
 cd /data
