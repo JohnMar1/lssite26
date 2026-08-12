@@ -6,7 +6,7 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ## 1. Titulní slajd — Minecraft v Dockeru
 
-**Řekni:** „Vítám vás u modulu 6. Minecraft v Dockeru. Dnes si ukážeme velmi jednoduchý a spolehlivý způsob, jak spustit herní Minecraft server v kontejneru.“
+**Řekni:** „Vítám vás u modulu 6. Minecraft v Dockeru. Dnes si ukážeme, jak si vytvořit vlastní Docker image s Minecraft serverem a jak ho spouštět pomocí Docker Compose.“
 
 **Zapojení / ukázka:** Zeptejte se účastníků: „Kdo z vás už někdy hrál Minecraft a chtěl mít vlastní server pro sebe a kamarády?“
 
@@ -16,7 +16,7 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ## 2. Co dnes probereme
 
-**Řekni:** „Projdeme si vše od úplných základů: stáhneme oficiální `server.jar`, napíšeme vlastní Dockerfile a startovací skript, vytvoříme Compose soubor, vysvětlíme porty a data, spustíme server, připojíme se ze hry a ukážeme si admin práva.“
+**Řekni:** „Projdeme si vše od úplných základů: stáhneme oficiální `server.jar`, napíšeme vlastní startovací skript `start.sh`, vytvoříme `Dockerfile`, zkombinujeme to v `docker-compose.yml`, vysvětlíme porty a data, spustíme server, připojíme se ze hry a ukážeme si správu admin práv přes konzoli.“
 
 **Zapojení / ukázka:** Projděte seznam na slajdu.
 
@@ -56,115 +56,165 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ## 6. Náš vlastní Minecraft image
 
-**Řekni:** „Tentokrát nepoužijeme hotový image s Minecraftem. Napíšeme vlastní `Dockerfile`, použijeme čistý Java runtime jako základ a do něj vložíme oficiální `server.jar`.“
+**Řekni:** „Tentokrát nepoužijeme hotový image z Docker Hubu. Napíšeme vlastní `Dockerfile`, použijeme čistý Java runtime (Temurin JRE 17) jako základ a do něj vložíme oficiální `server.jar` a náš startovací skript.“
 
 **Zapojení / ukázka:** Ukažte rozdíl mezi hotovým image a naším buildem: hotový image stáhneme, náš image sestavíme příkazem `docker compose build`.
 
-**Přechod:** „Přejděme do druhé kategorie: Příprava konfigurace.“
+**Přechod:** „Přejděme do druhé kategorie: Příprava prostředí, `start.sh` a `Dockerfile`.“
 
 ---
 
-## 7. Kategorie 2: Konfigurace docker-compose.yml
+## 7. Kategorie 2: Příprava skriptu start.sh a Dockerfile
 
-**Řekni:** „Ve druhé části si napíšeme jednoduchý konfigurační soubor.“
+**Řekni:** „Ve druhé části si vytvoříme pracovní složku, stáhněte server.jar, napíšeme startovací skript a předpis pro Docker.“
 
 **Zapojení / ukázka:** Zobrazte dělící slajd kategorie 2.
-
-**Přechod:** „Vysvětleme si, co je soubor `docker-compose.yml`.“
-
----
-
-## 8. Co je `docker-compose.yml`?
-
-**Řekni:** „Soubor `docker-compose.yml` je obyčejný textový dokument. Funguje jako recept, ve kterém napíšeme Dockeru, jaký server chceme vytvořit.“
-
-**Zapojení / ukázka:** Ukažte, že soubor budeme upravovat v terminálovém editoru nano.
 
 **Přechod:** „Prvním krokem je vytvoření složky.“
 
 ---
 
-## 9. Krok 1: Vytvoření složky
+## 8. Krok 1: Vytvoření složky
 
 **Řekni:** „Otevřete terminál a vytvořte novou složku příkazem `mkdir mc-server`. Poté se do ní přepněte příkazem `cd mc-server`.“
 
 **Zapojení / ukázka:** Názorně předveďte oba příkazy na projektoru.
 
-**Přechod:** „Nejdřív připravíme oficiální serverový soubor, který vložíme do našeho image.“
+**Přechod:** „Nejdřív připravíme oficiální serverový soubor.“
 
 ---
 
-## 10. Krok 2: Připravíme `server.jar`
+## 9. Krok 2: Připravíme `server.jar`
 
-**Řekni:** „Z oficiální stránky Minecraftu stáhněte Java server pro verzi, kterou chcete hrát. Soubor přejmenujte na `server.jar` a uložte ho do složky `mc-server`. Do repozitáře ho nedáváme.“
+**Řekni:** „Z oficiální stránky Minecraftu stáhněte Java server pro požadovanou verzi. Soubor uložte jako `server.jar` do složky `mc-server`.“
 
-**Zapojení / ukázka:** Nechte účastníky ověřit příkazem `ls -lh server.jar`, že soubor leží vedle budoucího Dockerfile.
+**Zapojení / ukázka:** Nechte účastníky ověřit příkazem `ls -lh server.jar`, že soubor leží ve složce `mc-server`.
 
-**Přechod:** „Teď vytvoříme Compose soubor, který náš image sestaví.“
-
----
-
-## 11. Krok 3: Vytvoření souboru
-
-**Řekni:** „V terminálu zadejte příkaz `nano docker-compose.yml`. Otevře se prázdný textový editor.“
-
-**Zapojení / ukázka:** Zkontrolujte, že mají všichni v učebně otevřený editor nano.
-
-**Přechod:** „Podívejme se na kompletní obsah souboru.“
+**Přechod:** „Nyní si vytvoříme startovací skript.“
 
 ---
 
-## 12. Ukázka `docker-compose.yml`
+## 10. Krok 3: Vytvoření `start.sh`
 
-**Řekni:** „Compose už nestahuje hotový Minecraft image. Klíč `build` říká, že se má použít náš `Dockerfile`. Vlastní image pojmenujeme `muj-minecraft:1.20.4`, otevřeme port 25565, potvrdíme EULA, nastavíme paměť a připojíme složku `data`.“
+**Řekni:** „Otevřeme editor `nano start.sh`. V něm napíšeme skript, který zkontroluje EULA, automaticky ji potvrdí v adresáři `/data` a spustí Javu.“
 
-**Zapojení / ukázka:** Projděte jednotlivé řádky kódu na slajdu.
+**Zapojení / ukázka:** Zkontrolujte, že mají všichni v učebně otevřený editor nano pro `start.sh`.
 
-**Přechod:** „Vysvětleme si důležitost řádku s EULA.“
-
----
-
-## 13. Vysvětlení: Souhlas s EULA
-
-**Řekni:** „Řádek `EULA: "TRUE"` vyjadřuje souhlas s licenčními podmínkami hry Minecraft. Bez tohoto řádku by se server z bezpečnostních důvodů odmítl spustit.“
-
-**Zapojení / ukázka:** Zdůrazněte uvozovky a velké písmena u hodnoty TRUE.
-
-**Přechod:** „Co přesně obsahuje náš Dockerfile?“
+**Přechod:** „Podívejme se na obsah souboru `start.sh`.“
 
 ---
 
-## 14. Vysvětlení: Náš Dockerfile
+## 11. Ukázka `start.sh`
 
-**Řekni:** „`FROM` vezme pouze Java runtime, ne hotový Minecraft image. `COPY` vloží náš `server.jar` a náš startovací skript. `ENTRYPOINT` tento skript spustí při startu kontejneru.“
+**Řekni:** „Skript zkontroluje proměnnou EULA, zapiše `eula=true` do souboru `/data/eula.txt`, přepne se do složky `/data` (`cd /data`) a spustí `server.jar` s nastavenou pamětí RAM.“
 
-**Zapojení / ukázka:** Otevřete účastníkům soubor `Dockerfile` a nechte je najít všechny tři instrukce.
+**Zapojení / ukázka:** Vysvětlete důležitost `cd /data`, díky kterému se mapa a nastavení ukládají do namapované složky `/data`.
 
-**Přechod:** „Jak náš startovací skript nastaví paměť?“
-
----
-
-## 15. Vysvětlení: Paměť RAM
-
-**Řekni:** „Řádek `MEMORY: "2G"` předá hodnotu našemu `start.sh`, který ji použije jako `-Xmx2G`. Tím nastavíme maximální paměť Java procesu. Pro učebnu je 2G rozumný začátek.“
-
-**Zapojení / ukázka:** Ukažte uložení souboru v editoru nano přes zkratky Ctrl+O a Ctrl+X.
-
-**Přechod:** „Přejděme do třetí kategorie: Síť a Úložiště.“
+**Přechod:** „Po uložení musíme skriptu nastavit práva ke spuštění.“
 
 ---
 
-## 16. Kategorie 3: Síťové porty a Úložiště
+## 12. Nastavení spustitelných práv pro `start.sh`
 
-**Řekni:** „Ve třetí části si vysvětlíme, jak se k serveru připojujeme a jak ukládáme postavený svět.“
+**Řekni:** „V Linuxu musí mít skript nastavený bit pro spuštění. Spusťte v terminálu příkaz `chmod +x start.sh`.“
+
+**Zapojení / ukázka:** Předveďte příkaz `chmod +x start.sh`.
+
+**Přechod:** „Nyní vytvoříme samotný Dockerfile.“
+
+---
+
+## 13. Krok 4: Vytvoření `Dockerfile`
+
+**Řekni:** „V terminálu zadejte příkaz `nano Dockerfile`. Vytvoříme předpis pro sestavení našeho Docker image.“
+
+**Zapojení / ukázka:** Ukažte otevření souboru `Dockerfile` v nano.
+
+**Přechod:** „Podívejme se na kompletní kód `Dockerfile`.“
+
+---
+
+## 14. Ukázka `Dockerfile`
+
+**Řekni:** „Do souboru napíšeme instrukce: použijeme čistý Java 17 image, nakopírujeme `server.jar` a `start.sh`, vytvoříme uživatele `minecraft` a složku `/data`, vystavíme port 25565 a nastavíme spouštěcí bod.“
+
+**Zapojení / ukázka:** Projděte řádky v Dockerfile od `FROM` až po `ENTRYPOINT`.
+
+**Přechod:** „Vysvětleme si detailně jednotlivé instrukces.“
+
+---
+
+## 15. Vysvětlení instrukcí Dockerfile
+
+**Řekni:** „`FROM` vezme Java runtime. `COPY` přenese naše soubory z počítače do image. `RUN` vytvoří neprivilegovaného uživatele `minecraft` kvůli bezpečnosti — server tak neběží jako root. `ENTRYPOINT` spustí náš `start.sh`.“
+
+**Zapojení / ukázka:** Zdůrazněte bezpečnostní aspekt běhu pod uživatelem `minecraft`.
+
+**Přechod:** „Přejděme do třetí kategorie: Konfigurace `docker-compose.yml`.“
+
+---
+
+## 16. Kategorie 3: Konfigurace docker-compose.yml
+
+**Řekni:** „Ve třetí části napíšeme konfigurační soubor Compose, který propojí náš Dockerfile se sítí a diskovým úložištěm.“
 
 **Zapojení / ukázka:** Zobrazte dělící slajd kategorie 3.
+
+**Přechod:** „Vysvětleme si, co je soubor `docker-compose.yml`.“
+
+---
+
+## 17. Co je `docker-compose.yml`?
+
+**Řekni:** „Soubor `docker-compose.yml` je recept pro Docker Compose. Říká Dockeru, jak z našeho Dockerfile sestavit image a s jakým nastavením ho spustit.“
+
+**Zapojení / ukázka:** Ukažte, že soubor budeme upravovat v terminálovém editoru nano.
+
+**Přechod:** „Vytvořme soubor `docker-compose.yml`.“
+
+---
+
+## 18. Krok 5: Vytvoření souboru Compose
+
+**Řekni:** „V terminálu zadejte příkaz `nano docker-compose.yml`. Otevře se textový editor.“
+
+**Zapojení / ukázka:** Ověřte, že všichni píší do složky `mc-server`.
+
+**Přechod:** „Podívejme se na obsah souboru `docker-compose.yml`.“
+
+---
+
+## 19. Ukázka `docker-compose.yml`
+
+**Řekni:** „Compose klíčem `build: context: .` říká, že má sestavit image z našeho Dockerfile v aktuální složce. Dále definujeme port 25565, souhlas EULA: TRUE, paměť 2G a volume `./data:/data`.“
+
+**Zapojení / ukázka:** Projděte jednotlivé řádky v YAML souboru.
+
+**Přechod:** „Vysvětleme si nastavení EULA a paměti RAM.“
+
+---
+
+## 20. Vysvětlení: Souhlas s EULA a paměť
+
+**Řekni:** „Položka `EULA: "TRUE"` předá proměnnou prostředí do nášho skriptu `start.sh`, který ji zkontroluje a zapíše souhlas do souboru `eula.txt`. `MEMORY: "2G"` zase omezí paměť Javy.“
+
+**Zapojení / ukázka:** Ukažte spojitost mezi `environment:` v compose a `EULA` proměnnou ve `start.sh`.
+
+**Přechod:** „Přejděme do čtvrté kategorie: Síťové porty a Úložiště.“
+
+---
+
+## 21. Kategorie 4: Síťové porty a Úložiště (Volumes)
+
+**Řekni:** „Ve čtvrté části si vysvětlíme, jak se k serveru připojujeme a jak ukládáme postavený svět na disk.“
+
+**Zapojení / ukázka:** Zobrazte dělící slajd kategorie 4.
 
 **Přechod:** „Vysvětleme si pojem síťový port.“
 
 ---
 
-## 17. Co je to síťový port?
+## 22. Co je to síťový port?
 
 **Řekni:** „Síťový port si můžete představit jako číslo dveří v budově. Minecraft hry používají pro komunikaci po síti standardní port číslo 25565.“
 
@@ -174,9 +224,9 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ---
 
-## 18. Mapování portu v Compose
+## 23. Mapování portu v Compose
 
-**Řekni:** „Zápis `25565:25565` v sekci `ports` propojí port vášho počítače s portem uvnitř kontejneru. Díky tomu bude hra schopna server najít.“
+**Řekni:** „Zápis `25565:25565` v sekci `ports` propojí port vášho počítače s portem uvnitř kontejneru. Díky tomu bude hra schopna server najít na `localhost:25565`.“
 
 **Zapojení / ukázka:** Vysvětlete rozdíl mezi vnějším a vnitřním portem.
 
@@ -184,9 +234,9 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ---
 
-## 19. Proč potřebujeme Úložiště (Volume)?
+## 24. Proč potřebujeme Úložiště (Volume)?
 
-**Řekni:** „Docker kontejnery standardně po zastavení neukládají své změny. Bez trvalého úložiště by se po každém vypnutí smazal celý váš postavený svět.“
+**Řekni:** „Docker kontejnery jsou dočasné. Po zastavení nebo smazání kontejneru se veškeré neuložené změny ztratí. Bez trvalého úložiště byste přišli o postavený svět.“
 
 **Zapojení / ukázka:** Zdůrazněte důležitost zachování dat na disku.
 
@@ -194,47 +244,47 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ---
 
-## 20. Nastavení Volume v Compose
+## 25. Nastavení Volume v Compose
 
-**Řekni:** „Řádek `- ./data:/data` v sekci `volumes` vytvoří na vašem počítači složku `data` a propojí ji s kontejnerem. Veškeré změny a mapa se budou ukládat na váš disk.“
+**Řekni:** „Řádek `- ./data:/data` v sekci `volumes` vytvoří na vašem počítači složku `data` a propojí ji se složkou `/data` v kontejneru. Díky `cd /data` ve `start.sh` se veškerý stav ukládá sem.“
 
 **Zapojení / ukázka:** Ukažte tečku a lomítko v zápisu `./data`.
 
-**Přechod:** „Co přesně složka `data` obsahuje?“
+**Přechod:** „Co přesně složka `./data` obsahuje?“
 
 ---
 
-## 21. Co se uloží do složky `./data`?
+## 26. Co se uloží do složky `./data`?
 
-**Řekni:** „Ve složce `data` najdete podadresář `world` s mapou světa, konfigurační soubor `server.properties` a seznam administrátorů `ops.json`.“
+**Řekni:** „Ve složce `./data` najdete podadresář `world` s mapou světa, konfigurační soubor `server.properties` a seznam administrátorů `ops.json`.“
 
-**Zapojení / ukázka:** Vysvětlete, že díky této složce je zálohování velmi snadné.
+**Zapojení / ukázka:** Vysvětlete, že díky této složce je zálohování a úprava nastavení velmi snadná.
 
-**Přechod:** „Přejděme do čtvrté kategorie: Spuštění a připojení.“
-
----
-
-## 22. Kategorie 4: Spuštění serveru a připojení
-
-**Řekni:** „Ve čtvrté části server poprvé spustíme a připojíme se do hry.“
-
-**Zapojení / ukázka:** Zobrazte dělící slajd kategorie 4.
-
-**Přechod:** „Jaký příkaz použijeme ke spuštění?“
+**Přechod:** „Přejděme do páté kategorie: Spuštění serveru a připojení.“
 
 ---
 
-## 23. Spuštění příkazem `up`
+## 27. Kategorie 5: Spuštění serveru a připojení
 
-**Řekni:** „Nejdřív zadejte `docker compose build`, aby Docker z našeho Dockerfile sestavil image. Potom spusťte `docker compose up -d`; Docker vytvoří kontejner z image a nastartuje server.“
+**Řekni:** „V páté části server sestavíme, poprvé spustíme a připojíme se do hry.“
 
-**Zapojení / ukázka:** Předveďte zadání příkazu na projektoru.
+**Zapojení / ukázka:** Zobrazte dělící slajd kategorie 5.
+
+**Přechod:** „Jaké příkazy použijeme ke spuštění?“
+
+---
+
+## 28. Sestavení image a spuštění příkazem `up`
+
+**Řekni:** „Nejdřív zadejte `docker compose build`, čímž Docker podle `Dockerfile` sestaví náš nový image `muj-minecraft:1.20.4`. Potom spusťte `docker compose up -d`, který vytvoří a nastartuje kontejner.“
+
+**Zapojení / ukázka:** Předveďte zadání obou příkazů na projektoru.
 
 **Přechod:** „Vysvětleme si význam parametru `-d`.“
 
 ---
 
-## 24. Co znamená parametr `-d`?
+## 29. Co znamená parametr `-d`?
 
 **Řekni:** „Parametr `-d` znamená 'detached'. Spustí server na pozadí, takže vám terminál zůstane volný pro zadávání dalších příkazů.“
 
@@ -244,17 +294,17 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ---
 
-## 25. Sledování startu v logu
+## 30. Sledování startu v logu
 
-**Řekni:** „První start zabere asi půl minuty, protože se stahuje server a generuje mapa. Průběh sledujeme příkazem `docker-compose logs -f`.“
+**Řekni:** „První start zabere asi půl minuty, protože se generuje mapa a startuje Java. Průběh sledujeme příkazem `docker compose logs -f`. Sledování ukončíme zkratkou Ctrl+C.“
 
-**Zapojení / ukázka:** Ukažte ukončení sledování logů pomocí zkratky Ctrl+C.
+**Zapojení / ukázka:** Ukažte výpis logů a ukončení sledování pomocí Ctrl+C.
 
 **Přechod:** „Jak poznáme, že je server připraven?“
 
 ---
 
-## 26. Jak poznám, že server běží?
+## 31. Jak poznám, že server běží?
 
 **Řekni:** „Jakmile se v logu objeví hláška `Done (...)! For help, type "help"`, znamená to, že je server plně načten a připraven pro hráče.“
 
@@ -264,29 +314,29 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ---
 
-## 27. Připojení ze hry Minecraft
+## 32. Připojení ze hry Minecraft
 
 **Řekni:** „Spusťte Minecraft klient verze 1.20.4, zvolte Hra pro více hráčů, klikněte na Přímé připojení a do adresy napište `localhost`. Klikněte na Připojit se ke serveru.“
 
 **Zapojení / ukázka:** Předveďte přihlášení postavy do hry na projektoru.
 
-**Přechod:** „Přejděme do páté kategorie: Admin práva a správa příkazů.“
+**Přechod:** „Přejděme do šesté kategorie: Admin práva a správa konzole.“
 
 ---
 
-## 28. Kategorie 5: Admin práva a správa
+## 33. Kategorie 6: Admin práva a správa konzole
 
-**Řekni:** „V páté části si ukážeme, jak dávat příkazy v konzoli a spravovat admin práva.“
+**Řekni:** „V šesté části si ukážeme, jak se připojit ke konzoli kontejneru a jak spravovat admin práva.“
 
-**Zapojení / ukázka:** Zobrazte dělící slajd kategorie 5.
+**Zapojení / ukázka:** Zobrazte dělící slajd kategorie 6.
 
-**Přechod:** „Co je to RCON konzole?“
+**Přechod:** „Co je to serverová konzole?“
 
 ---
 
-## 29. Co je RCON konzole?
+## 34. Co je serverová konzole?
 
-**Řekni:** „RCON konzole je rozhraní, které nám umožňuje posílat příkazy přímo do spuštěného Minecraft serveru z terminálu Linuxu.“
+**Řekni:** „Serverová konzole je přímo běžící proces Minecraftu. Pomocí příkazu `docker attach mc-server` se připojíme k jeho standardnímu vstupu a výstupu.“
 
 **Zapojení / ukázka:** Vysvětlete, že nemusíte být přihlášeni ve hře, abyste mohli dělat správu.
 
@@ -294,19 +344,19 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ---
 
-## 30. Udělení admin práv (OP)
+## 35. Udělení admin práv (OP)
 
-**Řekni:** „Pro udělení admin práv zadejte v terminálu: `docker exec -i mc-server rcon-cli op student`. Slovo `student` nahraďte vaším herním jménem.“
+**Řekni:** „V terminálu zadejte `docker attach mc-server` a po připojení zadejte příkaz `op student`. Slovo `student` nahraďte vaším herním jménem. Pro odpojení stiskněte sekvenci `Ctrl+P` a potom `Ctrl+Q`.“
 
-**Zapojení / ukázka:** Ukažte v logu hry zprávu „Made student a server operator“.
+**Zapojení / ukázka:** Předveďte přikoupení konzole, příkaz `op` a bezpečné odpojení přes Ctrl+P, Ctrl+Q.
 
 **Přechod:** „Jaké další příkazy můžeme v konzoli použít?“
 
 ---
 
-## 31. Základní příkazy v konzoli
+## 36. Základní příkazy v konzoli
 
-**Řekni:** „V konzoli můžeme měnit čas příkazem `time set day` nebo přepínat herní módy příkazem `gamemode creative student`.“
+**Řekni:** „V konzoli můžeme měnit čas příkazem `time set day` nebo přepínat herní módy příkazem `gamemode creative student`. V konzoli nepíšeme úvodní lomítko `/`.“
 
 **Zapojení / ukázka:** Předveďte změnu času na den přímo před studenty.
 
@@ -314,9 +364,9 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ---
 
-## 32. Úprava nastavení serveru
+## 37. Úprava nastavení serveru
 
-**Řekni:** „Pokud chcete změnit pravidla (např. vypnout PVP), otevřete soubor `./data/server.properties` v editoru nano a změňte požadovaný řádek.“
+**Řekni:** „Pokud chcete změnit pravidla (např. vypnout PVP nebo změnit uvitací zprávu), otevřete soubor `./data/server.properties` v editoru nano a změňte požadovaný řádek.“
 
 **Zapojení / ukázka:** Ukažte soubor `server.properties` na projektoru.
 
@@ -324,27 +374,27 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ---
 
-## 33. Restartování kontejneru
+## 38. Restartování kontejneru
 
-**Řekni:** „Po úpravě nastavení stačí v terminálu zadat `docker-compose restart`. Server se během několika sekund restartuje s novým nastavením.“
+**Řekni:** „Po úpravě nastavení stačí v terminálu zadat `docker compose restart`. Server se během několika sekund restartuje s novým nastavením.“
 
 **Zapojení / ukázka:** Předveďte rychlost restartu kontejneru.
 
-**Přechod:** „Přejděme do šesté kategorie: Zálohování a samostatné cvičení.“
+**Přechod:** „Přejděme do sedmé kategorie: Zálohování a samostatné cvičení.“
 
 ---
 
-## 34. Kategorie 6: Zálohování a cvičení
+## 39. Kategorie 7: Zálohování a cvičení
 
 **Řekni:** „V závěrečné části si ukážeme zálohování dat a dáme si samostatný úkol.“
 
-**Zapojení / ukázka:** Zobrazte dělící slajd kategorie 6.
+**Zapojení / ukázka:** Zobrazte dělící slajd kategorie 7.
 
 **Přechod:** „Jak vytvoříme zálohu světa?“
 
 ---
 
-## 35. Jak vytvořit zálohu světa?
+## 40. Jak vytvořit zálohu světa?
 
 **Řekni:** „Protože jsou všechna data ve složce `./data`, vytvoříme zálohu zabalením této složky do archivu příkazem `tar -czvf zaloha-mc.tar.gz ./data`.“
 
@@ -354,9 +404,9 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ---
 
-## 36. Jak obnovit svět ze zálohy?
+## 41. Jak obnovit svět ze zálohy?
 
-**Řekni:** „Pokud chceme svět obnovit, nejprve zastavíme server příkazem `docker-compose down`, rozbalíme zálohu `tar -xzvf zaloha-mc.tar.gz` a opět server spustíme `docker-compose up -d`.“
+**Řekni:** „Pokud chceme svět obnovit, nejprve zastavíme server příkazem `docker compose down`, rozbalíme zálohu `tar -xzvf zaloha-mc.tar.gz` a opět server spustíme `docker compose up -d`.“
 
 **Zapojení / ukázka:** Vysvětlete jednoduchost obnovy.
 
@@ -364,9 +414,9 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ---
 
-## 37. Samostatné cvičení
+## 42. Samostatné cvičení
 
-**Řekni:** „Nyní máte čas na samostatný úkol: Vytvořte novou složku `~/muj-mc-server`, stáhněte do ní `server.jar`, vytvořte `Dockerfile`, `start.sh` a `docker-compose.yml`, sestavte vlastní image přes `docker compose build` a spusťte server.“
+**Řekni:** „Nyní máte čas na samostatný úkol: Vytvořte složku `~/muj-mc-server`, stáhněte `server.jar`, vytvořte `start.sh` (s `chmod +x`), napište `Dockerfile` a `docker-compose.yml`, sestavte image přes `docker compose build` a spusťte server.“
 
 **Zapojení / ukázka:** Obcházejte učebnu a pomáhejte účastníkům s plněním úkolu.
 
@@ -374,8 +424,8 @@ Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** před
 
 ---
 
-## 38. Shrnutí modulu
+## 43. Shrnutí modulu
 
-**Řekni:** „Dnes jsme si sami sestavili Minecraft image z Java základu, vlastního Dockerfile a oficiálního `server.jar`. K tomu jsme napsali Compose, namapovali port, uložili svět na disk a spravovali server přes RCON. Skvělá práce!“
+**Řekni:** „Dnes jsme si sami sestavili Minecraft image z Java základu, vlastního Dockerfile a oficiálního `server.jar`. K tomu jsme napsali Compose, namapovali port, uložili svět na disk a spravovali server přes konzoli. Skvělá práce!“
 
 **Zapojení / ukázka:** Otevřete prostor pro případné dotazy účastníků.

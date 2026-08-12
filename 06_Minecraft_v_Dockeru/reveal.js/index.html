@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="css/presentation.css">
     <style>
       .code-block {
-        font-size: 0.6em;
-        line-height: 1.4;
+        font-size: 0.55em;
+        line-height: 1.35;
       }
       .highlight-box {
         background: #f8fafc;
@@ -41,20 +41,21 @@
         <section>
           <h1>6. Minecraft v Dockeru</h1>
           <p>Letní škola sítí</p>
-          <p><small>Jednoduchý průvodce spuštěním herního serveru</small></p>
+          <p><small>Průvodce vytvořením vlastního Docker image a kontejneru</small></p>
         </section>
 
         <!-- Slide 2: Co dnes probereme -->
         <section>
           <h2>Co dnes probereme</h2>
-          <ol style="font-size: 0.8em; line-height: 1.6;">
+          <ol style="font-size: 0.75em; line-height: 1.5;">
             <li class="fragment">Proč spouštět Minecraft v Dockeru</li>
-            <li class="fragment">Stažení <code>server.jar</code> z oficiální stránky</li>
-            <li class="fragment">Vytvoření vlastního <code>Dockerfile</code> a <code>start.sh</code></li>
-            <li class="fragment">Vytvoření konfiguračního souboru <code>docker-compose.yml</code></li>
-            <li class="fragment">Síťové porty a uložení světa na disk</li>
-            <li class="fragment">Spuštění serveru a připojení ze hry</li>
-            <li class="fragment">Správa admin práv a konzole (RCON)</li>
+            <li class="fragment">Příprava složky a stažení <code>server.jar</code></li>
+            <li class="fragment">Vytvoření startovacího skriptu <code>start.sh</code></li>
+            <li class="fragment">Napsání vlastního <code>Dockerfile</code></li>
+            <li class="fragment">Konfigurace <code>docker-compose.yml</code></li>
+            <li class="fragment">Síťové porty a trvalé úložiště (Volumes)</li>
+            <li class="fragment">Sestavení (build), spuštění a připojení ze hry</li>
+            <li class="fragment">Správa admin práv a konzole</li>
             <li class="fragment">Zálohování a samostatné cvičení</li>
           </ol>
         </section>
@@ -70,44 +71,36 @@
             <ul>
               <li class="fragment">Program běžící na počítači, ke kterému se připojují hráči.</li>
               <li class="fragment">Počítá fyziku, uchovává bloky a synchronizuje hráče.</li>
-              <li class="fragment">Klasicky vyžaduje instalaci Javy a nastavení systému.</li>
+              <li class="fragment">Klasicky vyžaduje instalaci Javy a manuální konfiguraci v systému.</li>
             </ul>
           </section>
           <section>
             <h2>Proč použít Docker?</h2>
             <ul>
-              <li class="fragment"><strong>Javu nemusíme instalovat do hostitele:</strong> Použijeme ji uvnitř našeho image.</li>
-              <li class="fragment"><strong>Žádný nepořádek:</strong> Server běží v izolované složce.</li>
-              <li class="fragment"><strong>Učíme se build:</strong> Dockerfile si napíšeme sami.</li>
+              <li class="fragment"><strong>Javu nemusíme instalovat do hostitele:</strong> Použijeme ji uvnitř kontejneru.</li>
+              <li class="fragment"><strong>Žádný nepořádek v systému:</strong> Server běží v izolovaném prostředí.</li>
+              <li class="fragment"><strong>Učíme se build:</strong> Napíšeme si vlastní Dockerfile a skripty.</li>
             </ul>
           </section>
           <section>
             <h2>Náš vlastní Minecraft image</h2>
             <ul>
-              <li class="fragment">Nepoužijeme hotový image s Minecraftem.</li>
-              <li class="fragment">Napíšeme vlastní <code>Dockerfile</code> a vlastní startovací skript.</li>
-              <li class="fragment">Jako základ použijeme pouze Java runtime a serverový <code>server.jar</code>.</li>
+              <li class="fragment">Nepoužijeme hotový image z Docker Hubu.</li>
+              <li class="fragment">Sestavíme vlastní image z čistého Java základu (JRE 17).</li>
+              <li class="fragment">Přidáme oficiální <code>server.jar</code> a náš startovací skript.</li>
             </ul>
           </section>
         </section>
 
-        <!-- KATEGORIE 2: Příprava konfigurace -->
+        <!-- KATEGORIE 2: Příprava prostředí, start.sh a Dockerfile -->
         <section>
           <section>
             <h2>Kategorie 2</h2>
-            <h3>Konfigurace docker-compose.yml</h3>
-          </section>
-          <section>
-            <h2>Co je <code>docker-compose.yml</code>?</h2>
-            <ul>
-              <li class="fragment">Textový soubor, který funguje jako recept.</li>
-              <li class="fragment">Říká Dockeru, jaký server chceme spustit.</li>
-              <li class="fragment">Zapisuje se v přehledném formátu YAML.</li>
-            </ul>
+            <h3>Příprava skriptu start.sh a Dockerfile</h3>
           </section>
           <section>
             <h2>Krok 1: Vytvoření složky</h2>
-            <p>V terminálu si nejprve vytvoříme složku pro náš server:</p>
+            <p>V terminálu vytvoříme novou složku pro náš Minecraft server:</p>
             <pre><code class="language-bash code-block" data-trim>
 # Vytvořit složku mc-server
 mkdir mc-server
@@ -121,17 +114,104 @@ cd mc-server
             <p>Stáhneme oficiální Java server a uložíme ho do složky <code>mc-server</code>:</p>
             <ol style="font-size: 0.8em; line-height: 1.5;">
               <li class="fragment">Otevřete <code>minecraft.net/en-us/download/server</code>.</li>
-              <li class="fragment">Stáhněte server pro verzi, kterou chcete hrát.</li>
-              <li class="fragment">Přejmenujte soubor na <code>server.jar</code>.</li>
+              <li class="fragment">Stáhněte server pro požadovanou verzi (např. 1.20.4).</li>
+              <li class="fragment">Uložte soubor jako <code>server.jar</code> ve složce <code>mc-server</code>.</li>
             </ol>
-            <pre><code class="language-bash code-block" data-trim>
+            <pre class="fragment"><code class="language-bash code-block" data-trim>
 ls -lh server.jar
             </code></pre>
-            <p><small>Soubor necommitujeme — patří do lokálního build contextu.</small></p>
           </section>
           <section>
-            <h2>Krok 3: Vytvoření souboru</h2>
-            <p>Otevřeme textový editor <code>nano</code>:</p>
+            <h2>Krok 3: Vytvoření <code>start.sh</code></h2>
+            <p>Startovací skript zkontroluje souhlas s EULA a spustí Minecraft z adresáře <code>/data</code>:</p>
+            <pre><code class="language-bash code-block" data-trim>
+nano start.sh
+            </code></pre>
+          </section>
+          <section>
+            <h2>Ukázka <code>start.sh</code></h2>
+            <pre><code class="language-bash code-block" data-trim>
+#!/bin/sh
+set -eu
+
+if [ "${EULA:-FALSE}" != "TRUE" ]; then
+  echo "Server se nespustí: nastav EULA=TRUE v compose." >&2
+  exit 1
+fi
+
+mkdir -p /data
+printf 'eula=true\n' > /data/eula.txt
+
+cd /data
+
+exec java -Xms"${MEMORY:-1G}" -Xmx"${MEMORY:-2G}" \
+  -jar /opt/minecraft/server.jar nogui
+            </code></pre>
+          </section>
+          <section>
+            <h2>Nastavení spustitelných práv pro <code>start.sh</code></h2>
+            <p>Aby mohl Linux skript spustit, dáme mu práva k vykonání:</p>
+            <pre><code class="language-bash code-block" data-trim>
+chmod +x start.sh
+            </code></pre>
+          </section>
+          <section>
+            <h2>Krok 4: Vytvoření <code>Dockerfile</code></h2>
+            <p>Nyní napíšeme předpis (Dockerfile), ze kterého Docker vytvoří náš image:</p>
+            <pre><code class="language-bash code-block" data-trim>
+nano Dockerfile
+            </code></pre>
+          </section>
+          <section>
+            <h2>Ukázka <code>Dockerfile</code></h2>
+            <pre><code class="language-dockerfile code-block" data-trim>
+FROM eclipse-temurin:17-jre
+
+WORKDIR /opt/minecraft
+
+COPY server.jar /opt/minecraft/server.jar
+COPY start.sh /usr/local/bin/start-minecraft
+
+RUN chmod +x /usr/local/bin/start-minecraft \
+    && useradd --create-home --uid 1000 minecraft \
+    && mkdir -p /data \
+    && chown -R minecraft:minecraft /opt/minecraft /data /usr/local/bin/start-minecraft
+
+USER minecraft
+EXPOSE 25565
+VOLUME ["/data"]
+ENTRYPOINT ["start-minecraft"]
+            </code></pre>
+          </section>
+          <section>
+            <h2>Vysvětlení instrukcí Dockerfile</h2>
+            <ul style="font-size: 0.75em;">
+              <li class="fragment"><code>FROM</code> — Základní image s Java Runtime Environment (Temurin Java 17).</li>
+              <li class="fragment"><code>COPY</code> — Zkopíruje <code>server.jar</code> a <code>start.sh</code> do kontejneru.</li>
+              <li class="fragment"><code>RUN</code> — Nastaví práva a vytvoří neprivilegovaného uživatele <code>minecraft</code>.</li>
+              <li class="fragment"><code>USER minecraft</code> — Bezpečnostní pravidlo: server neběží jako root.</li>
+              <li class="fragment"><code>EXPOSE 25565</code> — Deklaruje síťový port hry.</li>
+              <li class="fragment"><code>ENTRYPOINT</code> — Spustí náš skript při startu kontejneru.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 3: Konfigurace docker-compose.yml -->
+        <section>
+          <section>
+            <h2>Kategorie 3</h2>
+            <h3>Konfigurace docker-compose.yml</h3>
+          </section>
+          <section>
+            <h2>Co je <code>docker-compose.yml</code>?</h2>
+            <ul>
+              <li class="fragment">Textový soubor (recept), který definuje běh kontejneru.</li>
+              <li class="fragment">Propojuje náš <code>Dockerfile</code>, porty, paměť a trvalá data.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Krok 5: Vytvoření souboru Compose</h2>
+            <p>Otevřeme editor nano pro <code>docker-compose.yml</code>:</p>
             <pre><code class="language-bash code-block" data-trim>
 nano docker-compose.yml
             </code></pre>
@@ -157,54 +237,26 @@ services:
             </code></pre>
           </section>
           <section>
-            <h2>Vysvětlení: Souhlas s EULA</h2>
-            <pre><code class="language-yaml code-block" data-trim>
-environment:
-  EULA: "TRUE"
-            </code></pre>
+            <h2>Vysvětlení: Souhlas s EULA a paměť</h2>
             <ul>
-              <li class="fragment">Souhlas s podmínkami použití od tvůrců hry Mojang.</li>
-              <li class="fragment">Bez tohoto řádku se server z bezpečnostních důvodů nespustí.</li>
-            </ul>
-          </section>
-          <section>
-            <h2>Vysvětlení: Náš Dockerfile</h2>
-            <pre><code class="language-dockerfile code-block" data-trim>
-FROM eclipse-temurin:17-jre
-COPY server.jar /opt/minecraft/server.jar
-COPY start.sh /usr/local/bin/start-minecraft
-ENTRYPOINT ["start-minecraft"]
-            </code></pre>
-            <ul>
-              <li class="fragment"><code>FROM</code> — čistý Java základ, ne hotový Minecraft image.</li>
-              <li class="fragment"><code>COPY</code> — vloží náš server a náš startovací skript.</li>
-              <li class="fragment"><code>ENTRYPOINT</code> — spustí server při startu kontejneru.</li>
-            </ul>
-          </section>
-          <section>
-            <h2>Vysvětlení: Paměť RAM</h2>
-            <pre><code class="language-yaml code-block" data-trim>
-environment:
-  MEMORY: "2G"
-            </code></pre>
-            <ul>
-              <li class="fragment">Určuje, kolik operační paměti může server využít.</li>
-              <li class="fragment">Pro běžné hraní v učebně stačí <code>2G</code> (2 Gigabajty).</li>
+              <li class="fragment"><code>EULA: "TRUE"</code> — Souhlas s licenčními podmínkami Mojangu. Skript <code>start.sh</code> ho zkontroluje a zapíše do <code>eula.txt</code>.</li>
+              <li class="fragment"><code>MEMORY: "2G"</code> — Předá parametr RAM pro Java proces (max 2 GB).</li>
+              <li class="fragment"><code>build: context: .</code> — Říká Compose, aby sestavil image z <code>Dockerfile</code> v aktuální složce.</li>
             </ul>
           </section>
         </section>
 
-        <!-- KATEGORIE 3: Síť a Úložiště -->
+        <!-- KATEGORIE 4: Síť a Úložiště -->
         <section>
           <section>
-            <h2>Kategorie 3</h2>
-            <h3>Síťové porty a Úložiště</h3>
+            <h2>Kategorie 4</h2>
+            <h3>Síťové porty a Úložiště (Volumes)</h3>
           </section>
           <section>
             <h2>Co je to síťový port?</h2>
             <ul>
               <li class="fragment">Číslo dveří, na kterých síťová služba poslouchá.</li>
-              <li class="fragment">Minecraft Java Edition používá port <strong>25565</strong>.</li>
+              <li class="fragment">Minecraft Java Edition používá výchozí port <strong>25565</strong>.</li>
             </ul>
           </section>
           <section>
@@ -214,15 +266,15 @@ ports:
   - "25565:25565"
             </code></pre>
             <ul>
-              <li class="fragment">První číslo: Port na vašem počítači.</li>
-              <li class="fragment">Druhé číslo: Port uvnitř Docker kontejneru.</li>
+              <li class="fragment">První číslo: Port na vašem počítači (hostiteli).</li>
+              <li class="fragment">Druhé číslo: Port uvnitř kontejneru.</li>
             </ul>
           </section>
           <section>
             <h2>Proč potřebujeme Úložiště (Volume)?</h2>
             <ul>
-              <li class="fragment">Docker kontejnery neukládají data trvale.</li>
-              <li class="fragment">Bez úložiště by se po vypnutí kontejneru smazal celý svět.</li>
+              <li class="fragment">Kontejnery jsou <em>ephemerální</em> (dočasné) — nepamatují si změny po smazání.</li>
+              <li class="fragment">Bez úložiště by se po vypnutí kontejneru smazal celý vygenerovaný svět.</li>
             </ul>
           </section>
           <section>
@@ -232,31 +284,34 @@ volumes:
   - ./data:/data
             </code></pre>
             <ul>
-              <li class="fragment">Propojí složku <code>./data</code> na vašem počítači se složkou uvnitř kontejneru.</li>
-              <li class="fragment">Veškeré stavby a mapa zůstanou bezpečně uloženy na disku.</li>
+              <li class="fragment">Propojí složku <code>./data</code> na vašem počítači se složkou <code>/data</code> v kontejneru.</li>
+              <li class="fragment">Veškeré stavby, mapa i konfigurace zůstanou bezpečně na disku.</li>
             </ul>
           </section>
           <section>
             <h2>Co se uloží do složky <code>./data</code>?</h2>
             <ul>
-              <li class="fragment"><code>world/</code> — Soubory mapy a krajiny.</li>
-              <li class="fragment"><code>server.properties</code> — Hlavní nastavení hry.</li>
-              <li class="fragment"><code>ops.json</code> — Seznam administrátorů.</li>
+              <li class="fragment"><code>world/</code> — Soubory mapy a terénu.</li>
+              <li class="fragment"><code>server.properties</code> — Hlavní nastavení serveru.</li>
+              <li class="fragment"><code>ops.json</code> — Seznam administrátorů serveru.</li>
             </ul>
           </section>
         </section>
 
-        <!-- KATEGORIE 4: Spuštění a připojení -->
+        <!-- KATEGORIE 5: Spuštění a připojení -->
         <section>
           <section>
-            <h2>Kategorie 4</h2>
+            <h2>Kategorie 5</h2>
             <h3>Spuštění serveru a připojení</h3>
           </section>
           <section>
-            <h2>Spuštění příkazem <code>up</code></h2>
-            <p>Nejdřív sestavíme náš image a potom spustíme server:</p>
+            <h2>Sestavení image a spuštění příkazem <code>up</code></h2>
+            <p>Nejprve sestavíme náš image z Dockerfile a pak vytvoříme kontejner:</p>
             <pre><code class="language-bash code-block" data-trim>
+# 1. Sestavit vlastní image
 docker compose build
+
+# 2. Spustit kontejner na pozadí
 docker compose up -d
             </code></pre>
           </section>
@@ -269,15 +324,15 @@ docker compose up -d
           </section>
           <section>
             <h2>Sledování startu v logu</h2>
-            <p>Stahování a generování světa sledujeme příkazem:</p>
+            <p>Generování světa a start Javy sledujeme v reálném čase:</p>
             <pre><code class="language-bash code-block" data-trim>
-docker-compose logs -f
+docker compose logs -f
             </code></pre>
             <p class="fragment"><small>Sledování ukončíme stiskem kláves <code>Ctrl + C</code>.</small></p>
           </section>
           <section>
             <h2>Jak poznám, že server běží?</h2>
-            <p>V logu se objeví řádek potvrdzující dokončení:</p>
+            <p>V logu se objeví řádek potvrzující dokončení načítání světa:</p>
             <pre><code class="language-text code-block" data-trim>
 [Server thread/INFO]: Done (18.421s)! For help, type "help"
             </code></pre>
@@ -293,58 +348,63 @@ docker-compose logs -f
           </section>
         </section>
 
-        <!-- KATEGORIE 5: Admin práva a správa příkazů -->
+        <!-- KATEGORIE 6: Admin práva a správa konzole -->
         <section>
           <section>
-            <h2>Kategorie 5</h2>
-            <h3>Admin práva a správa</h3>
+            <h2>Kategorie 6</h2>
+            <h3>Admin práva a správa konzole</h3>
           </section>
           <section>
-            <h2>Co je RCON konzole?</h2>
+            <h2>Co je serverová konzole?</h2>
             <ul>
-              <li class="fragment">Nástroj pro posílání příkazů do serveru z terminálu.</li>
-              <li class="fragment">Umožňuje spravovat server bez přihlášení do hry.</li>
+              <li class="fragment">Rozhraní pro zadávání příkazů přímo spuštěnému serveru.</li>
+              <li class="fragment">Umožňuje spravovat server a příkazy i bez přihlášení do hry.</li>
+              <li class="fragment">Připojíme se k ní příkazem <code>docker attach mc-server</code>.</li>
             </ul>
           </section>
           <section>
             <h2>Udělení admin práv (OP)</h2>
-            <p>V terminálu zadejte příkaz:</p>
+            <p>Připojte se ke konzoli kontejneru a zadejte příkaz:</p>
             <pre><code class="language-bash code-block" data-trim>
-docker exec -i mc-server rcon-cli op student
+# Připojit se ke konzoli
+docker attach mc-server
+
+# Uvnitř konzole zadat:
+op student
             </code></pre>
-            <p class="fragment"><small>Nahraďte <code>student</code> vaším herním jménem (Nickem).</small></p>
+            <p class="fragment"><small>Nahraďte <code>student</code> vaším herním jménem. Odpojení: <code>Ctrl + P</code> pak <code>Ctrl + Q</code>.</small></p>
           </section>
           <section>
             <h2>Základní příkazy v konzoli</h2>
             <pre><code class="language-bash code-block" data-trim>
-# Nastavení dne ve hře
-docker exec -i mc-server rcon-cli time set day
+# Nastavení dne ve hře (v konzoli nepíšeme lomítko /)
+time set day
 
-# Změna herního módu na Creative
-docker exec -i mc-server rcon-cli gamemode creative student
+# Změna herního módu na Creative pro hráče student
+gamemode creative student
             </code></pre>
           </section>
           <section>
             <h2>Úprava nastavení serveru</h2>
             <ol style="font-size: 0.85em;">
               <li class="fragment">Otevřete soubor <code>./data/server.properties</code> v nano.</li>
-              <li class="fragment">Upravte požadovaný parametr (např. <code>pvp=false</code>).</li>
+              <li class="fragment">Upravte požadovaný parametr (např. <code>pvp=false</code> nebo <code>motd=Vitej na serveru!</code>).</li>
               <li class="fragment">Uložte soubor.</li>
             </ol>
           </section>
           <section>
             <h2>Restartování kontejneru</h2>
-            <p>Aby se změny v nastavení projevily, restartujeme server:</p>
+            <p>Aby se změny v <code>server.properties</code> projevily, restartujeme kontejner:</p>
             <pre><code class="language-bash code-block" data-trim>
-docker-compose restart
+docker compose restart
             </code></pre>
           </section>
         </section>
 
-        <!-- KATEGORIE 6: Zálohování a cvičení -->
+        <!-- KATEGORIE 7: Zálohování a cvičení -->
         <section>
           <section>
-            <h2>Kategorie 6</h2>
+            <h2>Kategorie 7</h2>
             <h3>Zálohování a cvičení</h3>
           </section>
           <section>
@@ -358,34 +418,35 @@ tar -czvf zaloha-mc.tar.gz ./data
             <h2>Jak obnovit svět ze zálohy?</h2>
             <pre><code class="language-bash code-block" data-trim>
 # 1. Zastavit server
-docker-compose down
+docker compose down
 
 # 2. Obnovit složku data ze zálohy
 tar -xzvf zaloha-mc.tar.gz
 
 # 3. Opět spustit server
-docker-compose up -d
+docker compose up -d
             </code></pre>
           </section>
           <section>
             <h2>Samostatné cvičení</h2>
-            <ol style="font-size: 0.8em;">
+            <ol style="font-size: 0.75em;">
               <li class="fragment">Vytvořte složku <code>~/muj-mc-server</code>.</li>
-              <li class="fragment">Stáhněte oficiální <code>server.jar</code> a vytvořte <code>Dockerfile</code> se <code>start.sh</code>.</li>
-              <li class="fragment">Vytvořte <code>docker-compose.yml</code> s klíčem <code>build</code>.</li>
-              <li class="fragment">Sestavte vlastní image příkazem <code>docker compose build</code>.</li>
-              <li class="fragment">Spusťte server a zkontrolujte logy.</li>
-              <li class="fragment">Připojte se ze hry na adresu <code>localhost</code>.</li>
+              <li class="fragment">Stáhněte <code>server.jar</code>.</li>
+              <li class="fragment">Vytvořte <code>start.sh</code> a nastavte spustitelná práva (`chmod +x`).</li>
+              <li class="fragment">Napište <code>Dockerfile</code> podle předlohy.</li>
+              <li class="fragment">Vytvořte <code>docker-compose.yml</code>.</li>
+              <li class="fragment">Sestavte image (`docker compose build`) a spusťte (`docker compose up -d`).</li>
+              <li class="fragment">Připojte se ze hry na <code>localhost</code> a dejte si admin práva (`op`).</li>
             </ol>
           </section>
           <section>
             <h2>Shrnutí modulu</h2>
-            <ul>
-              <li class="fragment">Víme, jak sestavit vlastní Minecraft image.</li>
-              <li class="fragment">Rozumíme souborům <code>Dockerfile</code> a <code>start.sh</code>.</li>
-              <li class="fragment">Rozumíme souboru <code>docker-compose.yml</code>.</li>
-              <li class="fragment">Umíme namapovat port 25565 a uložit data na disk.</li>
-              <li class="fragment">Umíme spravovat admin práva přes RCON.</li>
+            <ul style="font-size: 0.8em;">
+              <li class="fragment">Víme, jak sestavit vlastní Minecraft image z Java základu.</li>
+              <li class="fragment">Rozumíme souborům <code>start.sh</code>, <code>Dockerfile</code> a <code>docker-compose.yml</code>.</li>
+              <li class="fragment">Umíme namapovat port 25565 a uplatnit persistentní Volume v <code>./data</code>.</li>
+              <li class="fragment">Umíme spravovat admin práva přes konzoli (`docker attach`).</li>
+              <li class="fragment">Umíme zálohovat a obnovovat svět na disku.</li>
             </ul>
           </section>
         </section>
