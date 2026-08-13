@@ -3,24 +3,365 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10. Hacking Wi-Fi</title>
+    <title>10. Hacking Wi-Fi v Kali Linuxu</title>
     <link rel="stylesheet" href="dist/reset.css">
     <link rel="stylesheet" href="dist/reveal.css">
     <link rel="stylesheet" href="dist/theme/white.css" id="theme">
     <link rel="stylesheet" href="dist/plugin/highlight/monokai.css">
     <link rel="stylesheet" href="css/presentation.css">
+    <style>
+      .code-block {
+        font-size: 0.65em;
+        line-height: 1.4;
+      }
+      .two-cols {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        text-align: left;
+        font-size: 0.85em;
+      }
+      .col {
+        flex: 1;
+      }
+      .badge-blue {
+        background-color: #007acc;
+        color: white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+      .badge-green {
+        background-color: #28a745;
+        color: white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+      .badge-orange {
+        background-color: #f6821f;
+        color: white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+      .badge-red {
+        background-color: #dc3545;
+        color: white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+      .highlight-box {
+        background-color: #f8f9fa;
+        border-left: 5px solid #007acc;
+        padding: 1rem;
+        margin-top: 1rem;
+        text-align: left;
+        font-size: 0.85em;
+      }
+    </style>
   </head>
   <body>
     <div class="reveal">
       <div class="slides">
+
+        <!-- Slide 1: Titulní -->
         <section>
-          <h1>12. Hacking Wi-Fi</h1>
-          <p>Letní škola sítí</p>
+          <h1>10. Hacking Wi-Fi &amp; Bezdrátové sítě</h1>
+          <p style="font-size: 1.3em; color: #555; margin-top: 1rem;">Letní škola sítí</p>
+          <p style="margin-top: 1.5rem;"><small>Testování bezpečnosti Wi-Fi v prostředí Kali Linux</small></p>
         </section>
+
+        <!-- Slide 2: Co se dnes naučíme -->
         <section>
-          <h2>Připravuje se...</h2>
-          <p>Obsah této prezentace bude brzy doplněn.</p>
+          <h2>Co se dnes naučíme?</h2>
+          <ol style="font-size: 0.85em; line-height: 1.8;">
+            <li class="fragment">Jak funguje Wi-Fi komunikace (IEEE 802.11)</li>
+            <li class="fragment">Přepnutí Wi-Fi karty do Monitor módu (<code>airmon-ng</code>)</li>
+            <li class="fragment">Skenování okolních síťových vysílačů (<code>airodump-ng</code>)</li>
+            <li class="fragment">Deautentizační útok a zachycení WPA2 Handshaku (<code>aireplay-ng</code>)</li>
+            <li class="fragment">Slovníkový útok na heslo (<code>aircrack-ng</code> a <code>hashcat</code>)</li>
+          </ol>
         </section>
+
+        <!-- KATEGORIE 1: Principy a protokoly Wi-Fi -->
+        <section>
+          <section>
+            <h2>Kategorie 1</h2>
+            <h3>Základy Wi-Fi a bezpečnostní protokoly</h3>
+          </section>
+
+          <section>
+            <h2>Jak funguje Wi-Fi (IEEE 802.11)?</h2>
+            <ul>
+              <li class="fragment"><strong>Vzduch jako sdílené médium:</strong> Pakety létají vzduchem nešifrovaně nebo šifrovaně v rádiových vlnách (2.4 GHz / 5 GHz / 6 GHz).</li>
+              <li class="fragment"><strong>SSID:</strong> Viditelný název sítě (např. <code>MojeMojeWifi</code>).</li>
+              <li class="fragment"><strong>BSSID:</strong> Unikátní MAC adresa prístupového bodu (AP / routeru).</li>
+              <li class="fragment"><strong>Kanál (Channel):</strong> Frekvenční pásmo, na kterém síť vysílá.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Vývoj bezpečnosti Wi-Fi</h2>
+            <div class="two-cols">
+              <div class="col fragment">
+                <span class="badge-red">WEP (Zastaralé)</span>
+                <p style="font-size: 0.85em; margin-top: 0.5rem;">Primitivní RC4 šifrování. Dnes prolomitelné během několika sekund.</p>
+              </div>
+              <div class="col fragment">
+                <span class="badge-orange">WPA / WPA2-PSK</span>
+                <p style="font-size: 0.85em; margin-top: 0.5rem;">Používá AES šifrování a 4-Way Handshake. Zranitelné vůči offline slovníkovým útokům.</p>
+              </div>
+              <div class="col fragment">
+                <span class="badge-green">WPA3</span>
+                <p style="font-size: 0.85em; margin-top: 0.5rem;">Nejnovější standard (SAE handshake). Odolné vůči slovníkovým útokům z odchyceného provozu.</p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 2: Příprava v Kali Linuxu -->
+        <section>
+          <section>
+            <h2>Kategorie 2</h2>
+            <h3>Příprava prostředí v Kali Linuxu</h3>
+          </section>
+
+          <section>
+            <h2>Co je to Kali Linux a Aircrack-ng?</h2>
+            <ul>
+              <li class="fragment"><strong>Kali Linux:</strong> Specializovaná penetrační distribuci se stovkami předinstalovaných bezpečnostních nástrojů.</li>
+              <li class="fragment"><strong>Aircrack-ng suite:</strong> Kompletní sada nástrojů pro audity Wi-Fi sítí:
+                <ul>
+                  <li><code>airmon-ng</code> – správa módů karty</li>
+                  <li><code>airodump-ng</code> – odchytávání paketů</li>
+                  <li><code>aireplay-ng</code> – generování útočných rámců</li>
+                  <li><code>aircrack-ng</code> – louskání hesel</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Módy Wi-Fi karty</h2>
+            <div class="two-cols">
+              <div class="col fragment">
+                <span class="badge-blue">Managed Mode (Běžný)</span>
+                <ul style="font-size:0.85em; margin-top: 0.5rem;">
+                  <li>Karta přijímá jen pakety určené pro váš počítač.</li>
+                  <li>Ostatní pakety ze vzduchu ignoruje a zahazuje.</li>
+                </ul>
+              </div>
+              <div class="col fragment">
+                <span class="badge-orange">Monitor Mode (Monitorovací)</span>
+                <ul style="font-size:0.85em; margin-top: 0.5rem;">
+                  <li>Karta odchytává VŠECHNY pakety ve vzduchu na zvoleném kanálu.</li>
+                  <li>Nutné pro pentesting a odchytávání handshaku!</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Krok 1: Kontrola rozhraní</h2>
+            <p>V Kali Linuxu zjistíme název bezdrátové karty příkazem <code>iwconfig</code>:</p>
+            <pre><code class="language-bash code-block">iwconfig</code></pre>
+            <div class="highlight-box fragment">
+              <p>Hledáme rozhraní jako <code>wlan0</code> nebo <code>wlan1</code>.</p>
+            </div>
+          </section>
+
+          <section>
+            <h2>Krok 2: Ukočení rušivých procesů</h2>
+            <p>Správci sítě (NetworkManager, wpa_supplicant) mohou s přepnutím karty soupeřit:</p>
+            <pre><code class="language-bash code-block">sudo airmon-ng check kill</code></pre>
+            <p style="font-size: 0.75em;" class="fragment">Tento příkaz ukončí procesy na pozadí, které by kartu vracely do managed módu.</p>
+          </section>
+
+          <section>
+            <h2>Krok 3: Spuštění Monitor módu</h2>
+            <p>Přepneme kartu <code>wlan0</code> do monitorovacího režimu:</p>
+            <pre><code class="language-bash code-block">sudo airmon-ng start wlan0</code></pre>
+            <p style="font-size: 0.8em; margin-top: 1rem;" class="fragment">Vznikne nové rozhraní: <code>wlan0mon</code>.</p>
+            <pre class="fragment"><code class="language-bash code-block">iwconfig wlan0mon</code></pre>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 3: Skenování a odchytávání (airodump-ng) -->
+        <section>
+          <section>
+            <h2>Kategorie 3</h2>
+            <h3>Skenování a zacílení pomocí <code>airodump-ng</code></h3>
+          </section>
+
+          <section>
+            <h2>Krok 4: Skenování okolí</h2>
+            <p>Spustíme skener, který prohledává všechny kanály ve vzduchu:</p>
+            <pre><code class="language-bash code-block">sudo airodump-ng wlan0mon</code></pre>
+            <p style="font-size: 0.75em;" class="fragment">Vypíše seznam dostupných přístupových bodů (AP) a připojených klientů.</p>
+          </section>
+
+          <section>
+            <h2>Jak číst výstup <code>airodump-ng</code>?</h2>
+            <ul style="font-size: 0.85em;">
+              <li class="fragment"><strong>BSSID:</strong> MAC adresa routeru (AP).</li>
+              <li class="fragment"><strong>PWR:</strong> Síla signálu (např. -45 dBm je silný, -85 dBm je slabý).</li>
+              <li class="fragment"><strong>CH:</strong> Číslo kanálu (Channel).</li>
+              <li class="fragment"><strong>ENC / CIPHER:</strong> Typ šifrování (WPA2, CCMP, PSK).</li>
+              <li class="fragment"><strong>ESSID:</strong> Název Wi-Fi sítě.</li>
+              <li class="fragment"><strong>STATION:</strong> MAC adresa připojeného zařízení (mobil, notebook).</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Krok 5: Zacílení na konkrétní síť</h2>
+            <p>Lockneme kartu na kanál oběti a ukládáme pakety do souboru:</p>
+            <pre><code class="language-bash code-block">sudo airodump-ng -c 6 --bssid AA:BB:CC:DD:EE:FF -w vysledek wlan0mon</code></pre>
+            <div class="highlight-box fragment">
+              <p><code>-c 6</code> = Číslo kanálu</p>
+              <p><code>--bssid ...</code> = MAC adresa cilového routeru</p>
+              <p><code>-w vysledek</code> = Prefix pro uložení do <code>vysledek-01.cap</code></p>
+            </div>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 4: Deautentizační útok & Handshake -->
+        <section>
+          <section>
+            <h2>Kategorie 4</h2>
+            <h3>Deautentizační útok a zachycení WPA2 Handshaku</h3>
+          </section>
+
+          <section>
+            <h2>Co je to WPA2 4-Way Handshake?</h2>
+            <p class="big-text">Proces, při kterém se klient přihlašuje k Wi-Fi síti.</p>
+            <ul>
+              <li class="fragment">Při přihlášení si klient a AP vymění 4 speciální pakety.</li>
+              <li class="fragment">V těchto paketách je zašifrovaný důkaz, že obě strany znají heslo!</li>
+              <li class="fragment">Pokud tento 4-Way Handshake odchytíme, můžeme z něj heslo zkoušet louskat doma.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Jak vynutit přihlášení? (Deautentizace)</h2>
+            <p style="font-size: 0.85em;">Nechceme čekat hodiny, až se někdo dobrovolně přihlásí. Pošleme deautentizační rámec!</p>
+            <div class="highlight-box fragment">
+              <p><strong>802.11 Deauth frame:</strong> V Wi-Fi síti nejsou řídící rámce šifrované! Útočník může poslat zprávu jménem routeru: <em>„Odpoj se!“</em></p>
+            </div>
+          </section>
+
+          <section>
+            <h2>Krok 6: Spuštění útok <code>aireplay-ng</code></h2>
+            <p>V druhém okně terminálu odešleme 10 deautentizačních paketů klientovi:</p>
+            <pre><code class="language-bash code-block">sudo aireplay-ng --deauth 10 -a AA:BB:CC:DD:EE:FF -c 11:22:33:44:55:66 wlan0mon</code></pre>
+            <ul style="font-size:0.8em; margin-top:1rem;">
+              <li class="fragment"><code>-a ...</code> = MAC adresa routeru (BSSID)</li>
+              <li class="fragment"><code>-c ...</code> = MAC adresa odpojovaného klienta (Station)</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Krok 7: Kontrola zachyceného Handshaku</h2>
+            <p>V okně s <code>airodump-ng</code> sledeme horní pravý roh:</p>
+            <div class="highlight-box fragment" style="border-left-color: #28a745;">
+              <p style="color: #28a745; font-weight: bold;">[ WPA handshake: AA:BB:CC:DD:EE:FF ]</p>
+            </div>
+            <p style="font-size: 0.8em; margin-top: 1rem;" class="fragment">Máme vyhráno! Handshake je uložený v souboru <code>vysledek-01.cap</code>.</p>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 5: Prolamování hesla (Cracking) -->
+        <section>
+          <section>
+            <h2>Kategorie 5</h2>
+            <h3>Prolamování hesla (Offline Slovníkový Útok)</h3>
+          </section>
+
+          <section>
+            <h2>Jak funguje louskání (Cracking)?</h2>
+            <ul>
+              <li class="fragment">Handshake neobsahuje heslo v čitelné podobě.</li>
+              <li class="fragment"><strong>Slovníkový útok (Dictionary Attack):</strong> Vezmeme slovo ze slovníku (např. <code>12345678</code>, <code>heslo123</code>), spočítáme z něj kryptografický klíč a ověříme, zda odpovídá Handshaku.</li>
+              <li class="fragment">Útok probíhá kompletně <strong>OFFLINE</strong> na našem počítači! Router o ničem neví.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Krok 8: Prolomení pomocí <code>aircrack-ng</code></h2>
+            <p>Použijeme vestavěný slovník v Kali Linuxu (<code>rockyou.txt</code>):</p>
+            <pre><code class="language-bash code-block">aircrack-ng -w /usr/share/wordlists/rockyou.txt vysledek-01.cap</code></pre>
+            <div class="highlight-box fragment">
+              <p><code>rockyou.txt</code> obsahuje přes 14 miliónů nejčastějších reálných hesel!</p>
+            </div>
+          </section>
+
+          <section>
+            <h2>Co když heslo najdeme?</h2>
+            <p style="font-size: 0.85em;">Pokud bylo heslo ve slovníku, <code>aircrack-ng</code> ho vypíše:</p>
+            <div class="highlight-box fragment" style="border-left-color: #28a745;">
+              <p style="color: #28a745; font-weight: bold;">KEY FOUND! [ slunicko123 ]</p>
+            </div>
+          </section>
+
+          <section>
+            <h2>Extrémní zrychlení přes Grafickou kartu (Hashcat)</h2>
+            <p>Při louskání přes procesor (CPU) zvládnete ~2 000 hesel/s. Na GPU (Nvidia/AMD) zvládnete <strong>500 000+ hesel/s</strong>!</p>
+            <pre class="fragment"><code class="language-bash code-block"># 1. Převod .cap na .hc22000 formát
+hcxpcapngtool -o export.hc22000 vysledek-01.cap
+
+# 2. Spuštění louskání v Hashcatu na GPU
+hashcat -m 22000 export.hc22000 /usr/share/wordlists/rockyou.txt</code></pre>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 6: Ochrana, Etika a Cvičení -->
+        <section>
+          <section>
+            <h2>Kategorie 6</h2>
+            <h3>Ochrana, etická pravidla a cvičení</h3>
+          </section>
+
+          <section>
+            <h2>Jak zabezpečit vlastní Wi-Fi?</h2>
+            <ul>
+              <li class="fragment"><strong>Silné heslo:</strong> Používejte heslo s délkou 15+ znaků (odolné vůči slovníkům).</li>
+              <li class="fragment"><strong>Používejte WPA3 nebo WPA2-AES:</strong> Vypněte staré WEP a WPA1.</li>
+              <li class="fragment"><strong>Vypněte WPS (Wi-Fi Protected Setup):</strong> WPS obsahuje vážné zranitelnosti (Pixie Dust attack).</li>
+              <li class="fragment"><strong>Aktualizujte firmware routeru.</strong></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Zlatá pravidla bezpečnosti a etiky</h2>
+            <div class="highlight-box">
+              <p><strong>1. Testujeme výhradně vlastní síť:</strong> Útočit na cizí Wi-Fi bez písemného svolení je trestný čin!</p>
+              <p><strong>2. V učebně testujeme pouze na vyhrazeném AP:</strong> Neskenujte ani neodpojujte ostatní spolužáky ani školní síť.</p>
+            </div>
+          </section>
+
+          <section>
+            <h2>Dnešní praktické cvičení v Kali Linuxu</h2>
+            <ol style="font-size:0.85em; line-height: 1.8;">
+              <li class="fragment">Otevřete terminál v Kali Linuxu a zjistěte rozhraní (<code>iwconfig</code>).</li>
+              <li class="fragment">Přepněte kartu do monitor módu (<code>sudo airmon-ng start wlan0</code>).</li>
+              <li class="fragment">Vyhledejte testovací síť Letní školy sítí pomocí <code>airodump-ng</code>.</li>
+              <li class="fragment">Zachyťte WPA2 Handshake při přihlášení testovacího zařízení.</li>
+              <li class="fragment">Použijte <code>aircrack-ng</code> se slovníkem <code>rockyou.txt</code> a odhalte heslo!</li>
+            </ol>
+          </section>
+
+          <section>
+            <h2>Co si z dneška odnést</h2>
+            <ul>
+              <li class="fragment"><code>airmon-ng</code> přepíná kartu do Monitor módu.</li>
+              <li class="fragment"><code>airodump-ng</code> skenuje provoz a ukladá handshaky do <code>.cap</code>.</li>
+              <li class="fragment"><code>aireplay-ng</code> posílá deautentizační pakety k vynucení přihlášení.</li>
+              <li class="fragment">WPA2 bezpečí závisí na SILNÉM a DLOUHÉM heslu!</li>
+            </ul>
+          </section>
+        </section>
+
       </div>
     </div>
     <script src="dist/reveal.js"></script>
