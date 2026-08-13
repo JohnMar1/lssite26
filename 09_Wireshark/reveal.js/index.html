@@ -30,6 +30,9 @@
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         margin-top: 0.5rem;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
       }
       .badge-blue {
         background-color: #007acc;
@@ -76,9 +79,8 @@
         <!-- Slide 1: Titulní -->
         <section>
           <h1>9. Síťová analýza &amp; Wireshark</h1>
-          <p>Letní škola sítí</p>
-          <p><small>Přednášejí: Michal Koudela, Jan Marval</small></p>
-          <img src="images/image1.png" alt="Wireshark Logo" style="max-height: 120px; border: none; box-shadow: none; margin-top: 1rem;">
+          <p style="font-size: 1.3em; color: #555; margin-top: 1rem;">Letní škola sítí</p>
+          <p style="margin-top: 1.5rem;"><small>Přednášejí: Michal Koudela, Jan Marval</small></p>
         </section>
 
         <!-- Slide 2: Co je to Traffic Capture -->
@@ -90,7 +92,7 @@
                 <li class="fragment">Chceme-li analyzovat síť, musíme provoz odchytit na rozhraní (interfacu).</li>
                 <li class="fragment">Data se ukládají do souborů: <code>.pcap</code>, <code>.pcapng</code>, <code>.cap</code>, <code>.dmp</code>.</li>
                 <li class="fragment"><strong>Kdo odchytává:</strong> <code>tcpdump</code> (odchytává TCP i UDP).</li>
-                <li class="fragment"><strong>Kdo analizuje:</strong> <code>Wireshark</code> (GUI) a <code>tshark</code> / <code>termshark</code> (CLI).</li>
+                <li class="fragment"><strong>Kdo analyzuje:</strong> <code>Wireshark</code> (GUI) a <code>tshark</code> / <code>termshark</code> (CLI).</li>
               </ul>
             </div>
           </div>
@@ -119,7 +121,7 @@
               </ul>
             </div>
           </div>
-          <img src="images/image2.png" alt="Wireshark vs Tshark" class="slide-img fragment" style="max-height: 180px;">
+          <img src="images/image2.png" alt="Tshark logo" class="slide-img fragment" style="max-height: 140px; margin-top: 1.5rem;">
         </section>
 
         <!-- Slide 4: Jak začít odchytávat -->
@@ -127,7 +129,7 @@
           <h2>Jak začít odchytávat v Wiresharku</h2>
           <div class="two-cols">
             <div class="col">
-              <ol style="font-size: 0.9em; line-height: 1.6;">
+              <ol style="font-size: 0.85em; line-height: 1.6;">
                 <li class="fragment"><strong>Výběr rozhraní:</strong> Uprostřed vybereme síťovou kartu (např. <code>eth0</code>, <code>en0</code>, <code>wlan0</code>), kde vidíme graf provozu.</li>
                 <li class="fragment"><strong>Start odchytávání:</strong> Klikneme na <span class="badge-blue">Modrou žraločí ploutev</span>.</li>
                 <li class="fragment"><strong>Zastavení:</strong> Klikneme na <span class="badge-red">Červený čtvereček</span>.</li>
@@ -144,7 +146,7 @@
         <section>
           <h2>Přehled rozhraní Wiresharku</h2>
           <img src="images/image14.png" alt="Wireshark UI Overview" class="slide-img" style="max-height: 380px;">
-          <p style="font-size: 0.75em;" class="fragment">Horní část: Seznam paketů | Prostřední část: Anatomie paketu | Dolní část: Hexa bajty</p>
+          <p style="font-size: 0.75em; margin-top: 0.5rem;" class="fragment">Horní část: Seznam paketů | Prostřední část: Anatomie paketu | Dolní část: Hexa bajty</p>
         </section>
 
         <!-- Slide 6: Jak vypadá zachycený paket -->
@@ -310,7 +312,7 @@
             <div class="col">
               <ul style="font-size: 0.85em;">
                 <li class="fragment"><strong>Telnet:</strong> Starý protokol bez šifrování. Všechno (včetně jména a hesla) je v pcapu čitelné v plain-textu! <span class="badge-red">Nebezpečné!</span></li>
-                <li class="fragment"><strong>SSH (SSHv2):** Moderní šifrovaný protokol. Veškerá komunikace je kryptograficky chráněna. <span class="badge-green">Bezpečné</span></li>
+                <li class="fragment"><strong>SSH (SSHv2):</strong> Moderní šifrovaný protokol. Veškerá komunikace je kryptograficky chráněna. <span class="badge-green">Bezpečné</span></li>
               </ul>
             </div>
             <div class="col">
@@ -329,7 +331,7 @@
           <ol style="font-size: 0.85em; line-height: 1.8; margin-top: 1rem;">
             <li class="fragment">Rozbalte soubory a otevřete je ve Wiresharku.</li>
             <li class="fragment">Vyfiltrujte si komunikaci na <code>telnet</code> a najděte zachycené heslo.</li>
-            <li class="fragment">Pomocí filtru <code>http</code> najděte přihlašovací udaje na webu.</li>
+            <li class="fragment">Pomocí filtru <code>http</code> najděte přihlašovací údaje na webu.</li>
             <li class="fragment">Zkoušejte funkce <code>Follow TCP Stream</code> a <code>Export Objects</code>.</li>
           </ol>
         </section>
