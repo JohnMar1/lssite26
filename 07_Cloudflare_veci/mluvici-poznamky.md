@@ -1,341 +1,301 @@
-# Mluvené poznámky ke každému slajdu — Letní škola sítí: 7. Cloudflare a publikování služeb
+# Mluvené poznámky ke každému slajdu — Letní škola sítí: 7. Cloudflare, EmailProfi a publikování služeb
 
 Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** představuje hotovou formulaci výkladu, **Zapojení / ukázka** uvádí praktické akce v učebně a **Přechod** pomáhá plynule navázat na další téma.
 
 ---
 
-## 1. Titulní slajd — Cloudflare a publikování služeb
+## 1. Titulní slajd — Cloudflare, EmailProfi a publikování služeb
 
-**Řekni:** „Vítám vás u modulu 7. Cloudflare a publikování služeb. Dnes si ukážeme, jak vaše aplikace a servery publikovat do celého internetu pomocí vaší vlastní domény.“
+**Řekni:** „Vítám vás u modulu 7: Cloudflare, EmailProfi a publikování služeb. Dnes si ukážeme, jak plně ovládnout vaši novou doménu, jak si na ní zprovoznit profesionální e-mail na Seznamu zdarma a jak bezpečně publikovat vlastní webové i jiné servery do internetu pomocí Cloudflare Tunnel jako systémové služby.“
 
-**Zapojení / ukázka:** Zeptejte se účastníků: „Kdo z vás už někdy zkoušel dostat svoji webovou stránku nebo herní server na internet?“
+**Zapojení / ukázka:** Zeptejte se v třídě: „Kdo z vás už někdy spravoval DNS záznamy nebo chtěl vlastní e-mailovou schránku typu `jmeno@mojedomena.cz`?“
 
-**Přechod:** „Podívejme se na přehled témat, která si dnes probereme.“
+**Přechod:** „Pojďme si projít stručný přehled témat, kterým se dnes budeme věnovat.“
 
 ---
 
 ## 2. Co dnes probereme
 
-**Řekni:** „Projdeme si vše od základů: vysvětlíme si fungování domén a Cloudflare, představíme si nástroj Cloudflare Tunnel, nainstalujeme a přihlásíme `cloudflared`, vytvoříme tunel, nastavíme směrování a na závěr si vše otestujeme.“
+**Řekni:** „Dnes si projdeme 5 hlavních bloků: Prozkoumáme rozhraní Cloudflaru a správy DNS, zprovozníme e-mail na vlastní doméně přes EmailProfi od Seznamu, nainstalujeme si konektor `cloudflared` jako systémovou službu přes `systemctl` a pak si ukážeme, jak všechny subdomény a aplikace přidávat přímo pohodlně z webového prohlížeče.“
 
-**Zapojení / ukázka:** Projděte seznam na slajdu.
+**Zapojení / ukázka:** Projděte body agendy na slajdu.
 
-**Přechod:** „Začněme první kategorií: Vlastní doména a Cloudflare.“
+**Přechod:** „Začněme první kategorií: Správa domény v Cloudflare dashboardu.“
 
 ---
 
-## 3. Kategorie 1: Vlastní doména a Cloudflare
+## 3. Kategorie 1: Cloudflare Dashboard a nastavení domény
 
-**Řekni:** „V první části si vysvětlíme, co je to doména a jaké výhody nám přináší služba Cloudflare.“
+**Řekni:** „V první části se podíváme na rozhraní Cloudflare, vysvětlíme si základní druhy DNS záznamů a klíčový rozdíl mezi proxovaným provozem a přímým směrováním.“
 
 **Zapojení / ukázka:** Zobrazte dělící slajd kategorie 1.
 
-**Přechod:** „Máme skvělou zprávu: každý z vás má vlastní doménu!“
+**Přechod:** „Každý z vás už má doménu přidanou v Cloudflaru.“
 
 ---
 
-## 4. Máme vlastní doménu!
+## 4. Máme vlastní doménu v Cloudflaru!
 
-**Řekni:** „Každý účastník Letní školy sítí od nás dostal vlastní doménu. Dnes ji použijeme k tomu, abyste mohli své projekty ukázat komukoliv na světě.“
+**Řekni:** „Všichni účastníci Letní školy sítí od nás obdrželi svou vlastní doménu. Vaše domény mají jako autoritativní jmenné servery nastavený Cloudflare, takže veškerá konfigurační magie se odehrává na jednom přehledném místě.“
 
-**Zapojení / ukázka:** Sdělte účastníkům jejich přidělené názvy domén.
+**Zapojení / ukázka:** Vyberte jednoho studenta a ukažte přihlášení do rozhraní Cloudflare na jeho doméně na projektoru.
 
-**Přechod:** „Vysvětleme si, co je to doména.“
-
----
-
-## 5. Co je to doména (DNS)?
-
-**Řekni:** „Doména je lidsky čitelná adresa webu, jako je například `mojedomena.cz`. Nahrazuje složité číselné IP adresy. Systém DNS funguje jako telefonní seznam internetu, který tyto názvy překládá.“
-
-**Zapojení / ukázka:** Přirovnejte doménu ke jménu v kontaktech telefonu.
-
-**Přechod:** „Co je to služba Cloudflare?“
+**Přechod:** „Ukažme si základní záložky v rozhraní Cloudflare.“
 
 ---
 
-## 6. Co je Cloudflare?
+## 5. Přehled Cloudflare rozhraní
 
-**Řekni:** „Cloudflare je celosvětová síť serverů. Poskytuje rychlé DNS překlady, chrání weby před útoky a automaticky dodává bezplatné bezpečnostní SSL certifikáty.“
+**Řekni:** „V Cloudflare dashboardu najdete několik zásadních sekcí: V záložce DNS spravujeme doménové záznamy, v SSL/TLS nastavujeme šifrování webu, v Security řídíme firewallové ochrany a v záložce Zero Trust spravujeme naše tunely.“
 
-**Zapojení / ukázka:** Vysvětlete, že Cloudflare stojí jako ochranný štít mezi návštěvníkem a vaším počítačem.
+**Zapojení / ukázka:** Klikněte v prohlížeči na jednotlivé položky v levém menu Cloudflaru a ukažte jejich umístění.
 
-**Přechod:** „Jak se běžně publikují služby bez Cloudflare?“
-
----
-
-## 7. Jak se běžně publikují služby?
-
-**Řekni:** „Tradiční publikování vyžaduje mít od poskytovatele veřejnou IP adresu a ručně nastavit přesměrování portů na routeru.“
-
-**Zapojení / ukázka:** Ukažte na tabuli schéma připojení přes veřejnou IP.
-
-**Přechod:** „Proč je veřejná IP v praxi problém?“
+**Přechod:** „Pojďme si zopakovat hlavní typy DNS záznamů.“
 
 ---
 
-## 8. Proč je veřejná IP problém?
+## 6. Správa DNS záznamů
 
-**Řekni:** „Většina domácností i škol veřejnou IP adresu nemá nebo si za ni poskytovatelé účtují vysoké poplatky. Navíc přímé vystavení počítače do internetu přináší bezpečnostní rizika.“
+**Řekni:** „V DNS se nejčastěji setkáte se čtyřmi typy záznamů: A záznam přikládá doménu k IPv4 adrese, CNAME slouží jako odkaz neboli alias na jiný doménový název, MX určí poštovní servery a TXT slouží pro uložení ověřovacích textů, SPF a DKIM klíčů.“
 
-**Zapojení / ukázka:** Zdůrazněte, že v učebně veřejné IP adresy na počítačích nemáme.
+**Zapojení / ukázka:** Přironejte CNAME k přesměrování a TXT ke zprávě pro ověření totožnosti.
 
-**Přechod:** „Přejděme do druhé kategorie: Princip Cloudflare Tunnel.“
+**Přechod:** „Nyní si vysvětlíme extrémně důležitý koncept Cloudflaru: Oranžový a Šedý obláček.“
 
 ---
 
-## 9. Kategorie 2: Princip Cloudflare Tunnel
+## 7. Oranžový vs. Šedý obláček
 
-**Řekni:** „Ve druhé části si představíme technologii Cloudflare Tunnel.“
+**Řekni:** „Oranžový obláček znamená 'Proxied'. Provoz z internetu jde nejprve na servery Cloudflaru, které ho zabezpečí, zašifrují a ochrání před DDoS útoky. To je skvělé pro webové aplikace na HTTP a HTTPS. Šedý obláček znamená 'DNS Only'. Cloudflare vrátí přímo vaši skutečnou IP adresu bez proxyování. Šedý obláček je nutný pro e-maily (MX) a pro nespecifické ne-webové protokoly.“
+
+**Zapojení / ukázka:** Ukažte přepínač Proxy Status v rozhraní Cloudflare DNS.
+
+**Přechod:** „Podívejme se na nastavení SSL/TLS a bezpečnostních prvků.“
+
+---
+
+## 8. SSL/TLS a bezpečnostní prvky
+
+**Řekni:** „Cloudflare vám zdarma poskytuje SSL certifikát. V záložce Edge Certificates zapneme funkce 'Always Use HTTPS' a 'Automatic HTTPS Rewrites', díky čemž se každý návštěvník automaticky přesměruje na bezpečný šifrovaný protokol.“
+
+**Zapojení / ukázka:** Ukažte zapnutí přepínače 'Always Use HTTPS'.
+
+**Přechod:** „Přejděme do druhé kategorie: E-mail na vlastní doméně přes EmailProfi od Seznamu.“
+
+---
+
+## 9. Kategorie 2: E-mail na vlastní doméně přes EmailProfi od Seznamu
+
+**Řekni:** „Ve druhé části si založíme a nakonfigurujeme plnohodnotnou e-mailovou schránku na vlastní doméně s využitím služby EmailProfi od české společnosti Seznam.cz.“
 
 **Zapojení / ukázka:** Zobrazte dělící slajd kategorie 2.
 
-**Přechod:** „Co je to Cloudflare Tunnel?“
+**Přechod:** „Co je to vlastně EmailProfi?“
 
 ---
 
-## 10. Co je Cloudflare Tunnel?
+## 10. Co je EmailProfi od Seznam.cz?
 
-**Řekni:** „Cloudflare Tunnel je bezpečný šifrovaný tunel spojený mezi vaším počítačem a servery Cloudflare. Umožňuje publikovat jakoukoliv službu zcela bez veřejné IP adresy.“
+**Řekni:** „EmailProfi je bezplatná služba od Seznamu, která vám umožní používat doménu (např. `mojedomena.cz`) pro odesílání a příjem e-mailů. Můžete tak mít e-mail `jan@mojedomena.cz` a přihlašovat se k němu přes klasické webové rozhraní Seznamu nebo mobilní aplikaci.“
 
-**Zapojení / ukázka:** Přirovnejte tunel k bezpečnému potrubí vedoucímu přímo z vašeho PC do internetu.
+**Zapojení / ukázka:** Zobrazte úvodní stránku `emailprofi.seznam.cz`.
 
-**Přechod:** „Jaká je hlavní výhoda tunelu?“
-
----
-
-## 11. Hlavní výhoda tunelu
-
-**Řekni:** „Hlavní výhodou je, že se nemusíte dotýkat žádných routerů ani řešit pravidla v síti. Vše funguje i na školní síti nebo na mobilním hotspotu.“
-
-**Zapojení / ukázka:** Zdůrazněte, že nastavení zvládne každý bez přístupu k routeru.
-
-**Přechod:** „Jak tunel funguje na pozadí?“
+**Přechod:** „Jak začít s registrací domény na Seznamu?“
 
 ---
 
-## 12. Jak tunel funguje?
+## 11. Krok 1: Registrace na EmailProfi
 
-**Řekni:** „Náš počítač naváže odchozí spojení na servery Cloudflare. Návštěvník se připojí na Cloudflare a ten přeposílá data přes náš vytvořený tunel k nám.“
+**Řekni:** „Jděte na `emailprofi.seznam.cz`, přihlaste se svým běžným účtem na Seznamu a klikněte na tlačítko 'Přidat doménu'. Zadejte vaši doménu a Seznam vám zobrazí unikátní ověřovací kód.“
 
-**Zapojení / ukázka:** Ukažte rozbor odchozího a příchozího datového toku.
+**Zapojení / ukázka:** Předveďte vkládání domény do administrace EmailProfi.
 
-**Přechod:** „Jaké to má bezpečnostní přínosy?“
-
----
-
-## 13. Bezpečnostní přínos
-
-**Řekni:** „Protože spojení vychází z našeho počítače ven, všechny příchozí porty na našem PC zůstanou zavřené a útočníci nevidí naši skutečnou IP adresu.“
-
-**Zapojení / ukázka:** Zdůrazněte vysoký stupeň zabezpečení.
-
-**Přechod:** „Přejděme do třetí kategorie: Instalace a přihlášení cloudflared.“
+**Přechod:** „Jak dokážeme Seznamu, že doména patří právě nám?“
 
 ---
 
-## 14. Kategorie 3: Instalace a přihlášení cloudflared
+## 12. Krok 2: Ověření domény v Cloudflare DNS
 
-**Řekni:** „Ve třetí části si nainstalujeme pomocný program `cloudflared`.“
+**Řekni:** „V Cloudflaru v sekci DNS přidejte nový `TXT` záznam. Jako název zadejte `@` (což představuje kořen domény) a do obsahu vložte vygenerovaný řetězec `seznam-site-verification=...`. Jakmile záznam uložíte, na Seznamu klikněte na 'Ověřit doménu'.“
+
+**Zapojení / ukázka:** Ukažte v Cloudflaru přidání TXT záznamu a následné kliknutí na tlačítko ověření v administraci Seznamu.
+
+**Přechod:** „Doménu máme ověřenou. Jak zajistíme příjem příchozích e-mailů?“
+
+---
+
+## 13. Krok 3: Nastavení MX záznamů pro příjem pošty
+
+**Řekni:** „Aby příchozí e-maily dorazily na Seznam, musíme v Cloudflare DNS vytvořit 2 poštovní MX záznamy: První směřuje na `mx1.seznam.cz` s prioritou 10, druhý na `mx2.seznam.cz` s prioritou 20. Nezapomeňte: MX záznamy MUSÍ mít šedý obláček (DNS Only)!“
+
+**Zapojení / ukázka:** Předveďte vytvoření obou MX záznamů a zdůrazněte nastavení přepínače na Šedý obláček.
+
+**Přechod:** „E-maily již přijímat umíme. Jak zajistíme, aby námi odeslané e-maily nekončily v nevyžádané poště (spamu)?“
+
+---
+
+## 14. Krok 4: Nastavení SPF a DKIM záznamů
+
+**Řekni:** „Pro vysokou doručitelnost musíme nastavit bezpečnostní standardy SPF a DKIM. Přidáme TXT záznam pro SPF s hodnotou `v=spf1 include:spf.seznam.cz ~all` a dále vložíme DKIM TXT záznam, jehož klíč nám vygeneruje administrace EmailProfi.“
+
+**Zapojení / ukázka:** Ukažte vytvoření SPF TXT záznamu a vysvětlete význam `include:spf.seznam.cz`.
+
+**Přechod:** „Znovu zdůrazněme, proč je u e-mailů vyžadován Šedý obláček.“
+
+---
+
+## 15. Proč musí mít e-mail Šedý obláček?
+
+**Řekni:** „Cloudflare v bezplatné verzi vykonává proxy pouze pro protokoly HTTP a HTTPS na portech 80 a 443. E-mailová pošta komunikuje přes protokoly SMTP na portech 25/587 a IMAP na portu 993. Pokud byste zapnuli oranžový obláček u poštovních záznamů, Cloudflare by tyto ne-webové porty zablokoval a pošta by nefungovala.“
+
+**Zapojení / ukázka:** Zobrazte schéma toku poštovních dat přímo mezi servery Seznamu a klientem.
+
+**Přechod:** „Přejděme do třetí kategorie: Cloudflare Tunnel jako systemctl služba.“
+
+---
+
+## 16. Kategorie 3: Cloudflare Tunnel jako systemctl služba
+
+**Řekni:** „Ve třetí části si představíme moderní způsob práce s Cloudflare Tunnel. Už nebudeme nic manuálně konfigurovat v terminálu, ale spravujeme tunel jako pozadní daemon přes `systemctl`.“
 
 **Zapojení / ukázka:** Zobrazte dělící slajd kategorie 3.
 
-**Přechod:** „Co je to za program?“
+**Přechod:** „V čem spočívá nový způsob správy tunelů?“
 
 ---
 
-## 15. Co je program `cloudflared`?
+## 17. Nový způsob správy Cloudflare Tunnel
 
-**Řekni:** „`cloudflared` je malý konzolový program pro Linux, který spravuje připojení nášho tunelu na pozadí.“
+**Řekni:** „Dříve bylo potřeba se v příkazové řádce přihlašovat přes `cloudflared tunnel login`, ručně tvořit soubory `config.yml` a spouštět tunel ručně. Dnes vše definujeme pohodlně z webu Cloudflare Zero Trust a na serveru pouze nainstalujeme systémovou službu konektoru.“
 
-**Zapojení / ukázka:** Vysvětlete, že program poběží jako služba.
+**Zapojení / ukázka:** Porovnejte starý manuální přístup s novým cloudově spravovaným přístupem.
 
-**Přechod:** „Nainstalujme si jej v Linuxu.“
-
----
-
-## 16. Krok 1: Instalace `cloudflared`
-
-**Řekni:** „Otevřete terminál a zadejte příkaz `sudo apt update && sudo apt install -y cloudflared`.“
-
-**Zapojení / ukázka:** Předveďte instalaci na projektoru.
-
-**Přechod:** „Jak ověříme správnost instalace?“
+**Přechod:** „Jak založíme tunel ve webovém rozhraní Cloudflare?“
 
 ---
 
-## 17. Krok 2: Ověření instalace
+## 18. Krok 1: Vytvoření tunelu ve webovém rozhraní
 
-**Řekni:** „Nainstalování ověříme příkazem `cloudflared --version`. Měla by se zobrazit aktuální verze programu.“
+**Řekni:** „V Cloudflare dashboardu vlevo otevřete **Zero Trust**. Přejděte do **Networks** &rarr; **Tunnels** a klikněte na tlačítko **Add a tunnel**. Vyberte možnost **Cloudflared**, pojmenujte tunel například `moje-lss-server` a uložte.“
 
-**Zapojení / ukázka:** Zkontrolujte výstup v terminálu studentů.
+**Zapojení / ukázka:** Klikněte na vytvoření nového tunelu v Zero Trust rozhraní na projektoru.
 
-**Přechod:** „Přihlasme se k nášmu Cloudflare účtu.“
-
----
-
-## 18. Krok 3: Přihlášení k účtu
-
-**Řekni:** „V terminálu zadejte příkaz `cloudflared tunnel login`. Tím propojíme náš počítač s účtem Cloudflare.“
-
-**Zapojení / ukázka:** Ukažte vygenerovaný webový odkaz v terminálu.
-
-**Přechod:** „Jak provedeme autorizaci domény?“
+**Přechod:** „Co nám Cloudflare nabídne v dalším kroku?“
 
 ---
 
-## 19. Krok 4: Autorizace domény
+## 19. Krok 2: Instalace `cloudflared` jako systemd služba
 
-**Řekni:** „Klikněte na odkaz v terminálu, přihlaste se v prohlížeči a vyberte vaši přidělenou doménu. Potvrďte autorizaci.“
+**Řekni:** „Webové rozhraní vám přímo vygeneruje unikátní instalátorský příkaz pro váš systém. Zvolíme možnost Debian/Ubuntu a zkopírujeme příkaz vyžadující rootovská práva: `sudo cloudflared service install <token>`. Ten v terminálu jednoduše spustíme.“
 
-**Zapojení / ukázka:** Pomozte účastníkům s výběrem domény v prohlížeči.
+**Zapojení / ukázka:** Ukažte vygenerovaný dlouhý příkaz s tokenem a vložte jej do Linuxového terminálu.
 
-**Přechod:** „Přejděme do čtvrté kategorie: Vytvoření a konfigurace tunelu.“
+**Přechod:** „Jak si ověříme, že služba na serveru správně běží?“
 
 ---
 
-## 20. Kategorie 4: Vytvoření a konfigurace tunelu
+## 20. Krok 3: Kontrola běhu služby v Linuxu
 
-**Řekni:** „Ve čtvrté části vytvoříme náš první tunel a nakonfigurujeme směrování.“
+**Řekni:** „Po dokončení instalace zadáme v terminálu příkaz `sudo systemctl status cloudflared`. Měli byste vidět zelený stav `active (running)`. Služba je zaregistrována v systému a spustí se automaticky i při restartu počítače.“
+
+**Zapojení / ukázka:** Spusťte příkaz `sudo systemctl status cloudflared` v terminálu a ukažte studentům výpis stavu.
+
+**Přechod:** „Proč je systémová služba přes `systemctl` nesrovnatelně lepší než ruční spouštění?“
+
+---
+
+## 21. Výhody instalace přes `systemctl`
+
+**Řekni:** „Hlavní výhodou je bezúdržbovost a spolehlivost. Služba běží zcela na pozadí, nepotřebujete mít otevřený terminál a v případě výpadku napájení nebo sítě se tunel po opětovném náběhu serveru automaticky sám obnoví.“
+
+**Zapojení / ukázka:** Zdůrazněte studentům, že takto se spravují produkční servery v praxi.
+
+**Přechod:** „Přejděme do čtvrté kategorie: Přidávání služeb a subdomén přes web.“
+
+---
+
+## 22. Kategorie 4: Přidávání služeb a subdomén přes web
+
+**Řekni:** „Ve čtvrté části si ukážeme, jak v rozhraní Cloudflaru přidávat nové subdomény a mapovat je na lokální porty bez jediného zásahu do terminálu serveru.“
 
 **Zapojení / ukázka:** Zobrazte dělící slajd kategorie 4.
 
-**Přechod:** „Vytvořme tunel příkazem.“
+**Přechod:** „Kde v prohlížeči nastavíme novou subdoménu?“
 
 ---
 
-## 21. Krok 5: Vytvoření tunelu
+## 23. Nastavení Public Hostname v prohlížeči
 
-**Řekni:** „V terminálu zadejte příkaz `cloudflared tunnel create moje-lss`. Tím vytvoříte nový tunel.“
+**Řekni:** „V nastavení našeho tunelu v záložce **Public Hostname** klikneme na tlačítko **Add a public hostname**. Zadáme název subdomény (např. `web`), vybereme naši doménu ze seznamu a v sekci Service zvolíme protokol `HTTP` a adresu `localhost:80`.“
 
-**Zapojení / ukázka:** Ukažte v terminálu vygenerované unikátní ID tunelu.
+**Zapojení / ukázka:** Vyplňte formulář Public Hostname na projektoru a klikněte na **Save hostname**.
 
-**Přechod:** „Co se na pozadí stalo?“
-
----
-
-## 22. Co se stalo?
-
-**Řekni:** „Vytvořilo se unikátní identifikační číslo tunelu a v domovské složce `~/.cloudflared/` se uložil bezpečnostní klíč.“
-
-**Zapojení / ukázka:** Vysvětlete, že tento klíč slouží k ověření vašich práv.
-
-**Přechod:** „Nyní propojíme doménu s tunelem.“
+**Přechod:** „Jak tento proces funguje na pozadí?“
 
 ---
 
-## 23. Krok 6: Propojení domény s tunelem
+## 24. Jak Cloudflare publikuje webovou aplikaci?
 
-**Řekni:** „Zadejte příkaz `cloudflared tunnel route dns moje-lss web.mojedomena.cz`. Název `mojedomena.cz` nahraďte vaší doménou.“
+**Řekni:** „Po uložení formuláře Cloudflare automaticky vytvoří CNAME záznam v DNS. Když libovolný uživatel z celého světa otevře `https://web.mojedomena.cz`, požadavek dorazí do síťových uzlů Cloudflare a odtud bezpečně propadne skrz náš nainstalovaný `cloudflared` daemon až na lokální port 80.“
 
-**Zapojení / ukázka:** Předveďte příkaz na projektoru.
+**Zapojení / ukázka:** Otevřete vytvořenou adresu v prohlížeči a ukažte načtení lokálního webu.
 
-**Přechod:** „Co tento příkaz vytvořil?“
-
----
-
-## 24. Co je to CNAME záznam?
-
-**Řekni:** „Příkaz automaticky vytvořil CNAME záznam v DNS. Ten říká: Kdo hledá adresu `web.mojedomena.cz`, bude přesměrován na náš tunel.“
-
-**Zapojení / ukázka:** Přirovnejte CNAME k ukazateli na rozcestí.
-
-**Přechod:** „Nyní vytvoříme konfigurační soubor.“
+**Přechod:** „Lze takto publikovat i jiné aplikace než standardní HTTP servery?“
 
 ---
 
-## 25. Krok 7: Vytvoření konfigurace
+## 25. Publikování dalších typů služeb
 
-**Řekni:** „V terminálu otevřeme editor nano zadáním `nano ~/.cloudflared/config.yml`.“
+**Řekni:** „Určitě ano! Můžete publikovat Docker kontejnery běžící na libovolném portu (např. `http://localhost:8080`), zabezpečené lokální HTTPS weby, ale i ne-webové protokoly jako TCP pro herní servery (např. Minecraft na portu 25565) nebo dokonce vzdálenou správu SSH.“
 
-**Zapojení / ukázka:** Zkontrolujte otevření editoru nano.
+**Zapojení / ukázka:** Ukažte rozevírací nabídku typů služeb (Type: HTTP, HTTPS, TCP, SSH).
 
-**Přechod:** „Podívejme se na obsah konfiguračního souboru.“
-
----
-
-## 26. Ukázka `config.yml`
-
-**Řekni:** „Do souboru vložíme ID nášho tunelu, cestu ke klíči a pravidlo směrování: požadavky na adresu `web.mojedomena.cz` pošleme na lokální port 80.“
-
-**Zapojení / ukázka:** Vysvětlete sekci `ingress` v konfiguraci.
-
-**Přechod:** „Přejděme do páté kategorie: Spuštění a testování služby.“
+**Přechod:** „Co se stane s SSL certifikátem pro nové subdomény?“
 
 ---
 
-## 27. Kategorie 5: Spuštění a testování služby
+## 26. Automatický SSL certifikát z cloudu
 
-**Řekni:** „V páté části tunel spustíme a otestujeme připojení.“
+**Řekni:** „Každá subdoména publikovaná přes Cloudflare Tunnel získá okamžitě plně důvěryhodný SSL/TLS certifikát. V prohlížeči se zobrazí zelený zámeček, aniž byste museli cokoliv instalovat nebo generovat v Linuxu.“
+
+**Zapojení / ukázka:** Klikněte v prohlížeči na ikonu zámečku vedle URL a ukažte podrobnosti vydaného SSL certifikátu od Cloudflare.
+
+**Přechod:** „Jak zabezpečit náš server pomocí lokálního firewallu UFW?“
+
+---
+
+## 27. Zabezpečení lokálního systému (Firewall UFW)
+
+**Řekni:** „Protože Cloudflare Tunnel vytváří šifrované spojení směrem ven ze serveru, nepotřebujeme mít na serveru otevřené žádné příchozí porty. Můžeme zapnout firewall `sudo ufw enable` a zakázat všechny příchozí požadavky `sudo ufw default deny incoming`. Náš server zůstane pro útočníky zvenčí zcela neviditelný, ale služby přes tunel budou perfektně fungovat!“
+
+**Zapojení / ukázka:** Předveďte zapnutí firewallu UFW v terminálu.
+
+**Přechod:** „Přejděme do páté kategorie: Samostatné cvičení a shrnutí.“
+
+---
+
+## 28. Kategorie 5: Samostatné cvičení a shrnutí
+
+**Řekni:** „V závěrečné části si všechny probírané kroky sami prakticky vyzkoušíte na vašich počítačích.“
 
 **Zapojení / ukázka:** Zobrazte dělící slajd kategorie 5.
 
-**Přechod:** „Spusťme tunel příkazem.“
+**Přechod:** „Zadejme si úkoly pro cvičení.“
 
 ---
 
-## 28. Krok 8: Spuštění tunelu
+## 29. Zadání samostatného cvičení
 
-**Řekni:** „V terminálu zadejte příkaz `cloudflared tunnel run moje-lss`. Tunel naváže spojení a začne předávat provoz.“
+**Řekni:** „Váš úkol má 4 hlavní kroky: 1. Zaregistrujte doménu na EmailProfi od Seznamu a nastavte DNS záznamy. 2. Vytvořte tunel v Cloudflare Zero Trust a nainstalujte jej jako `systemctl` službu. 3. Ověřte příkazem `systemctl status cloudflared`, že služba běží. 4. Přidejte z webu Public Hostname a vyzkoušejte načtení vaší stránky z mobilního telefonu přes HTTPS.“
 
-**Zapojení / ukázka:** Ukažte v terminálu výpis o úspěšném připojení k Cloudflare serverům.
+**Zapojení / ukázka:** Obcházejte studenty v učebně, pomáhejte s nastavováním DNS a kontrolou stavu služby `cloudflared`.
 
-**Přechod:** „Pojďme službu otestovat v prohlížeči.“
-
----
-
-## 29. Testování v prohlížeči
-
-**Řekni:** „Otevřete webový prohlížeč a zadejte adresu `https://web.mojedomena.cz`. Uvidíte vaši stránku běžet přímo z vašeho počítače!“
-
-**Zapojení / ukázka:** Předveďte načtení stránky z mobilního telefonu nebo jiného PC.
-
-**Přechod:** „Všimli jste si zabezpečení HTTPS?“
+**Přechod:** „Pojďme si na závěr celou lekci zrekapitulovat.“
 
 ---
 
-## 30. Automatický SSL certifikát
+## 30. Shrnutí modulu
 
-**Řekni:** „Cloudflare automaticky zabezpečil komunikaci šifrováním HTTPS. Vedle adresy vidíte zelený zámek, bez jakéhokoliv ručního nastavování certifikátů.“
+**Řekni:** „Dnes jsme probrali kompletní ekosystém správy domény: Umíme konfigurovat Cloudflare DNS a víme, kdy použít Šedý a Oranžový obláček. Provozujeme vlastní e-maily na Seznamu bez poplatků. Naše servery pohání Cloudflare Tunnel běžící jako spolehlivá systémová služba přes `systemctl` a nové služby publikujeme bezpečně a pohodlně přes webový dashboard. Skvělá práce!“
 
-**Zapojení / ukázka:** Ukažte detail certifikátu v prohlížeči.
-
-**Přechod:** „Jak zabezpečíme náš počítač firewallem?“
-
----
-
-## 31. Zabezpečení firewallem UFW
-
-**Řekni:** „Zapneme lokální firewall příkazem `sudo ufw enable` a zablokujeme příchozí spojení `sudo ufw default deny incoming`. Tunel bude dál fungovat, protože používá odchozí spojení.“
-
-**Zapojení / ukázka:** Předveďte zapnutí UFW firewallu.
-
-**Přechod:** „Přejděme do šesté kategorie: Samostatné cvičení a shrnutí.“
-
----
-
-## 32. Kategorie 6: Samostatné cvičení a shrnutí
-
-**Řekni:** „V závěrečné části si vše vyzkoušíte samostatně.“
-
-**Zapojení / ukázka:** Zobrazte dělící slajd kategorie 6.
-
-**Přechod:** „Zadejme si samostatný úkol.“
-
----
-
-## 33. Samostatné cvičení
-
-**Řekni:** „Nyní nainstalujte `cloudflared`, přihlaste se k vašemu účtu, vytvořte tunel `moje-lss`, nasměrujte vaši doménu a vyzkoušejte přístup z mobilního telefonu.“
-
-**Zapojení / ukázka:** Obcházejte učebnu a pomáhejte účastníkům s konfigurací tunelů.
-
-**Přechod:** „Pojďme si modul zrekapitulovat.“
-
----
-
-## 34. Shrnutí modulu
-
-**Řekni:** „Dnes jsme se naučili publikovat vlastní služby do celého internetu na vlastní doméně bez veřejné IP adresy pomocí Cloudflare Tunnel. Vaše projekty jsou nyní bezpečně dostupné komukoliv na světě!“
-
-**Zapojení / ukázka:** Otevřete prostor pro případné dotazy účastníků.
+**Zapojení / ukázka:** Dejte účastníkům prostor pro dotazy a diskuzi.

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>7. Cloudflare a publikování služeb</title>
+    <title>7. Cloudflare, EmailProfi a publikování služeb</title>
     <link rel="stylesheet" href="dist/reset.css">
     <link rel="stylesheet" href="dist/reveal.css">
     <link rel="stylesheet" href="dist/theme/white.css" id="theme">
@@ -23,6 +23,20 @@
       .col {
         flex: 1;
       }
+      .badge-orange {
+        background-color: #f6821f;
+        color: white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+      .badge-grey {
+        background-color: #8c8c8c;
+        color: white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        font-weight: bold;
+      }
     </style>
   </head>
   <body>
@@ -31,243 +45,293 @@
 
         <!-- Slide 1: Titulní slajd -->
         <section>
-          <h1>7. Cloudflare a publikování služeb</h1>
+          <h1>7. Cloudflare, EmailProfi a publikování služeb</h1>
           <p>Letní škola sítí</p>
-          <p><small>Jak dostat vlastní služby do internetu přes vlastní doménu</small></p>
+          <p><small>Správa domény v Cloudflaru, e-mail na Seznamu a Cloudflare Tunnel jako služba systemd</small></p>
         </section>
 
         <!-- Slide 2: Co dnes probereme -->
         <section>
           <h2>Co dnes probereme</h2>
           <ol style="font-size: 0.8em; line-height: 1.6;">
-            <li class="fragment">Vlastní doména a co je Cloudflare</li>
-            <li class="fragment">Princip Cloudflare Tunnel bez veřejné IP</li>
-            <li class="fragment">Instalace a přihlášení nástroje <code>cloudflared</code></li>
-            <li class="fragment">Vytvoření a konfigurace tunelu</li>
-            <li class="fragment">Publikování webové aplikace a Minecraft serveru</li>
-            <li class="fragment">Samostatné cvičení a zabezpečení firewallem</li>
+            <li class="fragment">Cloudflare Dashboard a správa DNS (A, CNAME, MX, TXT)</li>
+            <li class="fragment">E-mail na vlastní doméně přes EmailProfi od Seznamu</li>
+            <li class="fragment">Instalace Cloudflare Tunnel jako <code>systemctl</code> služba</li>
+            <li class="fragment">Přidávání a správa služeb výhradně přes webové rozhraní</li>
+            <li class="fragment">Zabezpečení firewallem UFW a samostatné cvičení</li>
           </ol>
         </section>
 
-        <!-- KATEGORIE 1: Vlastní doména a co je Cloudflare -->
+        <!-- KATEGORIE 1: Cloudflare Dashboard a nastavení domény -->
         <section>
           <section>
             <h2>Kategorie 1</h2>
-            <h3>Vlastní doména a Cloudflare</h3>
+            <h3>Cloudflare Dashboard a nastavení domény</h3>
           </section>
           <section>
-            <h2>Máme vlastní doménu!</h2>
+            <h2>Máme vlastní doménu v Cloudflaru!</h2>
             <ul>
-              <li class="fragment">Každý účastník Letní školy sítí dostal svoji vlastní doménu.</li>
-              <li class="fragment">Doménu použijeme k publikování vašich projektů do celého internetu.</li>
+              <li class="fragment">Každý účastník Letní školy sítí má svou vlastní doménu.</li>
+              <li class="fragment">Doména je delegována na jmenné servery (Nameservery) Cloudflare.</li>
+              <li class="fragment">Všechna nastavení DNS i tunelů provádíme na jednom místě.</li>
             </ul>
           </section>
           <section>
-            <h2>Co je to doména (DNS)?</h2>
+            <h2>Přehled Cloudflare rozhraní</h2>
             <ul>
-              <li class="fragment">Lidsky čitelná adresa (např. <code>mojedomena.cz</code>).</li>
-              <li class="fragment">Nahrazuje těžko zapamatovatelné číselné IP adresy.</li>
-              <li class="fragment">Systém DNS překládá názvy domén na IP adresy.</li>
+              <li class="fragment"><strong>DNS:</strong> Správa IP adres, doménových záznamů a směrování.</li>
+              <li class="fragment"><strong>SSL/TLS:</strong> Nastavení šifrování mezi návštěvníkem a Cloudflare.</li>
+              <li class="fragment"><strong>Security / WAF:</strong> Bezpečnostní pravidla a ochrana před útoky.</li>
+              <li class="fragment"><strong>Zero Trust:</strong> Správa bezpečné sítě, tunelů a přístupových práv.</li>
             </ul>
           </section>
           <section>
-            <h2>Co je Cloudflare?</h2>
+            <h2>Správa DNS záznamů</h2>
             <ul>
-              <li class="fragment">Celosvětová síť serverů a DNS poskytovatel.</li>
-              <li class="fragment">Chrání servery před útoky (DDoS).</li>
-              <li class="fragment">Automaticky poskytuje bezplatné SSL certifikáty (HTTPS).</li>
+              <li class="fragment"><code>A</code> – Překlad domény na IPv4 adresu (např. <code>192.0.2.1</code>).</li>
+              <li class="fragment"><code>CNAME</code> – Odkaz na jiný doménový název (alias).</li>
+              <li class="fragment"><code>MX</code> – Určení poštovních serverů pro příjem e-mailů.</li>
+              <li class="fragment"><code>TXT</code> – Textové záznamy pro ověření domény, SPF a DKIM.</li>
             </ul>
           </section>
           <section>
-            <h2>Jak se běžně publikují služby?</h2>
-            <ul>
-              <li class="fragment">Potřebujete od poskytovatele veřejnou IP adresu.</li>
-              <li class="fragment">Musíte na domácím routeru nastavit Port Forwarding.</li>
-              <li class="fragment">Vaše zařízení je přímo vystaveno útokům z internetu.</li>
-            </ul>
+            <h2>Oranžový vs. Šedý obláček</h2>
+            <div class="two-cols">
+              <div class="col fragment">
+                <h3><span class="badge-orange">Proxied</span> (Oranžový)</h3>
+                <ul>
+                  <li>Provoz jde přes Cloudflare CDN a WAF.</li>
+                  <li>Skrývá vaši reálnou IP adresu.</li>
+                  <li>Poskytuje automatické HTTPS.</li>
+                  <li><strong>Určeno pro HTTP/HTTPS.</strong></li>
+                </ul>
+              </div>
+              <div class="col fragment">
+                <h3><span class="badge-grey">DNS Only</span> (Šedý)</h3>
+                <ul>
+                  <li>Přímý přeložený dotaz na vaši IP adresu.</li>
+                  <li>Provoz neprochází přes proxy Cloudflare.</li>
+                  <li><strong>Nutné pro e-maily (MX) a SSH/non-HTTP protokoly!</strong></li>
+                </ul>
+              </div>
+            </div>
           </section>
           <section>
-            <h2>Proč je veřejná IP problém?</h2>
+            <h2>SSL/TLS a bezpečnostní prvky</h2>
             <ul>
-              <li class="fragment">Většina domácností i škol veřejnou IP adresu nemá.</li>
-              <li class="fragment">Poskytovatelé internetu si za veřejnou IP účtují poplatky.</li>
-              <li class="fragment">Nesprávně nastavený router může ohrozit celou síť.</li>
+              <li class="fragment"><strong>SSL/TLS Režim:</strong> Nastavení šifrování (rekomendováno Full / Full Strict).</li>
+              <li class="fragment"><strong>Always Use HTTPS:</strong> Automatické přesměrování z HTTP na HTTPS.</li>
+              <li class="fragment"><strong>DDoS ochrana & WAF:</strong> Automatické blokování útoků v síti Cloudflare.</li>
             </ul>
           </section>
         </section>
 
-        <!-- KATEGORIE 2: Princip Cloudflare Tunnel -->
+        <!-- KATEGORIE 2: E-mail na vlastní doméně – EmailProfi od Seznamu -->
         <section>
           <section>
             <h2>Kategorie 2</h2>
-            <h3>Princip Cloudflare Tunnel</h3>
+            <h3>E-mail na vlastní doméně přes EmailProfi od Seznamu</h3>
           </section>
           <section>
-            <h2>Co je Cloudflare Tunnel?</h2>
+            <h2>Co je EmailProfi od Seznam.cz?</h2>
             <ul>
-              <li class="fragment">Šifrovaný tunel mezi vaším počítačem a sítí Cloudflare.</li>
-              <li class="fragment">Umožňuje publikovat služby <strong>bez veřejné IP adresy</strong>.</li>
+              <li class="fragment">Služba pro bezplatný provoz e-mailové schránky na vlastní doméně.</li>
+              <li class="fragment">Získáte e-mail např. <code>jan@mojedomena.cz</code>.</li>
+              <li class="fragment">Využívá známé webové rozhraní Seznam.cz a podporuje IMAP/SMTP.</li>
             </ul>
           </section>
           <section>
-            <h2>Hlavní výhoda tunelu</h2>
-            <ul>
-              <li class="fragment">Nemusíte se dotýkat nastavení vašich routerů.</li>
-              <li class="fragment">Funguje i na školní síti nebo mobilním hotspotu.</li>
-              <li class="fragment">Vaše služba je okamžitě dostupná pro celý svět.</li>
-            </ul>
+            <h2>Krok 1: Registrace na EmailProfi</h2>
+            <ol style="font-size: 0.85em;">
+              <li class="fragment">Otevřete web <a href="https://emailprofi.seznam.cz" target="_blank">emailprofi.seznam.cz</a>.</li>
+              <li class="fragment">Přihlaste se svým účtem Seznamu.</li>
+              <li class="fragment">Zadejte vaši přidělenou doménu (např. <code>mojedomena.cz</code>).</li>
+              <li class="fragment">Seznam vám vygeneruje ověřovací kód pro DNS.</li>
+            </ol>
           </section>
           <section>
-            <h2>Jak tunel funguje?</h2>
-            <ul>
-              <li class="fragment">Náš počítač naváže <strong>odchozí</strong> spojení do Cloudflare.</li>
-              <li class="fragment">Návštěvník přistupuje na servery Cloudflare.</li>
-              <li class="fragment">Cloudflare přeposílá provoz přes tunel k nám.</li>
-            </ul>
+            <h2>Krok 2: Ověření domény v Cloudflare DNS</h2>
+            <p>V Cloudflaru přidejte nový <code>TXT</code> záznam:</p>
+            <table style="font-size: 0.65em; margin-top: 1rem;">
+              <thead>
+                <tr>
+                  <th>Typ</th>
+                  <th>Název (Name)</th>
+                  <th>Obsah (Content)</th>
+                  <th>Proxy stav</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>TXT</code></td>
+                  <td><code>@</code> (nebo root)</td>
+                  <td><code>seznam-site-verification=...</code></td>
+                  <td><span class="badge-grey">DNS Only</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="fragment"><small>Po uložení klikněte na Seznamu na tlačítko "Ověřit doménu".</small></p>
           </section>
           <section>
-            <h2>Bezpečnostní přínos</h2>
+            <h2>Krok 3: Nastavení MX záznamů pro příjem pošty</h2>
+            <p>V Cloudflare DNS vytvořte 2 poštovní <code>MX</code> záznamy:</p>
+            <table style="font-size: 0.6em; margin-top: 1rem;">
+              <thead>
+                <tr>
+                  <th>Typ</th>
+                  <th>Název</th>
+                  <th>Mail server</th>
+                  <th>Priorita</th>
+                  <th>Proxy stav</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>MX</code></td>
+                  <td><code>@</code></td>
+                  <td><code>mx1.seznam.cz</code></td>
+                  <td>10</td>
+                  <td><span class="badge-grey">DNS Only</span></td>
+                </tr>
+                <tr>
+                  <td><code>MX</code></td>
+                  <td><code>@</code></td>
+                  <td><code>mx2.seznam.cz</code></td>
+                  <td>20</td>
+                  <td><span class="badge-grey">DNS Only</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="fragment" style="color: #e74c3c;"><small><strong>POZOR:</strong> MX záznamy nesmí být proxované (musí mít šedý obláček)!</small></p>
+          </section>
+          <section>
+            <h2>Krok 4: Nastavení SPF a DKIM záznamů</h2>
+            <p>Aby vaše e-maily nepadaly do spamu, přidáme <code>TXT</code> záznamy:</p>
+            <div style="font-size: 0.7em; text-align: left;">
+              <p><strong>1. SPF záznam:</strong></p>
+              <ul>
+                <li>Typ: <code>TXT</code> | Název: <code>@</code></li>
+                <li>Obsah: <code>v=spf1 include:spf.seznam.cz ~all</code></li>
+              </ul>
+              <p><strong>2. DKIM záznam:</strong></p>
+              <ul>
+                <li>Typ: <code>TXT</code> | Název zjištěný v administraci Seznamu</li>
+                <li>Obsah: Klíč vygenerovaný v administraci EmailProfi</li>
+              </ul>
+            </div>
+          </section>
+          <section>
+            <h2>Proč musí mít e-mail Šedý obláček?</h2>
             <ul>
-              <li class="fragment">Všechny příchozí porty na vašem počítači zůstanou zavřené.</li>
-              <li class="fragment">Útočníci nevidí vaši skutečnou IP adresu.</li>
+              <li class="fragment">Cloudflare v bezplatné verzi proxuje pouze **HTTP a HTTPS** provoz (port 80 a 443).</li>
+              <li class="fragment">Pošta komunikuje přes protokoly **SMTP (25/465/587)** a **IMAP (993)**.</li>
+              <li class="fragment">Pokud byste zapnuli oranžový obláček u MX záznamu, e-maily nebudou doručeny!</li>
             </ul>
           </section>
         </section>
 
-        <!-- KATEGORIE 3: Instalace a přihlášení cloudflared -->
+        <!-- KATEGORIE 3: Cloudflare Tunnel jako systemctl služba -->
         <section>
           <section>
             <h2>Kategorie 3</h2>
-            <h3>Instalace a přihlášení cloudflared</h3>
+            <h3>Cloudflare Tunnel jako <code>systemctl</code> služba</h3>
           </section>
           <section>
-            <h2>Co je program <code>cloudflared</code>?</h2>
+            <h2>Nový způsob správy Cloudflare Tunnel</h2>
             <ul>
-              <li class="fragment">Pomocný program v terminálu Linuxu.</li>
-              <li class="fragment">Zajišťuje udržování a správu spojení tunelu.</li>
+              <li class="fragment"><strong>Starý způsob:</strong> Ruční přihlašování v terminálu a editace <code>config.yml</code>.</li>
+              <li class="fragment"><strong>Moderní způsob:</strong> Spravovaný tunel přímo z rozhraní Cloudflare Zero Trust.</li>
+              <li class="fragment">Na serveru pouze nainstalujeme systémovou službu pomocí jediného příkazu!</li>
             </ul>
           </section>
           <section>
-            <h2>Krok 1: Instalace <code>cloudflared</code></h2>
-            <p>V terminálu zadejte příkaz pro instalaci:</p>
-            <pre><code class="language-bash code-block" data-trim>
-sudo apt update
-sudo apt install -y cloudflared
-            </code></pre>
-          </section>
-          <section>
-            <h2>Krok 2: Ověření instalace</h2>
-            <p>Zkontrolujte správné nainstalování programu:</p>
-            <pre><code class="language-bash code-block" data-trim>
-cloudflared --version
-            </code></pre>
-          </section>
-          <section>
-            <h2>Krok 3: Přihlášení k účtu</h2>
-            <p>Propojíme program s vaším Cloudflare účtem:</p>
-            <pre><code class="language-bash code-block" data-trim>
-cloudflared tunnel login
-            </code></pre>
-          </section>
-          <section>
-            <h2>Krok 4: Autorizace domény</h2>
+            <h2>Krok 1: Vytvoření tunelu ve webovém rozhraní</h2>
             <ol style="font-size: 0.85em;">
-              <li class="fragment">V terminálu se zobrazí webový odkaz.</li>
-              <li class="fragment">Otevřete odkaz v prohlížeči.</li>
-              <li class="fragment">Přihlaste se a vyberte vaši přidělenou doménu.</li>
-              <li class="fragment">Potvrďte autorizaci tlačítkem.</li>
+              <li class="fragment">V Cloudflare dashboardu otevřete záložku <strong>Zero Trust</strong>.</li>
+              <li class="fragment">Přejděte do <strong>Networks</strong> &rarr; <strong>Tunnels</strong>.</li>
+              <li class="fragment">Klikněte na <strong>Add a tunnel</strong> a zvolte typ <strong>Cloudflared</strong>.</li>
+              <li class="fragment">Pojmenujte svůj tunel (např. <code>moje-lss-server</code>).</li>
             </ol>
+          </section>
+          <section>
+            <h2>Krok 2: Instalace <code>cloudflared</code> jako systemd služba</h2>
+            <p>Cloudflare vám vygeneruje přesný příkaz pro váš operační systém (Debian/Ubuntu):</p>
+            <pre><code class="language-bash code-block" data-trim>
+sudo cloudflared service install eyJhY2NvdW50SUQiOi... (váš unikátní token)
+            </code></pre>
+            <ul>
+              <li class="fragment">Tento příkaz stáhne konektor, nastaví jej a vytvoří službu systemd.</li>
+              <li class="fragment">Už žádné manuální psaní konfiguračních souborů na serveru!</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Krok 3: Kontrola běhu služby v Linuxu</h2>
+            <p>Ověříme, že služba běží na pozadí pod správcem <code>systemd</code>:</p>
+            <pre><code class="language-bash code-block" data-trim>
+sudo systemctl status cloudflared
+            </code></pre>
+            <ul>
+              <li class="fragment">Zobrazí stav <code>active (running)</code>.</li>
+              <li class="fragment">Služba se automaticky spustí i po restartu celého počítače/serveru.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Výhody instalace přes <code>systemctl</code></h2>
+            <ul>
+              <li class="fragment"><strong>Běh na pozadí:</strong> Nezávisí na otevřeném terminálu ani uživatelské relaci.</li>
+              <li class="fragment"><strong>Auto-restart:</strong> Při výpadku sítě nebo restartu se tunel sám obnoví.</li>
+              <li class="fragment"><strong>Centrální řízení:</strong> Všechny směrovací změny děláte přímo z webu Cloudflare.</li>
+            </ul>
           </section>
         </section>
 
-        <!-- KATEGORIE 4: Vytvoření a konfigurace tunelu -->
+        <!-- KATEGORIE 4: Přidávání služeb a subdomén přes web -->
         <section>
           <section>
             <h2>Kategorie 4</h2>
-            <h3>Vytvoření a konfigurace tunelu</h3>
+            <h3>Přidávání služeb a subdomén přes web</h3>
           </section>
           <section>
-            <h2>Krok 5: Vytvoření tunelu</h2>
-            <p>Vytvoříme novou instanci tunelu s názvem <code>moje-lss</code>:</p>
-            <pre><code class="language-bash code-block" data-trim>
-cloudflared tunnel create moje-lss
-            </code></pre>
-          </section>
-          <section>
-            <h2>Co se stalo?</h2>
+            <h2>Nastavení Public Hostname v prohlížeči</h2>
+            <p>V administraci tunelu v Cloudflare Zero Trust klikneme na <strong>Add a public hostname</strong>:</p>
             <ul>
-              <li class="fragment">Vytvořilo se unikátní ID vášho tunelu.</li>
-              <li class="fragment">Uložil se certifikát a klíč do složky <code>~/.cloudflared/</code>.</li>
+              <li class="fragment"><strong>Subdomain:</strong> např. <code>web</code> nebo <code>app</code>.</li>
+              <li class="fragment"><strong>Domain:</strong> vybereme naši doménu (např. <code>mojedomena.cz</code>).</li>
+              <li class="fragment"><strong>Service:</strong> určíme protokol a lokální adresu (např. <code>HTTP</code> &rarr; <code>localhost:80</code>).</li>
             </ul>
           </section>
           <section>
-            <h2>Krok 6: Propojení domény s tunelem</h2>
-            <p>Nasměrujeme subdoménu (např. <code>web</code>) na náš tunel:</p>
-            <pre><code class="language-bash code-block" data-trim>
-cloudflared tunnel route dns moje-lss web.mojedomena.cz
-            </code></pre>
-            <p class="fragment"><small>Nahraďte <code>mojedomena.cz</code> vaší skutečnou doménou.</small></p>
-          </section>
-          <section>
-            <h2>Co je to CNAME záznam?</h2>
-            <ul>
-              <li class="fragment">Příkaz automaticky vytvoří CNAME záznam v DNS.</li>
-              <li class="fragment">Nasměruje vaši doménu na unikátní adresu tunelu v Cloudflare.</li>
-            </ul>
-          </section>
-          <section>
-            <h2>Krok 7: Vytvoření konfigurace</h2>
-            <p>Otevřeme soubor pro nastavení směrování provozu:</p>
-            <pre><code class="language-bash code-block" data-trim>
-nano ~/.cloudflared/config.yml
-            </code></pre>
-          </section>
-          <section>
-            <h2>Ukázka <code>config.yml</code></h2>
-            <pre><code class="language-yaml code-block" data-trim>
-tunnel: MOJE_TUNNEL_ID
-credentials-file: /home/student/.cloudflared/MOJE_TUNNEL_ID.json
-
-ingress:
-  - hostname: web.mojedomena.cz
-    service: http://localhost:80
-  - service: http_status:404
-            </code></pre>
-          </section>
-        </section>
-
-        <!-- KATEGORIE 5: Spuštění a testování služby -->
-        <section>
-          <section>
-            <h2>Kategorie 5</h2>
-            <h3>Spuštění a testování služby</h3>
-          </section>
-          <section>
-            <h2>Krok 8: Spuštění tunelu</h2>
-            <p>V terminálu spustíme náš tunel:</p>
-            <pre><code class="language-bash code-block" data-trim>
-cloudflared tunnel run moje-lss
-            </code></pre>
-          </section>
-          <section>
-            <h2>Testování v prohlížeči</h2>
+            <h2>Jak Cloudflare publikuje webovou aplikaci?</h2>
             <ol style="font-size: 0.85em;">
-              <li class="fragment">Otevřete webový prohlížeč.</li>
-              <li class="fragment">Zadejte adresu: <code>https://web.mojedomena.cz</code>.</li>
-              <li class="fragment">Uvidíte vaši webovou stránku spuštěnou na vašem počítači!</li>
+              <li class="fragment">Cloudflare automaticky vytvoří potřebný CNAME záznam v DNS.</li>
+              <li class="fragment">Návštěvník zadá do prohlížeče <code>https://web.mojedomena.cz</code>.</li>
+              <li class="fragment">Požadavek dorazí do Cloudflaru a šifrovaným tunelem projde k nášmu lokálnímu webu.</li>
             </ol>
           </section>
           <section>
-            <h2>Automatický SSL certifikát</h2>
+            <h2>Publikování dalších typů služeb</h2>
+            <div style="font-size: 0.75em; text-align: left;">
+              <p class="fragment"><strong>Webová aplikace (Nginx / Docker):</strong><br>
+              Type: <code>HTTP</code> | URL: <code>localhost:80</code> nebo <code>127.0.0.1:8080</code></p>
+              
+              <p class="fragment"><strong>Bezpečný web s lokálním HTTPS:</strong><br>
+              Type: <code>HTTPS</code> | URL: <code>localhost:443</code> (No TLS Verify)</p>
+
+              <p class="fragment"><strong>Ne-webové služby (TCP / SSH / Minecraft):</strong><br>
+              Type: <code>TCP</code> | URL: <code>localhost:25565</code></p>
+            </div>
+          </section>
+          <section>
+            <h2>Automatický SSL certifikát z cloudu</h2>
             <ul>
-              <li class="fragment">Cloudflare automaticky zabezpečil komunikaci pomocí HTTPS.</li>
-              <li class="fragment">Uživatelé vidí zelený zámek v prohlížeči.</li>
-              <li class="fragment">Nemusíte ručně generovat žádné certifikáty.</li>
+              <li class="fragment">Jakákoliv subdoména přidaná přes tunel získá **automaticky platný HTTPS certifikát**.</li>
+              <li class="fragment">Nemusíte generovat Let's Encrypt ani konfigurovat certifikáty na lokálním serveru.</li>
+              <li class="fragment">Uživatelé v prohlížeči okamžitě vidí zabezpečené HTTPS spojení se zeleným zámkem.</li>
             </ul>
           </section>
           <section>
-            <h2>Zabezpečení firewallem UFW</h2>
-            <p>Zabezpečíme náš počítač lokálním firewallem:</p>
+            <h2>Zabezpečení lokálního systému (Firewall UFW)</h2>
+            <p>Protože tunel navazuje odchozí spojení, můžeme zablokovat příchozí porty:</p>
             <pre><code class="language-bash code-block" data-trim>
 # Zapnutí firewallu UFW
 sudo ufw enable
@@ -275,32 +339,32 @@ sudo ufw enable
 # Zablokování všech příchozích spojení
 sudo ufw default deny incoming
             </code></pre>
-            <p class="fragment"><small>Tunel bude stále fungovat, protože využívá odchozí spojení!</small></p>
+            <p class="fragment"><small>Vaše služby budou z internetu dostupné přes tunel, ale lokální počítač bude chráněn!</small></p>
           </section>
         </section>
 
-        <!-- KATEGORIE 6: Samostatné cvičení a shrnutí -->
+        <!-- KATEGORIE 5: Samostatné cvičení a shrnutí -->
         <section>
           <section>
-            <h2>Kategorie 6</h2>
+            <h2>Kategorie 5</h2>
             <h3>Samostatné cvičení a shrnutí</h3>
           </section>
           <section>
-            <h2>Samostatné cvičení</h2>
-            <ol style="font-size: 0.8em;">
-              <li class="fragment">Nainstalujte program <code>cloudflared</code> na váš systém.</li>
-              <li class="fragment">Přihlaste se k účtu pomocí <code>cloudflared tunnel login</code>.</li>
-              <li class="fragment">Vytvořte tunel <code>moje-lss</code> a nastavte směrování domény.</li>
-              <li class="fragment">Spusťte tunel a vyzkoušejte přístup z mobilního telefonu přes HTTPS.</li>
+            <h2>Zadání samostatného cvičení</h2>
+            <ol style="font-size: 0.8em; line-height: 1.5;">
+              <li class="fragment">Zaregistrujte svou doménu na <code>emailprofi.seznam.cz</code> a přidejte DNS záznamy (TXT pro ověření + MX záznamy s šedým obláčkem).</li>
+              <li class="fragment">V Cloudflare Zero Trust vytvořte tunel a nainstalujte konektor příkazem <code>sudo cloudflared service install <token></code>.</li>
+              <li class="fragment">Zkontrolujte stav služby pomocí <code>sudo systemctl status cloudflared</code>.</li>
+              <li class="fragment">Ve webovém rozhraní přidejte Public Hostname pro vaši webovou aplikaci (např. <code>web.mojedomena.cz</code>) a vyzkoušejte přístup z mobilu!</li>
             </ol>
           </section>
           <section>
             <h2>Shrnutí modulu</h2>
             <ul>
-              <li class="fragment">Rozumíme funkci domén a principu Cloudflare.</li>
-              <li class="fragment">Umíme publikovat služby bez veřejné IP adresy.</li>
-              <li class="fragment">Používáme nástroj <code>cloudflared</code> a tunely.</li>
-              <li class="fragment">Naše webové aplikace i servery jsou bezpečně dostupné v internetu.</li>
+              <li class="fragment">Rozumíme správě DNS a rozdílu mezi proxovaným (oranžovým) a šedým záznamem.</li>
+              <li class="fragment">Provozujeme bezplatný e-mail na vlastní doméně přes EmailProfi od Seznamu.</li>
+              <li class="fragment">Máme nainstalovaný Cloudflare Tunnel jako spolehlivou <code>systemd</code> službu.</li>
+              <li class="fragment">Přidáváme a spravujeme veřejné služby pohodlně přes webové rozhraní.</li>
             </ul>
           </section>
         </section>

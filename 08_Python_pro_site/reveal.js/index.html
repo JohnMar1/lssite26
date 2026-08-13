@@ -3,24 +3,473 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>8. Python pro sítě</title>
+    <title>8. Programování sítí v Pythonu</title>
     <link rel="stylesheet" href="dist/reset.css">
     <link rel="stylesheet" href="dist/reveal.css">
     <link rel="stylesheet" href="dist/theme/white.css" id="theme">
     <link rel="stylesheet" href="dist/plugin/highlight/monokai.css">
     <link rel="stylesheet" href="css/presentation.css">
+    <style>
+      .code-block {
+        font-size: 0.55em;
+        line-height: 1.35;
+      }
+      .two-cols {
+        display: flex;
+        gap: 1.5rem;
+        text-align: left;
+        font-size: 0.8em;
+      }
+      .col {
+        flex: 1;
+      }
+      .badge-blue {
+        background-color: #007acc;
+        color: white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+      .badge-green {
+        background-color: #28a745;
+        color: white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+      .badge-orange {
+        background-color: #f6821f;
+        color: white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
     <div class="reveal">
       <div class="slides">
+
+        <!-- Slide 1: Titulní slajd -->
         <section>
-          <h1>10. Python pro sítě</h1>
+          <h1>8. Programování sítí v Pythonu</h1>
           <p>Letní škola sítí</p>
+          <p><small>Sockets, Scapy a tvorba vlastních síťových nástrojů</small></p>
         </section>
+
+        <!-- Slide 2: Co si dnes odneseme -->
         <section>
-          <h2>Připravuje se...</h2>
-          <p>Obsah této prezentace bude brzy doplněn.</p>
+          <h2>Co dnes probereme</h2>
+          <ol style="font-size: 0.8em; line-height: 1.6;">
+            <li class="fragment">Principy síťových socketů (TCP/UDP) v Pythonu</li>
+            <li class="fragment">Vývoj vlastního TCP klienta a echo serveru</li>
+            <li class="fragment">Stavba rychlého TCP Port Scanneru a Banner Grabberu</li>
+            <li class="fragment">Nízkoúrovňová analýza a tvorba paketů v knihovně Scapy</li>
+            <li class="fragment">Vytvoření vlastního ARP scanneru a paketového snifferu</li>
+          </ol>
         </section>
+
+        <!-- KATEGORIE 1: Základy síťových socketů (socket) -->
+        <section>
+          <section>
+            <h2>Kategorie 1</h2>
+            <h3>Základy síťových socketů a knihovna socket</h3>
+          </section>
+
+          <section>
+            <h2>Co je to Socket?</h2>
+            <ul>
+              <li class="fragment"><strong>Koncový bod komunikace:</strong> Rozhraní mezi aplikací a síťovým zásobníkem operačního systému.</li>
+              <li class="fragment"><strong>Kombinace údajů:</strong> IP adresa + Port + Transportní protokol (TCP/UDP).</li>
+              <li class="fragment"><strong>Standardní knihovna:</strong> V Pythonu vestavěná knihovna <code>import socket</code>.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Typy socketů</h2>
+            <div class="two-cols">
+              <div class="col fragment">
+                <span class="badge-blue">TCP (SOCK_STREAM)</span>
+                <ul style="margin-top: 1rem;">
+                  <li>Spojovaný protokol (Handshake).</li>
+                  <li>Garantované doručení a pořadí dat.</li>
+                  <li>Vhodný pro HTTP, SSH, FTP.</li>
+                </ul>
+              </div>
+              <div class="col fragment">
+                <span class="badge-orange">UDP (SOCK_DGRAM)</span>
+                <ul style="margin-top: 1rem;">
+                  <li>Bezspojový protokol.</li>
+                  <li>Rychlý, bez garance doručení.</li>
+                  <li>Vhodný pro DNS, streaming, hry.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Vytvoření TCP Klienta</h2>
+            <p style="font-size: 0.75em;">Připojení k webovému serveru a odeslání HTTP požadavku:</p>
+            <pre><code class="language-python code-block">import socket
+
+# 1. Vytvoření TCP socketu (IPv4 + TCP)
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# 2. Připojení k cíli (IP / hostname, port)
+client.connect(("example.com", 80))
+
+# 3. Odeslání HTTP požadavku (data musí být bajty: b"...")
+request = "GET / HTTP/1.1\r\nHost: example.com\r\nConnection: close\r\n\r\n"
+client.sendall(request.encode("utf-8"))
+
+# 4. Přijetí odpovědi (max 4096 bajtů)
+response = client.recv(4096)
+print(response.decode("utf-8"))
+
+# 5. Uzavření spojení
+client.close()</code></pre>
+          </section>
+
+          <section>
+            <h2>Vytvoření TCP Serveru</h2>
+            <p style="font-size: 0.75em;">Jednoduchý server naslouchající na portu 9999:</p>
+            <pre><code class="language-python code-block">import socket
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind(("0.0.0.0", 9999))  # Naslouchá na všech rozhraních
+server.listen(5)               # Fronta pro max 5 čekajících spojení
+
+print("[*] Server naslouchá na portu 9999...")
+
+while True:
+    client_socket, addr = server.accept()  # Blokující volání
+    print(f"[+] Přijato spojení z {addr[0]}:{addr[1]}")
+    
+    data = client_socket.recv(1024)
+    print(f"[&lt;] Přijato: {data.decode('utf-8')}")
+    
+    client_socket.sendall(b"Ahoj z Python serveru!\n")
+    client_socket.close()</code></pre>
+          </section>
+
+          <section>
+            <h2>Práce s UDP Sockets</h2>
+            <p style="font-size: 0.75em;">U UDP nepoužíváme <code>connect()</code> ani <code>accept()</code>, ale <code>sendto()</code> a <code>recvfrom()</code>:</p>
+            <pre><code class="language-python code-block">import socket
+
+# UDP Client
+udp_client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+target = ("127.0.0.1", 5005)
+
+# Odeslání zprávy přímo na adresu
+udp_client.sendto(b"Testovaci UDP zprava", target)
+
+# Přijetí odpovědi a adresy odesílatele
+data, addr = udp_client.recvfrom(1024)
+print(f"Odpověď od {addr}: {data.decode()}")
+
+udp_client.close()</code></pre>
+          </section>
+
+          <section>
+            <h2>Ošetření chyb a timeouty</h2>
+            <ul>
+              <li class="fragment">Síťové operace mohou selhat nebo zamrznout.</li>
+              <li class="fragment">Nastavení timeoutu: <code>s.settimeout(2.0)</code>.</li>
+              <li class="fragment">Ošetření výjimek pomocí <code>try-except socket.error</code>.</li>
+            </ul>
+            <pre class="fragment"><code class="language-python code-block">import socket
+
+s = socket.socket()
+s.settimeout(2.0)  # Čekat max 2 sekundy
+
+try:
+    s.connect(("192.168.1.50", 80))
+    print("Port je otevřený!")
+except socket.timeout:
+    print("Spojení vypršelo (Timeout).")
+except socket.error as e:
+    print(f"Chyba spojení: {e}")
+finally:
+    s.close()</code></pre>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 2: Tvorba vlastních síťových nástrojů -->
+        <section>
+          <section>
+            <h2>Kategorie 2</h2>
+            <h3>Tvorba vlastních síťových nástrojů</h3>
+          </section>
+
+          <section>
+            <h2>Nástroj 1: Jednoduchý TCP Port Scanner</h2>
+            <p style="font-size: 0.75em;">Zjištění otevřených portů pomocí <code>connect_ex()</code> (vrací <code>0</code> při úspěchu):</p>
+            <pre><code class="language-python code-block">import socket
+
+target = "127.0.0.1"
+ports = [21, 22, 80, 443, 8080]
+
+print(f"Skenuji cíl: {target}")
+
+for port in ports:
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(1.0)
+    result = s.connect_ex((target, port))  # Vrací 0 při úspěchu, jinak chybový kód
+    
+    if result == 0:
+        print(f"[+] Port {port}: OTEVŘENÝ")
+    else:
+        print(f"[-] Port {port}: ZAVŘENÝ")
+    s.close()</code></pre>
+          </section>
+
+          <section>
+            <h2>Zrychlení scanneru: Vícevláknové skenování</h2>
+            <p style="font-size: 0.75em;">Použití <code>concurrent.futures.ThreadPoolExecutor</code> pro paralelní testování portů:</p>
+            <pre><code class="language-python code-block">import socket
+from concurrent.futures import ThreadPoolExecutor
+
+def scan_port(target, port):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.settimeout(1.0)
+        if s.connect_ex((target, port)) == 0:
+            return port
+    return None
+
+target = "127.0.0.1"
+print("[*] Spouštím paralelní skenování portů 1-1024...")
+
+with ThreadPoolExecutor(max_workers=50) as executor:
+    results = executor.map(lambda p: scan_port(target, p), range(1, 1025))
+    for open_port in filter(None, results):
+        print(f"[+] Nalezen otevřený port: {open_port}")</code></pre>
+          </section>
+
+          <section>
+            <h2>Nástroj 2: Banner Grabber</h2>
+            <p style="font-size: 0.75em;">Zjištění verze a typu běžící služby na otevřeném portu:</p>
+            <pre><code class="language-python code-block">import socket
+
+def grab_banner(ip, port):
+    try:
+        s = socket.socket()
+        s.settimeout(2.0)
+        s.connect((ip, port))
+        
+        # Některé služby pošlou banner samy (SSH, FTP), jiné vyžadují požadavek
+        if port == 80:
+            s.send(b"HEAD / HTTP/1.1\r\nHost: " + ip.encode() + b"\r\n\r\n")
+            
+        banner = s.recv(1024).decode("utf-8", errors="ignore").strip()
+        return banner
+    except Exception as e:
+        return f"Chyba: {e}"
+    finally:
+        s.close()
+
+print("SSH Banner:", grab_banner("127.0.0.1", 22))</code></pre>
+          </section>
+
+          <section>
+            <h2>Nástroj 3: Echo Server s obsluhou klientů</h2>
+            <p style="font-size: 0.75em;">Jednoduchý server, který klientovi vrací vše, co klient pošle:</p>
+            <pre><code class="language-python code-block">import socket
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind(("127.0.0.1", 8888))
+server.listen(1)
+print("[*] Echo server běží na 127.0.0.1:8888")
+
+conn, addr = server.accept()
+print(f"[+] Klient připojen: {addr}")
+
+while True:
+    data = conn.recv(1024)
+    if not data or data.strip() == b"exit":
+        break
+    conn.sendall(b"ECHO: " + data)
+
+conn.close()
+server.close()
+print("[*] Server ukončen.")</code></pre>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 3: Nízkoúrovňový přístup s knihovnou Scapy -->
+        <section>
+          <section>
+            <h2>Kategorie 3</h2>
+            <h3>Nízkoúrovňový přístup a tvorba paketů v knihovně Scapy</h3>
+          </section>
+
+          <section>
+            <h2>Co je to Scapy?</h2>
+            <ul>
+              <li class="fragment"><strong>Výkonný síťový nástroj:</strong> Python knihovna pro tvorbu, odchytávání, modifikaci a odesílání síťových paketů.</li>
+              <li class="fragment"><strong>Práce s vrstvami:</strong> Každá OSI vrstva je samostatný Python objekt (<code>Ether()</code>, <code>IP()</code>, <code>TCP()</code>, <code>ICMP()</code>).</li>
+              <li class="fragment"><strong>Injektování paketů:</strong> Umožňuje vytvářet i neplatné nebo vlastní pakety (vhodné pro pentesting a ladění sítí).</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Skládání paketů v Scapy</h2>
+            <p style="font-size: 0.75em;">Vrstvy se spojují pomocí operátoru lomenítka <code>/</code>:</p>
+            <pre><code class="language-python code-block">from scapy.all import IP, TCP, ICMP, Ether, ls
+
+# Vytvoření IP paketu s cíl adresou
+ip_pkt = IP(dst="8.8.8.8")
+
+# Přidání TCP vrstvy s cílovým portem 80 (SYN paket)
+syn_pkt = IP(dst="1.1.1.1") / TCP(dport=80, flags="S")
+
+# ICMP Ping paket s Ethernetovou vrstvou
+ping_pkt = Ether() / IP(dst="192.168.1.1") / ICMP()
+
+# Zobrazení detailů paketu
+syn_pkt.show()</code></pre>
+          </section>
+
+          <section>
+            <h2>Odesílání a příjem paketů v Scapy</h2>
+            <div class="two-cols">
+              <div class="col fragment">
+                <span class="badge-blue">Odeslání bez odpovědi</span>
+                <ul style="font-size:0.85em; margin-top: 0.5rem;">
+                  <li><code>send(pkt)</code> – Odeslání na L3 (IP).</li>
+                  <li><code>sendp(pkt)</code> – Odeslání na L2 (Ethernet).</li>
+                </ul>
+              </div>
+              <div class="col fragment">
+                <span class="badge-green">Odeslání s čekáním na odpověď</span>
+                <ul style="font-size:0.85em; margin-top: 0.5rem;">
+                  <li><code>sr(pkt)</code> – Odeslat a přijmout na L3.</li>
+                  <li><code>sr1(pkt)</code> – Odeslat a přijmout 1. odpověď.</li>
+                  <li><code>srp(pkt)</code> – Odeslat a přijmout na L2.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Nástroj 4: Vlastní ICMP Ping v Scapy</h2>
+            <p style="font-size: 0.75em;">Odeslání jednoho ICMP Echo Requestu a přečtení odpovědi:</p>
+            <pre><code class="language-python code-block">from scapy.all import IP, ICMP, sr1
+
+target_ip = "8.8.8.8"
+
+# Vytvoření ICMP paketu
+pkt = IP(dst=target_ip) / ICMP()
+
+# Odeslání a čekání na 1. odpověď (timeout 2s)
+reply = sr1(pkt, timeout=2, verbose=False)
+
+if reply:
+    print(f"[+] Cíl {target_ip} ODPOVÍDÁ! TTL={reply.ttl}")
+else:
+    print(f"[-] Cíl {target_ip} neodpovídá.")</code></pre>
+          </section>
+
+          <section>
+            <h2>Nástroj 5: ARP Scanner (Objevení zařízení v LAN)</h2>
+            <p style="font-size: 0.75em;">Odeslání ARP dotazu na broadcast pro rozsah IP adres:</p>
+            <pre><code class="language-python code-block">from scapy.all import ARP, Ether, srp
+
+def arp_scan(ip_range):
+    # ARP dotaz obalený v Ethernet broadcast rámci (ff:ff:ff:ff:ff:ff)
+    arp_req = ARP(pdst=ip_range)
+    broadcast = Ether(dst="ff:ff:ff:ff:ff:ff")
+    packet = broadcast / arp_req
+    
+    answered, _ = srp(packet, timeout=2, verbose=False)
+    
+    print("IP adresa\t\tMAC adresa")
+    print("-" * 42)
+    for sent, received in answered:
+        print(f"{received.psrc}\t\t{received.hwsrc}")
+
+# Spuštění skenu pro lokální síť
+arp_scan("192.168.1.0/24")</code></pre>
+          </section>
+
+          <section>
+            <h2>Nástroj 6: Paketový Sniffer</h2>
+            <p style="font-size: 0.75em;">Odchytávání a živá analýza letících paketů pomocí <code>sniff()</code>:</p>
+            <pre><code class="language-python code-block">from scapy.all import sniff, IP, TCP
+
+def packet_callback(packet):
+    if packet.haslayer(IP):
+        ip_src = packet[IP].src
+        ip_dst = packet[IP].dst
+        proto = packet[IP].proto
+        print(f"[Paket] {ip_src} -> {ip_dst} (Protokol: {proto})")
+        
+        if packet.haslayer(TCP):
+            print(f"        TCP Port: {packet[TCP].sport} -> {packet[TCP].dport}")
+
+print("[*] Spouštím sniffer (10 paketů)...")
+# Filter používá BPF syntaxi jako Wireshark/tcpdump
+sniff(filter="ip", prn=packet_callback, count=10)</code></pre>
+          </section>
+        </section>
+
+        <!-- KATEGORIE 4: Doporučené postupy a samostatné cvičení -->
+        <section>
+          <section>
+            <h2>Kategorie 4</h2>
+            <h3>Doporučené postupy, bezpečnost a cvičení</h3>
+          </section>
+
+          <section>
+            <h2>Práva v Linuxu: Sudo / Root</h2>
+            <ul>
+              <li class="fragment"><strong>Vyšší oprávnění:</strong> Práce s raw sockety a knihovnou Scapy vyžaduje root práva.</li>
+              <li class="fragment"><strong>Spuštění skriptu:</strong> Použijte <code>sudo python3 skript.py</code>.</li>
+              <li class="fragment"><strong>Virtuální prostředí:</strong> Při použití venv se ubezpečte o správné cestě: <code>sudo ./venv/bin/python3 skript.py</code>.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Etické zásady a bezpečnost</h2>
+            <div class="two-cols">
+              <div class="col fragment">
+                <span class="badge-orange">Varování</span>
+                <ul style="font-size:0.85em; margin-top:0.5rem;">
+                  <li>Skenování cizích sítí bez povolení je nelegální!</li>
+                  <li>Nepoužívejte sniffery a scannery na veřejných Wi-Fi.</li>
+                </ul>
+              </div>
+              <div class="col fragment">
+                <span class="badge-green">Doporučení</span>
+                <ul style="font-size:0.85em; margin-top:0.5rem;">
+                  <li>Testujte výhradně v <code>localhost</code> (127.0.0.1) nebo ve vlastní Docker síti.</li>
+                  <li>Využívejte skripty pro automatizaci vlastní správy sítí.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Samostatné mini-cvičení</h2>
+            <ol class="step-list" style="font-size: 0.8em;">
+              <li class="fragment">Napište skript <code>my_scanner.py</code>, který přijme z argumentu IP adresu.</li>
+              <li class="fragment">Otestuje porty 22, 80 a 443 pomocí <code>socket.connect_ex()</code>.</li>
+              <li class="fragment">U otevřených portů se pokusí stáhnout Banner (prvních 100 bajtů).</li>
+              <li class="fragment"><strong>Bonus výzva:</strong> Pomocí Scapy pošlete SYN paket na port 80 a zkontrolujte, zda vrátí vlajku <code>SA</code> (SYN-ACK).</li>
+            </ol>
+          </section>
+
+          <section>
+            <h2>Co si zapamatovat</h2>
+            <ul>
+              <li class="fragment"><code>socket</code> je standardní modul pro TCP/UDP komunikaci.</li>
+              <li class="fragment"><code>connect_ex()</code> usnadňuje zjišťování stavu portů bez výjimek.</li>
+              <li class="fragment"><code>Scapy</code> umožňuje nízkoúrovňově skládat jakékoliv pakety pomocí <code>/</code>.</li>
+              <li class="fragment"><code>sniff()</code> a <code>srp()</code> slouží k odchytávání a ARP skenování.</li>
+            </ul>
+          </section>
+        </section>
+
       </div>
     </div>
     <script src="dist/reveal.js"></script>
