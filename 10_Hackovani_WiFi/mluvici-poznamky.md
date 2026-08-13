@@ -1,6 +1,6 @@
 # Mluvené poznámky ke každému slajdu — Letní škola sítí: 10. Hacking Wi-Fi a bezdrátové sítě
 
-Scénář je psaný pro lektory vyučující testování bezpečnosti Wi-Fi v prostředí Kali Linux. Text po značce **Řekni** představuje výklad srozumitelným jazykem, **Zapojení / ukázka** uvádí practical akce v učebně a **Přechod** pomáhá navázat na další slajd.
+Scénář je psaný pro lektory vyučující testování bezpečnosti Wi-Fi v prostředí Kali Linux. Text po značce **Řekni** představuje výklad srozumitelným jazykem, **Zapojení / ukázka** uvádí praktické akce v učebně a **Přechod** pomáhá navázat na další slajd.
 
 ---
 
@@ -254,87 +254,17 @@ Scénář je psaný pro lektory vyučující testování bezpečnosti Wi-Fi v pr
 
 ---
 
-## 26. Kategorie 6: Praktické cvičení krok za krokem
+## 26. Kategorie 6: Praktické cvičení - Přehled příkazů
 
-**Řekni:** „V této části si zkusíte kompletní útok sami od skenování až po odhalení hesla. Kartu v Kali Linuxu již máte předpřipravenou v Monitor módu.“
+**Řekni:** „V této závěrečné části mají studenti všechny příkazy přehledně shromážděné na jednom slajdu. Kartu v Kali Linuxu mají již v Monitor módu (`wlan0mon`). Dále je k dispozici samostatná prezentace `commands.html`, kterou můžete nechat promítnutou po celou dobu cvičení.“
 
-**Zapojení / ukázka:** Zobrazte dělící slajd kategorie 6.
-
-**Přechod:** „Projděme si zadání úkolu.“
-
----
-
-## 27. Praktické cvičení: Přehled úkolu
-
-**Řekni:** „Vaše karta je již v monitorovacím módu `wlan0mon`. Vaším úkolem je vyhledat testovací síť v učebně, zamířit na ni, odchytit WPA2 Handshake a najít heslo ve slovníku.“
-
-**Zapojení / ukázka:** Ukažte vyhrazenou Wi-Fi síť v učebně pro cvičení.
-
-**Přechod:** „Krok 1: Kontrola rozhraní.“
-
----
-
-## 28. Cvičení - Krok 1: Kontrola rozhraní
-
-**Řekni:** „Spusťte v terminálu `iwconfig` a zkontrolujte, že vidíte rozhraní `wlan0mon` v módu `Mode:Monitor`.“
-
-**Zapojení / ukázka:** Zkontrolujte u studentů, že mají v terminálu rozhraní v monitor módu.
-
-**Přechod:** „Krok 2: Skenování okolních sítí.“
-
----
-
-## 29. Cvičení - Krok 2: Skenování okolních sítí
-
-**Řekni:** „Spusťte `sudo airodump-ng wlan0mon`. V tabulce najděte testovací síť a zapište si její BSSID (MAC adresu) a číslo kanálu (CH).“
-
-**Zapojení / ukázka:** Pomozte studentům najít správný řádek s testovací Wi-Fi.
-
-**Přechod:** „Krok 3: Zacílení skenování.“
-
----
-
-## 30. Cvičení - Krok 3: Zacílení a ukládání
-
-**Řekni:** „Spusťte `sudo airodump-ng -c <KANAL> --bssid <BSSID> -w muj_pokus wlan0mon`. Toto okno nechte běhat. V dolní části si zapište MAC adresu připojeného klienta (STATION).“
-
-**Zapojení / ukázka:** Ubezpečte se, že všichni studenti ukládají pakety do souboru `-w muj_pokus`.
-
-**Přechod:** „Krok 4: Deautentizační útok.“
-
----
-
-## 31. Cvičení - Krok 4: Vynucení přihlášení (Deautentizace)
-
-**Řekni:** „Otevřete druhé okno terminálu a odešlete 5 deautentizačních paketů: `sudo aireplay-ng --deauth 5 -a <BSSID> -c <MAC_KLIENTA> wlan0mon`.“
-
-**Zapojení / ukázka:** Pomozte studentům otevřít druhé okno terminálu a zadat správná BSSID a klient MAC.
-
-**Přechod:** „Krok 5: Kontrola zachyceného handshaku.“
-
----
-
-## 32. Cvičení - Krok 5: Kontrola zachycení Handshaku
-
-**Řekni:** „V prvním okně sledujte horní pravý roh. Jakmile se objeví `[ WPA handshake: ... ]`, stiskněte `Ctrl + C` pro ukončení skenování.“
-
-**Zapojení / ukázka:** Zkontrolujte u studentů přítomnost hlášky WPA handshake na obrazovce.
-
-**Přechod:** „Krok 6: Prolomení hesla.“
-
----
-
-## 33. Cvičení - Krok 6: Prolomení hesla
-
-**Řekni:** „Spusťte `aircrack-ng -w /usr/share/wordlists/rockyou.txt muj_pokus-01.cap`. Počkejte, až nástroj prohledá slovník a vypíše zelené `KEY FOUND!` s výsledným heslem.“
-
-**Zapojení / ukázka:** Ověřte u studentů nalezená hesla.
+**Zapojení / ukázka:** Promítněte tabulku se všemi 6 kroky a příkazy na projektor, nebo otevřete `commands.html`.
 
 **Přechod:** „Podívejme se na zabezpečení vlastní Wi-Fi.“
 
 ---
 
-## 34. Jak zabezpečit vlastní Wi-Fi?
+## 27. Jak zabezpečit vlastní Wi-Fi?
 
 **Řekni:** „Abyste vy sami nenaletěli na tento útok, používejte silná a dlouhá hesla (15+ znaků), zapněte WPA3 nebo WPA2-AES a vypněte funkci WPS.“
 
@@ -344,7 +274,7 @@ Scénář je psaný pro lektory vyučující testování bezpečnosti Wi-Fi v pr
 
 ---
 
-## 35. Co si z dneška odnést
+## 28. Co si z dneška odnést
 
 **Řekni:** „Dnes jste si prakticky vyzkoušeli celý postup: odchytávání v monitor módu, zacílení v `airodump-ng`, deautentizaci v `aireplay-ng` a louskání handshaku v `aircrack-ng`. Děkuji za pozornost!“
 

