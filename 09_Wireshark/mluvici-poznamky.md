@@ -144,8 +144,8 @@ Scénář je psaný pro lektory i účastníky na základě prezentace *Síťov�
 
 ---
 
-## 15. Praktické cvičení
+## 15. Praktické cvičení (CTF)
 
-**Řekni:** „Stáhněte si ze stránek `file.marv.al/ws.zip` balíček vzorových pcapů. Otevřete je v Wiresharku, vyzkoušejte si filtry pro Telnet a HTTP, najděte zadané přihlašovací údaje a vyzkoušejte si vyexportovat přenesený soubor.“
+**Řekni:** „Otevřete si v prohlížeči adresu `ctf.marv.al`, přihlaste se a otevřete si výzvy z kategorie Wireshark. Stáhněte si přiložené `.pcap` soubory, pomocí filtrů a funkce `Follow TCP Stream` najděte skryté vlajky (flags) a zadejte je do CTF systému.“
 
-**Zapojení / ukázka:** Obcházejte učebnu a pomáhejte studentům s otevíráním pcapů a psaním filtrů.
+**Zapojení / ukázka:** Obcházejte učebnu a pomáhejte studentům s přihlášením na `ctf.marv.al` a řešením prvních Wireshark úloh.
