@@ -146,7 +146,7 @@ Scénář je psaný pro lektory vyučující testování bezpečnosti Wi-Fi v pr
 
 ## 15. Krok 5: Zacílení na konkrétní síť
 
-**Řekni:** „Příkazem `sudo airodump-ng -c 6 --bssid AA:BB:CC:DD:EE:FF -w vysledek wlan0mon` uzamkneme kartu na kanál 6 a ukládáme veškerý provoz dané sítě do souboru `vysledek-01.cap`.“
+**Řekni:** „Příkazem `sudo airodump-ng -c 6 --bssid AA:BB:CC:DD:EE:FF -w vysledek wlan0mon` uzamkneme kartu na kanál 6 a ukládáme veškerý provoz dané sítě do souboru `vysledek-01.cap`. Přepínač `-c` specifikuje kanál, `--bssid` nastavuje MAC adresu routeru a `-w` definuje jméno výstupního souboru.“
 
 **Zapojení / ukázka:** Zkontrolujte, že se v terminálu zobrazují pakety pouze pro vybrané BSSID.
 
@@ -186,7 +186,7 @@ Scénář je psaný pro lektory vyučující testování bezpečnosti Wi-Fi v pr
 
 ## 19. Krok 6: Spuštění útok aireplay-ng
 
-**Řekni:** „V druhém okně terminálu spustíme `sudo aireplay-ng --deauth 10 -a <BSSID> -c <MAC_KLIENTA> wlan0mon`. Příkaz pošle 10 deautentizačních paketů a klienta na okamžik odpojí.“
+**Řekni:** „V druhém okně terminálu spustíme `sudo aireplay-ng --deauth 10 -a <BSSID> -c <MAC_KLIENTA> wlan0mon`. Přepínač `--deauth` určí počet paketů, `-a` nastaví MAC adresu routeru a `-c` určí MAC adresu odpojovaného klienta ze sloupce STATION.“
 
 **Zapojení / ukázka:** Spusťte příkaz na projektoru a sledujte reakci v prvním okně s `airodump-ng`.
 
@@ -226,7 +226,7 @@ Scénář je psaný pro lektory vyučující testování bezpečnosti Wi-Fi v pr
 
 ## 23. Krok 8: Prolomení pomocí aircrack-ng
 
-**Řekni:** „Spustíme `aircrack-ng -w /usr/share/wordlists/rockyou.txt vysledek-01.cap`. Slovník `rockyou.txt` v Kali Linuxu obsahuje přes 14 milionů reálných hesel. Nástroj začne zkoušet tisíce hesel za sekundu.“
+**Řekni:** „Spustíme `aircrack-ng -w /usr/share/wordlists/rockyou.txt vysledek-01.cap`. Přepínač `-w` odkazuje na slovník hesel `rockyou.txt`, který obsahuje přes 14 milionů reálných hesel. Následuje název souboru s handshakem.“
 
 **Zapojení / ukázka:** Ukažte běh příkazu a ukazatel rychlosti zkoušení hesel (k/s).
 
@@ -254,11 +254,11 @@ Scénář je psaný pro lektory vyučující testování bezpečnosti Wi-Fi v pr
 
 ---
 
-## 26. Kategorie 6: Praktické cvičení - Přehled příkazů
+## 26. Kategorie 6: Samostatné praktické cvičení
 
-**Řekni:** „V této závěrečné části mají studenti všechny příkazy přehledně shromážděné na jednom slajdu. Kartu v Kali Linuxu mají již v Monitor módu (`wlan0mon`). Dále je k dispozici samostatná prezentace `commands.html`, kterou můžete nechat promítnutou po celou dobu cvičení.“
+**Řekni:** „V této části maji studenti k dispozici samostatnou prezentaci `commands.html`, kde je každý příkaz na vlastním slajdu včetně tabulky s přesným vysvětlením všech přepínačů a hodnot.“
 
-**Zapojení / ukázka:** Promítněte tabulku se všemi 6 kroky a příkazy na projektor, nebo otevřete `commands.html`.
+**Zapojení / ukázka:** Otevřete prezentaci `commands.html` na projektoru a procházejte ji se studenty.
 
 **Přechod:** „Podívejme se na zabezpečení vlastní Wi-Fi.“
 
