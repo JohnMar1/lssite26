@@ -1,261 +1,371 @@
-# Mluvené poznámky ke každému slajdu — Letní škola sítí: 8. Programování sítí v Pythonu
+# Mluvené poznámky ke každému slajdu — Letní škola sítí: 8. Python pro sítě (Základy pro začátečníky)
 
-Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** představuje hotovou formulaci výkladu, **Zapojení / ukázka** uvádí praktické akce v učebně a **Přechod** pomáhá plynule navázat na další téma.
-
----
-
-## 1. Titulní slajd — Programování sítí v Pythonu
-
-**Řekni:** „Vítám vás u modulu 8: Programování sítí v Pythonu. Dnes se posuneme od pouhého používání hotových nástrojů jako ping nebo Nmap k tomu, že si vytvoříme své vlastní síťové skripty a utility. Naučíme se pracovat se síťovými sockety v Pythonu a vyzkoušíme si mocnou knihovnu Scapy pro nízkoúrovňovou tvorbu paketů.“
-
-**Zapojení / ukázka:** Zeptejte se účastníků: „Kdo z vás už někdy psal v Pythonu nějaký skript? A zkoušeli jste někdy posílat data po síti?“
-
-**Přechod:** „Pojďme si ukázat přehled hlavních témat, která dnes zvládne každý z vás naprogramovat.“
+Scénář je psaný pro lektory vyučující úplné začátečníky v programování. Text po značce **Řekni** představuje výklad srozumitelným jazykem bez složité hantýrky, **Zapojení / ukázka** uvádí praktické akce v učebně a **Přechod** pomáhá navázat na další slajd.
 
 ---
 
-## 2. Co dnes probereme
+## 1. Titulní slajd — Python pro sítě
 
-**Řekni:** „Dnes projdeme 4 klíčové oblasti: Nejprve si vysvětlíme fungování socketů pro TCP a UDP komunikaci. Potom si napíšeme vlastní TCP Port Scanner a Banner Grabber. V třetí části objevíme knihovnu Scapy pro skládání vlastních paketů a nakonec si ukážeme, jak bezpečně tyto skripty spouštět a otestujeme je v praktickém cvičení.“
+**Řekni:** „Vítám vás u modulu 8. Dnes si ukážeme, jak nám Python pomůže při práci se sítěmi. Pokud jste v Pythonu nikdy neprogramovali, nemějte vůbec strach. Vše si vysvětlíme od úplného základu krok za krokem.“
 
-**Zapojení / ukázka:** Projděte jednotlivé body na slajdu a zdůrazněte, že ke všemu dostanou studenti funkční příklady.
+**Zapojení / ukázka:** Ubezpečte účastníky v třídě: „Kdo z vás píše v Pythonu poprvé? Dnešek je koncipovaný přesně pro vás.“
 
-**Přechod:** „Začneme první kategorií: Základy síťových socketů a knihovna `socket`.“
+**Přechod:** „Pojďme si říct, proč se vlastně Python učíme.“
 
 ---
 
-## 3. Kategorie 1: Základy síťových socketů a knihovna socket
+## 2. Nebojte se Pythonu!
 
-**Řekni:** „V první části se podíváme na absolutní základ síťového programování – síťové sockety v operačním systému.“
+**Řekni:** „Cílem dneška není udělat z vás softwarové vývojáře. Chceme z Pythonu udělat náš síťový švýcarský nůž – jednoduchý nástroj, kterým si ověříme funkčnost portu nebo zkontrolujeme síť, když standardní příkazy nestačí.“
+
+**Zapojení / ukázka:** Ukažte na projektoru otevřené okno terminálu s Pythonem.
+
+**Přechod:** „Co konkrétně si dnes sami napíšete?“
+
+---
+
+## 3. Co si dnes vyzkoušíme?
+
+**Řekni:** „Projdeme si pět malých kroků: Nejprve si ukážeme 4 základní příkazy v Pythonu. Pak si vysvětlíme síťové sockety, napíšeme si Port Scanner, Banner Grabber a nakonec si složíme vlastní paket v nástroji Scapy.“
+
+**Zapojení / ukázka:** Projděte body agendy na slajdu.
+
+**Přechod:** „Začneme první kategorií: Rychlé minimum z Pythonu pro síťaře.“
+
+---
+
+## 4. Kategorie 1: Rychlé minimum z Pythonu pro síťaře
+
+**Řekni:** „Než začneme posílat data po síti, ukažme si čtyři úplné základy Pythonu: proměnné, texty, podmínky a cykly.“
 
 **Zapojení / ukázka:** Zobrazte dělící slajd kategorie 1.
 
-**Přechod:** „Co si pod pojmem socket vlastně představit?“
+**Přechod:** „Prvním pojmem je proměnná.“
 
 ---
 
-## 4. Co je to Socket?
+## 5. Proměnné: Uložení údajů
 
-**Řekni:** „Socket neboli zásuvka je softwarové rozhraní mezi vaší aplikací a síťovým zásobníkem operačního systému. Přes socket aplikace říká operačnímu systému: 'Vezmi tato data a pošli je na cíl'. Aby byl socket jednoznačný, skládá se z IP adresy, čísla portu a protokolu. V Pythonu máme štěstí, protože knihovna `socket` je přímo součástí standardní instalace.“
+**Řekni:** „Proměnná je v podstatě pojmenovaná krabička v paměti počítače. Když napíšeme `ip_adresa = "192.168.1.1"`, uložíme si text do krabičky s názvem `ip_adresa`. Příkazem `print()` ji pak vytiskneme na obrazovku.“
 
-**Zapojení / ukázka:** Přirovnejte socket k telefonní zásuvce na zdi nebo ke kombinaci telefoniho čísla (IP) a linky/klapky (Port).
+**Zapojení / ukázka:** Nechte studenty otevřít Python v terminálu (příkaz `python3`) a zkusit si zadat tyto dva řádky.
 
-**Přechod:** „Jaké dva základní typy socketů budeme rozlišovat?“
-
----
-
-## 5. Typy socketů (TCP vs UDP)
-
-**Řekni:** „Při vytváření socketu volíme transportní protokol. TCP socket vytvoříme pomocí konstanty `SOCK_STREAM`. Ten zaručuje spojení, doručení dat ve správném pořadí a používá se pro web nebo SSH. Naopak UDP socket vytvoříme pomocí `SOCK_DGRAM`. Ten posílá pakety 'vystřel a zapomeň' bez garance doručení, což je extrémně rychlé a ideální pro DNS nebo streamování.“
-
-**Zapojení / ukázka:** Ukažte na slajdu vizuální rozdělení mezi modrou (TCP) a oranžovou (UDP) kartou.
-
-**Přechod:** „Pojďme napsat náš první kód: TCP klient v Pythonu.“
+**Přechod:** „Při práci se sítěmi je extrémně důležitý rozdíl mezi textem a bajty.“
 
 ---
 
-## 6. Vytvoření TCP Klienta
+## 6. Text vs. Bajty (Strings vs Bytes)
 
-**Řekni:** „Na tomto slajdu vidíte kompletní kód pro TCP klienta. Vytvoříme socket s rodinou `AF_INET` a typem `SOCK_STREAM`. Připojíme se funkcí `connect()`, odešleme data v bajtech metodou `sendall()` a přečteme odpověď pomocí `recv()`. Na závěr socket nezapomeneme zavřít přes `close()`.“
+**Řekni:** „Síťové karty neumí posílat lidský text, rozumí pouze čistým bajtům. V Pythonu vytvoříme bajty tak, že před uvozovky přidáme písmeno `b`, například `b"Ahoj"`. Pokud máme obyčejný text, převedeme ho na bajty pomocí `.encode()`.“
 
-**Zapojení / ukázka:** Nechte studenty otevřít terminál nebo VS Code / PyCharm a kód společně s vámi spustit proti např. `example.com` na portu 80.
+**Zapojení / ukázka:** Zdůrazněte uvozovky s předponou `b"..."` na tabuli.
 
-**Přechod:** „Nyní když víme, jak psát klienta, pojďme si vytvořit vlastní TCP server.“
-
----
-
-## 7. Vytvoření TCP Serveru
-
-**Řekni:** „Server funguje trochu jinak: Používá `bind()` k navázání na IP adresu (např. `0.0.0.0` pro všechna rozhraní) a port. Funkce `listen()` zapne naslouchání a `accept()` čeká na příchozího klienta. Volání `accept()` vrátí nový socket pro komunikaci s klientem a jeho adresu. V nekonečné smyčce pak přijímáme zprávy a odpovídáme.“
-
-**Zapojení / ukázka:** Spusťte tento server v jednom okně terminálu a ve druhém okně se k němu připojte pomocí `nc 127.0.0.1 9999` nebo dříve napsaného Python klienta.
-
-**Přechod:** „Ukažme si rozdíl při práci s UDP sockety.“
+**Přechod:** „Jak přimějeme počítač, aby se rozhodoval?“
 
 ---
 
-## 8. Práce s UDP Sockets
+## 7. Podmínka: Rozhodování v kódu
 
-**Řekni:** „U UDP socketů nenavazujeme trvalé spojení. Nepovolává se `connect()` ani `accept()`. Místo toho rovnou voláme `sendto()`, kde specifikujeme cíl při každém odeslání. Pro příjem používáme `recvfrom()`, což nám vrátí nejen přijatá data, ale i IP a port odesílatele.“
+**Řekni:** „Podmínka `if` říká počítači: 'Pokud platí toto, udělej akci A, jinak udělej akci B'. Všimněte si odsazení (mezer) na začátku řádku pod `if` – v Pythonu tím určujeme, co patří dovnitř podmínky.“
 
-**Zapojení / ukázka:** Zvýrazněte v kódu odlišnost metod `sendto` a `recvfrom`.
+**Zapojení / ukázka:** Poukažte na tabulátor / 4 mezerové odsazení u příkazů `print`.
 
-**Přechod:** „Co když se vzdálený počítač neodpojí nebo neodpovídá?“
-
----
-
-## 9. Ošetření chyb a timeouty
-
-**Řekni:** „V reálné síti se stává, že server neodpovídá nebo je port filtrován firewallem. V takovém případě by kód bez timeoutu zamrznul na neomezenou dobu. Metoda `settimeout(2.0)` nastaví maximální dobu čekání. Pokud do dvou sekund nepřijde odpověď, Python vyhodí výjimku `socket.timeout`, kterou snadno zachytíme v bloku `try-except`.“
-
-**Zapojení / ukázka:** Zkuste se v živé ukázce připojit s nastaveným timeoutem 1s na IP adresu v síti, která neexistuje (např. 10.255.255.1).
-
-**Přechod:** „Máme pevné základy! Přejděme ke druhé kategorii: Tvorba vlastních síťových nástrojů.“
+**Přechod:** „Co když chceme stejnou akci zopakovat pro více portů?“
 
 ---
 
-## 10. Kategorie 2: Tvorba vlastních síťových nástrojů
+## 8. Cyklus: Opakování činnosti
 
-**Řekni:** „Ve druhé části využijeme nabyté znalosti socketů a vytvoříme si dva užitečné nástroje: Port Scanner a Banner Grabber.“
+**Řekni:** „Cyklus `for` slouží k opakování. Místo abychom psali kód třikrát pro porty 22, 80 a 443, dáme čísla do hranatých závorek (seznamu) a cyklus `for p in porty:` projde všechna čísla jedno po druhém.“
+
+**Zapojení / ukázka:** Ukažte v konzoli, jak cyklus vytiskne všechna tři čísla portů pod sebe.
+
+**Přechod:** „Základy Pythonu máme za sebou! Pojďme na síťové sockety.“
+
+---
+
+## 9. Kategorie 2: Co je to Socket a jak funguje spojení
+
+**Řekni:** „Ve druhé části se naučíme propojit dva počítače pomocí síťového socketu.“
 
 **Zapojení / ukázka:** Zobrazte dělící slajd kategorie 2.
 
-**Přechod:** „Prvním nástrojem bude váš vlastní skener portů.“
+**Přechod:** „Představme si socket na reálném příkladu.“
 
 ---
 
-## 11. Nástroj 1: Jednoduchý TCP Port Scanner
+## 10. Co je to Socket?
 
-**Řekni:** „Místo standardního `connect()`, které vyvolává výjimku při neúspěchu, použijeme metodu `connect_ex()`. Tato metoda vrací číselný kód. Pokud vrátí `0`, spojení proběhlo úspěšně a port je otevřený. Jakékoliv jiné číslo znamená, že port je zavřený nebo filtrovaný.“
+**Řekni:** „Socket si představte jako telefonní přístroj. Abychom se někomu dovolali, potřebujeme jeho telefonní číslo (v síti je to IP adresa) a klapku v budově (to je číslo portu). Když máme obojí, vytvoříme socket a zvedneme sluchátko.“
 
-**Zapojení / ukázka:** Nechte studenty otestovat tento skript na jejich lokálním počítači (`127.0.0.1`).
+**Zapojení / ukázka:** Zeptejte se studentů: „Jaké porty už znáte z předchozích lekcí?“ (např. 80 pro HTTP, 22 pro SSH).
 
-**Přechod:** „Jednovláknový sken 1000 portů trvá dlouho. Jak ho výrazně zrychlit?“
-
----
-
-## 12. Zrychlení scanneru: Vícevláknové skenování
-
-**Řekni:** „Místo testování jednoho portu po druhém použijeme modul `concurrent.futures.ThreadPoolExecutor`. Vytvoříme bazén 50 vláken, která skenují porty paralelně. Díky tomu sken celého rozsahu 1–1024 zabere místo několika minut jen pár sekund!“
-
-**Zapojení / ukázka:** Porovnejte rychlost jednoduchého smyčkového skeneru s vícevláknovým přímo na projektoru.
-
-**Přechod:** „Více než jen vědět, že je port otevřený, nás často zajímá, co na něm běží. K tomu slouží Banner Grabber.“
+**Přechod:** „Jak načteme síťové funkce do Pythonu?“
 
 ---
 
-## 13. Nástroj 2: Banner Grabber
+## 11. Importujeme knihovnu socket
 
-**Řekni:** „Banner grabbing je technika, při které se připojíme k otevřenému portu a přečteme úvodní textovou zprávu (banner), kterou služba odesílá. Služby jako SSH nebo FTP po připojení samy odeslou svou verzi. Pro webové servery na portu 80 pošleme krátký požadavek `HEAD / HTTP/1.1` a přečteme hlavičku `Server:`.“
+**Řekni:** „Python obsahuje obrovské množství užitečných modulů. Síťový modul se jmenuje `socket`. Na začátek skriptu stačí napsat `import socket` a tím zpřístupníme všechny síťové funkce.“
 
-**Zapojení / ukázka:** Spusťte funkci `grab_banner` na portu 22 lokalního systému a ukažte získaný řetězec jako `SSH-2.0-OpenSSH...`.
+**Zapojení / ukázka:** Ukažte napsání `import socket` v editoru.
 
-**Přechod:** „Ukážeme si ještě obousměrný Echo Server.“
-
----
-
-## 14. Nástroj 3: Echo Server s obsluhou klientů
-
-**Řekni:** „Echo server je klasický koncept: cokoliv klient pošle, server přijme a pošle zpět s předponou `ECHO:`. Kód na slajdu ukazuje použití jednoduché smyčky s podmínkou pro ukončení příkazem `exit`.“
-
-**Zapojení / ukázka:** Ukažte testování echo serveru v terminálu.
-
-**Přechod:** „Nyní opustíme standardní sockety a ponoříme se do nízkoúrovňového světa paketů s knihovnou Scapy.“
+**Přechod:** „Nyní si v kódu vyrobíme náš první socket.“
 
 ---
 
-## 15. Kategorie 3: Nízkoúrovňový přístup a tvorba paketů v knihovně Scapy
+## 12. Krok 1: Vytvoření socketu
 
-**Řekni:** „V třetí části objevíte jeden z nejmocnějších nástrojů pro síťové inženýry a bezpečnostní experty v Pythonu – knihovnu Scapy.“
+**Řekni:** „Zavoláním `socket.socket(socket.AF_INET, socket.SOCK_STREAM)` vyrobíme nový socket. Konstanty `AF_INET` říkají, že chceme IPv4 adresy, a `SOCK_STREAM` znamená spojovaný protokol TCP.“
+
+**Zapojení / ukázka:** Vysvětlete, že pro běžnou komunikaci budeme téměř vždy používat tyto dva parametry.
+
+**Přechod:** „Socket máme vytvořený. Jak se připojíme k serveru?“
+
+---
+
+## 13. Krok 2: Připojení k cíli
+
+**Řekni:** „K připojení slouží funkce `connect()`. Do závorek jí předáme dvojici v kulatých závorkách: doménové jméno nebo IP adresu a číslo portu. Například `("example.com", 80)`.“
+
+**Zapojení / ukázka:** Ukažte správný zápis dvojitých závorek `(("example.com", 80))`.
+
+**Přechod:** „Jsme připojeni! Jak odešleme zprávu?“
+
+---
+
+## 14. Krok 3: Odeslání zprávy
+
+**Řekni:** „Zprávu odešleme metodou `sendall()`. Nezapomeňte, že text musíme poslat jako bajty, proto před uvozovky píšeme písmeno `b"..."`. Posíláme standardní požadavkový řádek HTTP protokolu.“
+
+**Zapojení / ukázka:** Zdůrazněte znaky `\r\n` jako odřádkování v HTTP protokolu.
+
+**Přechod:** „Po odeslání požadavku chceme přečíst odpověď serveru.“
+
+---
+
+## 15. Krok 4: Přijetí odpovědi a zavření
+
+**Řekni:** „Metoda `recv(1024)` počká na odpověď od serveru a přečte maximálně 1024 bajtů. Odpověď převedeme zpět na text pomocí `.decode()` a vytiskneme. Na úplný závěr socket zavřeme metodou `close()`.“
+
+**Zapojení / ukázka:** Přironejte `close()` k zavěšení telefonního sluchátka po dokončení hovoru.
+
+**Přechod:** „Pojďme si spojit všechny 4 kroky do jednoho přehledného skriptu.“
+
+---
+
+## 16. Shrnutí TCP Klienta
+
+**Řekni:** „Zde vidíte kompletní funkční kód v 6 krátkých řádcích. Vytvoříme socket, připojíme se, odešleme dotaz, přečteme odpověď a zavřeme spojení. To je celý základ síťového klienta!“
+
+**Zapojení / ukázka:** Nechte studenty tento skript spustit a ověřit, že dostanou odpověď ze serveru `example.com`.
+
+**Přechod:** „Víme, jak píše klient. Jak funguje server na druhé straně?“
+
+---
+
+## 17. A co TCP Server?
+
+**Řekni:** „Zatímco klient volá ven, server sedí a naslouchá. Dělá tři věci: přes `bind()` obsadí port na našem počítači, přes `listen()` zapne přijímač a přes `accept()` počká, až se nějaký klient připojí.“
+
+**Zapojení / ukázka:** Přirovnejte `accept()` k vrátnému, který čeká u dveří, až někdo zazvoní.
+
+**Přechod:** „Ukažme si krátký kód serveru.“
+
+---
+
+## 18. Ukázka jednoduchého serveru
+
+**Řekni:** „Tento server naslouchá na portu 9999. Když se k němu připojíme, vytiskne IP adresu klienta, pošle mu uvitací zprávu 'Vitej na mem serveru!' a spojení ukončí.“
+
+**Zapojení / ukázka:** Spusťte server a nechte studenty se k vám připojit pomocí příkazu `nc <vaše-IP> 9999`.
+
+**Přechod:** „Přejděme ke třetí kategorii: Tvorba vlastního Port Scanneru.“
+
+---
+
+## 19. Kategorie 3: Stavíme vlastní Port Scanner a Banner Grabber
+
+**Řekni:** „Ve třetí části si napíšeme skript, který zkontroluje, které porty na cílovém počítači jsou otevřené.“
 
 **Zapojení / ukázka:** Zobrazte dělící slajd kategorie 3.
 
-**Přechod:** „Co to vlastně Scapy je a v čem se liší od běžných socketů?“
+**Přechod:** „Jak vlastně port scanner funguje?“
 
 ---
 
-## 16. Co je to Scapy?
+## 20. Co dělá Port Scanner?
 
-**Řekni:** „Běžné sockety vám neumožní měnit IP hlavičku ani Ethernetový rámec – operační systém to dělá za vás. Scapy naproti tomu umožňuje nízkoúrovňově zkonstruovat jakýkoliv paket na libovolné vrstvě OSI modelu. Můžete libovolně nastavovat IP adresy, TCP vlajky (SYN, ACK, FIN), nebo generovat neplatné pakety pro testování odolnosti systémů.“
+**Řekni:** „Port scanner nedělá nic složitého – jednoduše zkouší postupné připojení na různé porty. Pokud se spojení podaří, prohlásí port za otevřený.“
 
-**Zapojení / ukázka:** Vysvětlete, že Scapy umí nahradit nástroje jako ping, hping3, tcpdump i arping.
+**Zapojení / ukázka:** Přrovnejte to k obcházení domu a zkoušení, které dveře a okna jsou odklinuté.
 
-**Přechod:** „Podívejme se na geniální syntaxi skládání paketů v Scapy.“
-
----
-
-## 17. Skládání paketů v Scapy
-
-**Řekni:** „Scapy používá operátor lomenítka `/` pro vrstvení protokolů nad sebe. Můžete napsat `Ether() / IP(dst="1.1.1.1") / TCP(dport=80, flags="S")`. Tím vytvoříte kompletní TCP SYN paket zabalený v IP a Ethernet vrstvě. Metoda `.show()` vám vytiskne nádherný rozpad všech polí hlaviček.“
-
-**Zapojení / ukázka:** Předveďte interaktivní konzoli Scapy (`sudo scapy`) a vytvořte živě jeden paket s příkazem `pkt.show()`.
-
-**Přechod:** „Jak takové vytvořené pakety odesíláme do sítě?“
+**Přechod:** „Běžné `connect()` by nám při zavřeném portu spadlo. Co s tím?“
 
 ---
 
-## 18. Odesílání a příjem paketů v Scapy
+## 21. Kouzelná funkce: connect_ex()
 
-**Řekni:** „V Scapy máme dvě rodiny funkcí: funkce bez přijmu (např. `send` pro L3 a `sendp` pro L2) a funkce s čekáním na odpověď. Klíčová je funkce `sr1()`, která odesle paket a vrátí první přijatou odpověď. Pro Ethernetové rámce (L2) používáme analogicky `srp()`.“
+**Řekni:** „Místo běžného `connect()` použijeme funkci `connect_ex()`. Tato funkce při chybě nespadne, ale vrátí číslo. Pokud vrátí přesně číslo `0`, znamená to, že spojení bylo úspěšné a port je OTEVŘENÝ.“
 
-**Zapojení / ukázka:** Zdůrazněte rozdíl mezi L2 (Ethernet, `sendp`/`srp`) a L3 (IP, `send`/`sr`/`sr1`).
+**Zapojení / ukázka:** Napište číslo `0 = OTEVŘENO` výrazně na tabuli.
 
-**Přechod:** „Napišme si v Scapy náš vlastní ICMP Ping.“
-
----
-
-## 19. Nástroj 4: Vlastní ICMP Ping v Scapy
-
-**Řekni:** „Kód pro ICMP Ping zabere v Scapy pouhých 5 řádků. Vytvoříme paket `IP(dst=target) / ICMP()` a zavoláme `sr1(pkt, timeout=2)`. Pokud odpověď přišla, vytiskneme hodinu TTL odpovědi, jinak ohlásíme timeout.“
-
-**Zapojení / ukázka:** Spusťte skript v terminálu pod `sudo` a ukažte odpověď z IP `8.8.8.8`.
-
-**Přechod:** „Pojďme si vytvořit ještě pokročilejší nástroj: ARP Scanner lokální sítě.“
+**Přechod:** „Otestujme si jeden konkrétní port.“
 
 ---
 
-## 20. Nástroj 5: ARP Scanner (Objevení zařízení v LAN)
+## 22. Test jednoho portu
 
-**Řekni:** „ARP scanner slouží k odhalení všech aktivních IP a MAC adres v lokální síti. Vytvoříme ARP dotaz `ARP(pdst=ip_range)` a obalíme ho do Ethernetového broadcastu s cílovou MAC `ff:ff:ff:ff:ff:ff`. Pomocí `srp()` odesleme rámec a projdeme všechny přijaté odpovědi.“
+**Řekni:** „Zde je kód pro test portu 80 na lokálním počítači `127.0.0.1`. Pokud `connect_ex()` vrátí `0`, vytiskneme, že port je otevřený. V opačném případě napíšeme, že je zavřený.“
 
-**Zapojení / ukázka:** Spusťte ARP skener pro vaši školní síť (např. `192.168.1.0/24`) a ukažte tabulku nalezených zažízení.
+**Zapojení / ukázka:** Spusťte kód na projektoru.
 
-**Přechod:** „Posledním nástrojem z rodiny Scapy bude vlastní Paketový Sniffer.“
-
----
-
-## 21. Nástroj 6: Paketový Sniffer
-
-**Řekni:** „Funkce `sniff()` v Scapy umožňuje odchytávat živý síťový provoz na síťové kartě. Jako parametr `prn` předáváme náš callback, který se zavolá pro každý odchycený paket. Můžeme v něm přistupovat k jednotlivým vrstvám jako `packet[IP].src` nebo `packet[TCP].dport` a filtrovat provoz pomocí BPF syntaxe jako v tcpdumpu.“
-
-**Zapojení / ukázka:** Spusťte sniffer na 10 paketů a vygenerujte v druhém okně provoz (např. vyhledáním v prohlížeči).
-
-**Přechod:** „Přejděme k závěrečné kategorii: Doporučené postupy, bezpečnost a samostatné cvičení.“
+**Přechod:** „Co když testujeme IP adresu, která v síti vůbec neexistuje?“
 
 ---
 
-## 22. Kategorie 4: Doporučené postupy, bezpečnost a cvičení
+## 23. Pozor na zamrznutí! (Timeout)
 
-**Řekni:** „V poslední části si probereme správu oprávnění v Linuxu, etická pravidla síťového vývoje a zadáme si samostatný úkol.“
+**Řekni:** „Pokud cíl neodpovídá, Python by mohl čekat desítky sekund. Proto přidáme řádek `s.settimeout(1.0)`. Tím skriptu přikážeme: 'Pokud do 1 sekundy neobdržíš odpoveď, vzdaj to a pokračuj dál'.“
+
+**Zapojení / ukázka:** Ukažte umístění řádku `settimeout` hned pod vytvořením socketu.
+
+**Přechod:** „Nyní spojíme testování s cyklem a zkontrolujeme více portů naráz.“
+
+---
+
+## 24. Port Scanner pro více portů
+
+**Řekni:** „Nyní máme hotový náš vlastní Port Scanner! Procházíme seznam portů `[21, 22, 80, 443, 8080]` a pro každý port zkusíme připojení s limitujícím časem 0.5 sekundy. Otevřené porty přehledně vypíšeme.“
+
+**Zapojení / ukázka:** Nechte studenty upravit seznam portů a otestovat skript proti jejich vlastním službám.
+
+**Přechod:** „Když víme, že je port otevřený, jak zjistíme, co na něm běží?“
+
+---
+
+## 25. Nástroj 2: Banner Grabber
+
+**Řekni:** „Banner grabber slouží k přečtení uvodního textu (banneru), který služba po připojení odesle. Například SSH server hned po připojení napíše svou přesnou verzi.“
+
+**Zapojení / ukázka:** Vysvětlete užitečnost zjišťování verzí při auditu bezpečnosti.
+
+**Přechod:** „Podívejme se na kód Banner Grabberu.“
+
+---
+
+## 26. Kód pro Banner Grabber
+
+**Řekni:** „Připojíme se na port 22 a zavoláme `s.recv(100)`. Načtené bajty převedeme na text a vytiskneme. Ihned vidíme např. `SSH-2.0-OpenSSH_8.9`.“
+
+**Zapojení / ukázka:** Vyzkoušejte v učebně připojení na port 22 vaší linuxové mašiny.
+
+**Přechod:** „Opusťme sockety a podívejme se na stavebnici paketů Scapy v kategorii 4.“
+
+---
+
+## 27. Kategorie 4: Hrajeme si s pakety v knihovně Scapy
+
+**Řekni:** „Ve čtvrté části se seznámíme s knihovnou Scapy, která nám umožní tvořit pakety jako stavebnici LEGO.“
 
 **Zapojení / ukázka:** Zobrazte dělící slajd kategorie 4.
 
-**Přechod:** „Proč jsme dnes museli používat příkaz `sudo`?“
+**Přechod:** „Proč je Scapy tak oblíbené?“
 
 ---
 
-## 23. Práva v Linuxu: Sudo / Root
+## 28. Co je to Scapy?
 
-**Řekni:** „Vytváření raw socketů a přímý přístup k síťovému rozhraní v knihovně Scapy vyžaduje v Linuxu rootovská práva (kapabilitu `CAP_NET_RAW`). Proto všechny skripty využívající Scapy nebo raw sockety spouštíme s příkazem `sudo python3 skript.py`. Pokud používáte virtuální prostředí, nezapomeňte předat cestu k cíl Python interpretu ve venvu.“
+**Řekni:** „Běžné sockety za nás schovávají síťové hlavičky. Scapy nám naopak dává plnou kontrolu nad každou vrstvou paketu. Můžeme si sami nastavit IP adresy, typy paketů nebo vlajky.“
 
-**Zapojení / ukázka:** Ukažte chybovou hlášku Permission Denied, pokud spustíte Scapy skript bez `sudo`.
+**Zapojení / ukázka:** Přirovnejte Scapy k rozložení paketu na jednotlivé LEGO kostky.
 
-**Přechod:** „Pojďme si zdůraznit etické hranice.“
-
----
-
-## 24. Etické zásady a bezpečnost
-
-**Řekni:** „Mějte na paměti, že skenování portů, injektování paketů nebo sniffing na cizích sítích bez výslovného souhlasu vlastníka je protiprávní. Nástroje, které jsme si dnes ukázali, zkoušejte výhradně na `localhost`, na svých vlastních zařízeních nebo v izolované Docker síti.“
-
-**Zapojení / ukázka:** Projděte zelenou (doporučení) a oranžovou (varování) kartu na slajdu.
-
-**Přechod:** „Nyní je čas si vše vyzkoušet na vlastní kůži v samostatném cvičení!“
+**Přechod:** „Jak se pakety v Scapy skládají?“
 
 ---
 
-## 25. Samostatné mini-cvičení
+## 29. Skládání paketů v Scapy
 
-**Řekni:** „Vaším úkolem je vytvořit skript `my_scanner.py`, který přijme IP adresu, otestuje porty 22, 80 a 443 a u otevřených portů se pokusí stáhnout banner. Kdo bude mít hotovo, může vyzkoušet bonusovou výzvu se Scapy a poslat SYN paket na port 80.“
+**Řekni:** „V Scapy používáme pro spojování vrstev znak lomítka `/`. Když napíšeme `IP(dst="8.8.8.8") / ICMP()`, vezmeme IP vrstvu mířící na Google DNS a dáme do ní ICMP dotaz na Ping.“
 
-**Zapojení / ukázka:** Obcházejte učebnu, pomáhejte studentům s kódováním a řešte případné syntaxe či výjimky.
+**Zapojení / ukázka:** Zdůrazněte intuitivní zápis pomocí lomítka `/`.
 
-**Přechod:** „Pojďme si na závěr shrnout nejdůležitější body dnešní lekce.“
+**Přechod:** „Jak tento složený paket pošleme do sítě?“
 
 ---
 
-## 26. Co si zapamatovat
+## 30. Jak paket odeslat a počkat na odpověď?
 
-**Řekni:** „Dnes jsme se naučili: `socket` je standardní modul pro TCP a UDP spojení, `connect_ex()` elegantně vrací stav portu bez chybových výjimek, `Scapy` nám dává absolutní svobodu při skládání paketů pomocí operátoru `/` a funkce `sniff()` a `srp()` umožňují odchytávání a ARP skenování.“
+**Řekni:** „Funkce `sr1()` odešle paket a počká na první odpověď. V proměnné `odpoved` pak máme kompletní přijatý paket a můžeme si přečíst např. jeho hodnotu TTL.“
 
-**Zapojení / ukázka:** Poděkujte všem za pozornost a zodpovězte případné dotazy.
+**Zapojení / ukázka:** Spusťte tento příkaz v terminálu pod `sudo`.
+
+**Přechod:** „Jak zjistíme, jaké IP a MAC adresy jsou kolem nás v lokální síti?“
+
+---
+
+## 31. Jak najít sousedy v síti? (ARP Scanner)
+
+**Řekni:** „Pomocí ARP dotazu pošleme do celé sítě dotaz: 'Kdo tu je?'. Vytvoříme Ethernetový paket s všesměrovou MAC adresou `ff:ff:ff:ff:ff:ff` a v cyklu vypíšeme odpovídající IP a MAC adresy všech sousedů.“
+
+**Zapojení / ukázka:** Ukažte seznam nalezených IP adres v učebně.
+
+**Přechod:** „Ukažme si ještě, jak pakety odchytávat.“
+
+---
+
+## 32. Odchytávání paketů (Sniffer)
+
+**Řekni:** „Funkce `sniff()` funguje jako malý Wireshark v Pythonu. Parametr `count=5` říká, že chceme odchytit 5 paketů, a pro každý paket se zavolá naše funkce `ukaz_paket()`, která vytiskne jeho stručné shrnutí.“
+
+**Zapojení / ukázka:** Spusťte sniffer na projektoru a v druhém okně načtěte libovolný web.
+
+**Přechod:** „Přejděme k závěrečné kategorii: Práva, bezpečnost a cvičení.“
+
+---
+
+## 33. Kategorie 5: Práva v Linuxu, bezpečnost a cvičení
+
+**Řekni:** „V poslední části si vysvětlíme, proč potřebujeme správcovská práva, a vyzkoušíte si samostatný úkol.“
+
+**Zapojení / ukázka:** Zobrazte dělící slajd kategorie 5.
+
+**Přechod:** „Proč nám Scapy bez `sudo` napíše chybu?“
+
+---
+
+## 34. Důležité: Práva root (Sudo)
+
+**Řekni:** „Operační systém chrání síťovou kartu před zneužitím. Vytvářet vlastní pakety v Scapy smí pouze správce (root). Proto skripty s knihovnou Scapy spouštíme v Linuxu s příkazem `sudo python3 skript.py`.“
+
+**Zapojení / ukázka:** Předveďte chybové hlášení při spuštění bez `sudo` a následně úspěšný běh se `sudo`.
+
+**Přechod:** „Připomeňme si pravidla etického chování.“
+
+---
+
+## 35. Zlatá pravidla síťového vývoje
+
+**Řekni:** „Vždy paměťte na to, že skenovat a testovat smíme pouze své vlastní počítače (`127.0.0.1`) nebo sítě, kde máme výslovné svolení. Skenování cizích serverů v internetu je nelegální.“
+
+**Zapojení / ukázka:** Zopakujte důležitost etického přístupu v kybernetické bezpečnosti.
+
+**Přechod:** „Nyní je řada na vás v samostatném cvičení!“
+
+---
+
+## 36. Dnešní praktický úkol
+
+**Řekni:** „Otevřete si textový editor a vytvořte soubor `scanner.py`. Napište jednoduchý skript, který zkontroluje porty 22 a 80 na adrese `127.0.0.1` a vytiskne výsledek. Pokud budete mít hotovo, zkuste stáhnout Banner portu 22!“
+
+**Zapojení / ukázka:** Obcházejte učebnu a pomáhejte účastníkům s prvním psaním kódu a opravou případných překlepů.
+
+**Přechod:** „Pojďme si na závěr shrnout to nejdůležitější.“
+
+---
+
+## 37. Co si z dneška odnést
+
+**Řekni:** „Dnes jste zvládli obrovský krok: `socket` vám umožnil spojit dva počítače, `connect_ex() == 0` ověřil otevřený port a v `Scapy` jste si složili vlastní pakety. Python je váš nový nejlepší pomocník pro správu sítí!“
+
+**Zapojení / ukázka:** Poděkujte všem za pozornost a zodpovězte dotazy studentů.
