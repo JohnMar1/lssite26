@@ -24,11 +24,11 @@ Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho dosl
 
 ---
 
-## 2. Harmonogram dne 🕒
+## 2. Harmonogram dne
 
 **Řekni:** „Dnešní den je rozdělený přehledně: Od 9:00 do 9:10 si projdeme pravidla a sestavíme týmy. Od 9:10 do 12:00 poběží první dopolední část CTF. Ve 12:00 máme pauzu na oběd a od 13:00 do 14:45 navážeme druhou částí. Ve 14:45 se odevzdávání uzavře a od 15:00 do 16:00 proběhne společné vyhodnocení a rozbor nejzajímavějších úloh.“
 
-**Zapojení / ukázka:** Ukažte časové miľníky na slajdu a zdůrazněte čas uzavření odevzdávání (14:45).
+**Zapojení / ukázka:** Ukažte časové milníky na slajdu a zdůrazněte čas uzavření odevzdávání (14:45).
 
 **Přechod:** „Pojďme se podívat na první kategorii – jak CTF funguje a jak vypadá vlajka.“
 
@@ -36,7 +36,7 @@ Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho dosl
 
 ## 3. Kategorie 1: Co je to CTF a formát vlajky LS{...}
 
-**Řekni:** „Soutěžíme v formátu Jeopardy CTF. Úlohy jsou rozdělené do kategorií a odstupňované podle obtížnosti. Doporučuji začít úlohami za méně bodů. Cílem není vyřešit úplně všechno a kdykoli můžete přeskočit na jinou úlohu.“
+**Řekni:** „Soutěžíme ve formátu Jeopardy CTF. Úlohy jsou rozdělené do kategorií a odstupňované podle obtížnosti. Doporučuji začít úlohami za méně bodů. Cílem není vyřešit úplně všechno a kdykoli můžete přeskočit na jinou úlohu.“
 
 **Zapojení / ukázka:** Připomeňte, že náročnější úlohy zaberou víc kroků, proto je výhodné nejprve nasbírat body na jednodušších věcech.
 
@@ -66,7 +66,7 @@ Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho dosl
 
 ## 6. Týmová spolupráce
 
-**Řekni:** „Jeden člen týmu vytvoří nový tým a zvolí jeho název. Ostatní členové kliknou na Join Team a připojí se k němu. Důležité je, že když jakýkoliv člen týmu odevzdá správnou vlajku, body se připlnou okamžitě celému týmu společně!“
+**Řekni:** „Jeden člen týmu vytvoří nový tým a zvolí jeho název. Ostatní členové kliknou na Join Team a připojí se k němu. Důležité je, že když jakýkoliv člen týmu odevzdá správnou vlajku, body se přišpendlí okamžitě celému týmu společně!“
 
 **Zapojení / ukázka:** Projděte učebnu a zkontrolujte, že jsou všichni spárovaní v týmech.
 
@@ -84,19 +84,19 @@ Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho dosl
 
 ---
 
-## 8. Dočasné stroje (Spustit stroj) 🚀
+## 8. Dočasné stroje (Spustit stroj)
 
 **Řekni:** „U některých úloh uvidíte tlačítko 'Spustit stroj'. Po kliknutí se pro vás vytvoří izolovaný kontejner na 15 minut a dostanete příkaz typu `nc 192.168.1.182 PORT`. Na Linuxu či macOS se připojíte jednoduše v terminálu příkazem `nc`, na Windows použijete `ncat.exe` nebo WSL. Připojení je bez hesla. Pokud potřebujete více času, tlačítkem na webu přidáte dalších 10 minut. Po skončení práce relaci ukončíte příkazem `exit`.“
 
-**Zapojení / ukázka:** Předveďte spustění příkazu `nc` v terminálu.
+**Zapojení / ukázka:** Předveďte spuštění příkazu `nc` v terminálu.
 
 **Přechod:** „A jak funguje speciální Minecraft úloha?“
 
 ---
 
-## 9. Minecraft úloha 🧊🎮
+## 9. Minecraft úloha
 
-**Řekni:** „V kategorii Minecraft vás čekají 3 navazující místnosti na reálném Minecraft serveru! K připojení potřebujete clienta Minecraft Java Edition verze 1.20.4. Adresu serveru uvidíte u zadání úlohy. Každý si prochází mapu sám, ale nalezené vlajky `LS{...}` si v týmu můžete normálně předávat. Server běží pouze v naší učební síti během soutěže.“
+**Řekni:** „V kategorii Minecraft vás čekají 3 navazující místnosti na reálném Minecraft serveru! K připojení potřebujete klienta Minecraft Java Edition verze 1.20.4. Adresu serveru uvidíte u zadání úlohy. Každý si prochází mapu sám, ale nalezené vlajky `LS{...}` si v týmu můžete normálně předávat. Server běží pouze v naší učební síti během soutěže.“
 
 **Zapojení / ukázka:** Upozorněte na verzi Minecraftu 1.20.4 a ujistěte se, že studenti vědí, kde najdou adresu serveru.
 
@@ -104,9 +104,9 @@ Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho dosl
 
 ---
 
-## 10. Kategorie 4: Bezpečnostní pravidla – Kde se smí hrát 🛑
+## 10. Kategorie 4: Bezpečnostní pravidla – Kde se smí hrát
 
-**Řekni:** „Pozor na pravidla rozsahu: Aktivní bezpečnostní testování je povolené POUZE v cestě /lab (tedy https://dork.cz/lab), v dočasných strojích a nad přiloženými soubory! Samotné rozhraní CTFd mimo /lab NENÍ cíl útoku – nezkoušejte zranitelnosti na přihlašování, API ani administraci dork.cz. Wi-Fi soubory PCAP jsou syntetické offline nahrávky – nezkoušejte nic na reálné školní Wi-Fi. Zákaz phishingu, DoS a mazání data!“
+**Řekni:** „Pozor na pravidla rozsahu: Aktivní bezpečnostní testování je povolené POUZE v cestě /lab (tedy https://dork.cz/lab), v dočasných strojích a nad přiloženými soubory! Samotné rozhraní CTFd mimo /lab NENÍ cíl útoku – nezkoušejte zranitelnosti na přihlašování, API ani administraci dork.cz. Wi-Fi soubory PCAP jsou syntetické offline nahrávky – nezkoušejte nic na reálné školní Wi-Fi. Zákaz phishingu, DoS a mazání dat!“
 
 **Zapojení / ukázka:** Zdůrazněte červeně podbarvenou cestu `/lab` a ukažte, že zkoušení útoku mimo `/lab` znamená diskvalifikaci.
 
@@ -114,7 +114,7 @@ Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho dosl
 
 ---
 
-## 11. Když nevíš jak dál... 🤔💡
+## 11. Když nevíte jak dál...
 
 **Řekni:** „Pokud se na úloze zaseknete: 1. Přeskočte na jinou úlohu. 2. Poraďte se v týmu. 3. Pokud jste 10 minut bez posunu, zavolejte lektora! Ukažte mu, co jste vyzkoušeli a lektor vás zdarma nasměruje. Ušetříte si tak zbytečné utrácení bodů za nápovědy v CTFd.“
 
@@ -124,7 +124,7 @@ Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho dosl
 
 ---
 
-## 12. Kategorie 5: Start soutěže! 🏆
+## 12. Kategorie 5: Start soutěže!
 
 **Řekni:** „Všechny podstatné informace máme za sebou. Otevřete https://dork.cz, zkontrolujte týmy a můžeme odstartovat dopolední blok CTF do 12:00. Přejeme hodně štěstí a ulovte co nejvíce vlajek LS{...}! Pustíme se do toho!“
 
