@@ -116,9 +116,9 @@ Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho dosl
 
 ## 11. Když nevíte jak dál...
 
-**Řekni:** „Pokud se na úloze zaseknete: 1. Přeskočte na jinou úlohu. 2. Poraďte se v týmu. 3. Pokud jste 10 minut bez posunu, zavolejte lektora! Ukažte mu, co jste vyzkoušeli a lektor vás zdarma nasměruje. Ušetříte si tak zbytečné utrácení bodů za nápovědy v CTFd.“
+**Řekni:** „Pokud se na úloze zaseknete: 1. Přeskočte na jinou úlohu. 2. Poraďte se v týmu. 3. Vyzkoušejte jiný postup, prozkoumejte data podrobněji nebo využijte nápovědu přímo v rozhraní úlohy.“
 
-**Zapojení / ukázka:** Povzbuďte studenty, aby se nebojeli zvednout ruku a zavolat lektora.
+**Zapojení / ukázka:** Připomeňte studentům týmovou spolupráci a předávání zjištění v týmu.
 
 **Přechod:** „Jsme u konce úvodu, pojďme odstartovat!“
 
