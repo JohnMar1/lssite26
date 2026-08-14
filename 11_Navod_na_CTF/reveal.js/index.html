@@ -78,6 +78,21 @@
         color: #1e7e34;
         margin-top: 1rem;
       }
+      .schedule-table {
+        width: 100%;
+        font-size: 0.8em;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+      .schedule-table th, .schedule-table td {
+        padding: 0.6rem;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+      }
+      .schedule-table th {
+        background-color: #007acc;
+        color: white;
+      }
     </style>
   </head>
   <body>
@@ -88,237 +103,202 @@
         <section>
           <h1>11. Návod na CTF &amp; Závěrečná soutěž</h1>
           <p style="font-size: 1.3em; color: #555; margin-top: 1rem;">Letní škola sítí</p>
-          <p style="margin-top: 1.5rem;"><small>Průvodce soutěží na platformě CTFd: <a href="https://dork.cz" target="_blank" style="color: #007acc; font-weight: bold;">https://dork.cz</a></small></p>
+          <p style="margin-top: 1.5rem;"><small>Soutěžní portál: <a href="https://dork.cz" target="_blank" style="color: #007acc; font-weight: bold;">https://dork.cz</a></small></p>
         </section>
 
-        <!-- Slide 2: Co se dnes naučíme -->
+        <!-- Slide 2: Harmonogram dne -->
         <section>
-          <h2>Co nás dnes čeká?</h2>
-          <ol style="font-size: 0.85em; line-height: 1.8;">
-            <li class="fragment">Co je to <strong>Capture The Flag (CTF)</strong> a jak vypadá vlajka</li>
-            <li class="fragment">Registrace a práce v týmech na portálu <a href="https://dork.cz" target="_blank">dork.cz</a></li>
-            <li class="fragment">Orientace v rozhraní <strong>CTFd</strong> (Úlohy, body, nápovědy)</li>
-            <li class="fragment">Přehled soutěžních kategorií (Web, Sítě, Forenzika, Linux, Kryptografie)</li>
-            <li class="fragment">Doporučené nástroje a postupy pro řešení úloh</li>
-            <li class="fragment">Pravidla fair play a týmová strategie</li>
-          </ol>
+          <h2>Harmonogram dne 🕒</h2>
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>Čas</th>
+                <th>Blok / Aktivita</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>09:00 – 09:10</strong></td>
+                <td>Pravidla, registraci a vytvoření týmů</td>
+              </tr>
+              <tr>
+                <td><strong>09:10 – 12:00</strong></td>
+                <td><span class="badge-blue">CTF · První část</span> (Samostatné &amp; týmové řešení)</td>
+              </tr>
+              <tr>
+                <td><strong>12:00 – 13:00</strong></td>
+                <td>Oběd 🍕</td>
+              </tr>
+              <tr>
+                <td><strong>13:00 – 14:45</strong></td>
+                <td><span class="badge-blue">CTF · Druhá část</span> (Finiš a těžší výzvy)</td>
+              </tr>
+              <tr>
+                <td><strong>14:45 – 15:00</strong></td>
+                <td>Poslední odevzdání vlajek ⏱️</td>
+              </tr>
+              <tr>
+                <td><strong>15:00 – 16:00</strong></td>
+                <td><span class="badge-green">Vyhodnocení a společný rozbor úloh</span> 🏆</td>
+              </tr>
+            </tbody>
+          </table>
         </section>
 
-        <!-- KATEGORIE 1: Úvod do CTF -->
+        <!-- KATEGORIE 1: Úvod a Vlajka LS{...} -->
         <section>
           <section>
             <h2>Kategorie 1</h2>
-            <h3>Co je to CTF (Capture The Flag)?</h3>
+            <h3>Co je to CTF a formát vlajky <code>LS{...}</code></h3>
           </section>
 
           <section>
-            <h2>Princip Jeopardy-style CTF</h2>
+            <h2>Princip soutěže na dork.cz</h2>
             <ul>
-              <li class="fragment"><strong>Kybernetická soutěž:</strong> Dosažení cti a praktické prověření znalostí ze sítí, bezpečnosti a programování.</li>
-              <li class="fragment"><strong>Kategorie úloh:</strong> Úlohy jsou rozděleny podle témat s různým obodováním podle obtížnosti.</li>
-              <li class="fragment"><strong>Cíl soutěže:</strong> Vyřešit co nejvíce úloh, najít skryté řetězce (vlajky) a získat nejvyšší počet bodů pro svůj tým.</li>
+              <li class="fragment"><strong>Jeopardy CTF:</strong> Úlohy jsou rozdělené podle témat s různým obodováním podle obtížnosti.</li>
+              <li class="fragment"><strong>Začni od nejlehčích:</strong> Každá kategorie začíná jednoduše. Vyšší body znamenají více kroků. Nemusíš vyřešit všechno!</li>
+              <li class="fragment"><strong>Kdykoli přeskakuj:</strong> Pokud se na úloze zaseknete, prejděte na jinou nebo se poraďte v týmu.</li>
             </ul>
           </section>
 
           <section>
-            <h2>Jak vypadá vlajka (Flag)?</h2>
-            <p style="font-size: 0.9em;">Vlajka je tajný textový řetězec, který získáte po úspěšném vyřešení úlohy.</p>
+            <h2>Formát vlajky: <code>LS{...}</code></h2>
+            <p style="font-size: 0.9em;">Na tomto CTF mají všechny vlajky specifický tvar:</p>
             <div class="flag-box fragment">
-              FLAG{s1tovk4_2026_dork_ctf_master}
+              LS{neco_uvnitr_zde}
             </div>
             <ul style="font-size: 0.85em; margin-top: 1.5rem;">
-              <li class="fragment">Standardní formát: <code>FLAG{text_vlajky}</code> nebo <code>flag{...}</code>.</li>
-              <li class="fragment">Vlajka se vkládá do odpovídajícího pole na portálu <a href="https://dork.cz" target="_blank">dork.cz</a>.</li>
-              <li class="fragment">Rozlišují se malá a velká písmena (case-sensitive)!</li>
+              <li class="fragment">Vždy začíná <code>LS{</code> a končí <code>}</code> (zkratka Letní škola sítí).</li>
+              <li class="fragment">Rozlišují se malá a velká písmena (case-sensitive).</li>
+              <li class="fragment">Po nálezu vložte celý řetězec <code>LS{...}</code> do pole pod zadáním úlohy na dork.cz.</li>
             </ul>
           </section>
         </section>
 
-        <!-- KATEGORIE 2: Registrace a týmy na dork.cz -->
+        <!-- KATEGORIE 2: Registrace a týmy -->
         <section>
           <section>
             <h2>Kategorie 2</h2>
-            <h3>Registrace a týmy na portálu dork.cz</h3>
+            <h3>Registrace a týmy na dork.cz</h3>
           </section>
 
           <section>
-            <h2>Připojení k soutěži na dork.cz</h2>
+            <h2>Přihlášení a registrace</h2>
             <div class="highlight-box">
               <p>Adresa soutěžního portálu: <a href="https://dork.cz" target="_blank" style="font-weight: bold; color: #007acc;">https://dork.cz</a></p>
             </div>
             <ul style="font-size: 0.85em; margin-top: 1.5rem;">
-              <li class="fragment"><strong>Krok 1:</strong> Otevřete v prohlížeči <code>https://dork.cz</code>.</li>
-              <li class="fragment"><strong>Krok 2:</strong> Klikněte na <code>Register</code> vpravo nahoře (nebo použijte předvytvořený účet).</li>
-              <li class="fragment"><strong>Krok 3:</strong> Vyplňte uživatelské jméno a heslo.</li>
+              <li class="fragment">Klikněte na <strong>Registrovat se</strong> (nebo se přihlaste, pokud máte účet).</li>
+              <li class="fragment">Průvodce soutěží najdete přímo na <a href="https://dork.cz/pruvodce" target="_blank">dork.cz/pruvodce</a>.</li>
             </ul>
           </section>
 
           <section>
-            <h2>Práce v týmech (Team Mode)</h2>
+            <h2>Týmová spolupráce</h2>
             <div class="two-cols">
               <div class="col fragment">
-                <span class="badge-blue">Založení týmu (Captain)</span>
-                <p style="font-size: 0.85em; margin-top: 0.5rem;">Jeden člen zvolí <em>Create Team</em>, zadá název týmu a případně heslo/PIN.</p>
+                <span class="badge-blue">Založení / Připojení k týmu</span>
+                <p style="font-size: 0.85em; margin-top: 0.5rem;">Jeden člen vytvoří tým, ostatní zvolí <em>Join Team</em> a vyhledají jeho název.</p>
               </div>
               <div class="col fragment">
-                <span class="badge-green">Připojení k týmu</span>
-                <p style="font-size: 0.85em; margin-top: 0.5rem;">Ostatní členové zvolí <em>Join Team</em>, vyhledají název týmu a zadají přístupové heslo.</p>
+                <span class="badge-green">Sdílení bodů</span>
+                <p style="font-size: 0.85em; margin-top: 0.5rem;">Kdo z týmu odešle správnou vlajku, ten připíše body celému týmu!</p>
               </div>
-            </div>
-            <div class="highlight-box fragment" style="margin-top: 1.5rem;">
-              <p> Body získané kterýmkoliv členem týmu se započítávají celému týmu společenství!</p>
             </div>
           </section>
         </section>
 
-        <!-- KATEGORIE 3: Rozhraní CTFd -->
+        <!-- KATEGORIE 3: Typy úloh & Dočasné stroje -->
         <section>
           <section>
             <h2>Kategorie 3</h2>
-            <h3>Práce s úlohami v rozhraní CTFd</h3>
+            <h3>Přehled úloh, Dočasné stroje &amp; Minecraft</h3>
           </section>
 
           <section>
-            <h2>Záložka Challenges (Úlohy)</h2>
-            <ul>
-              <li class="fragment"><strong>Dlaždice úloh:</strong> Každá úloha má svůj název, kategorii a bodovou hodnotu.</li>
-              <li class="fragment"><strong>Barevné odlišení:</strong> Vyřešené úlohy se zazelenají (Solve status).</li>
-              <li class="fragment"><strong>Dynamické bodování:</strong> U náročnějších úloh klesá bodová hodnota s počtem týmů, které ji vyřešily.</li>
+            <h2>Co všechno na dork.cz najdete?</h2>
+            <ul style="font-size: 0.85em; line-height: 1.6;">
+              <li class="fragment"><strong>Linux:</strong> Soubory, logy, práva a procesy</li>
+              <li class="fragment"><strong>Síť:</strong> IP adresy, DNS, router a Wireshark</li>
+              <li class="fragment"><strong>Minecraft 🧊:</strong> 3 navazující místnosti na opravdovém Minecraft serveru!</li>
+              <li class="fragment"><strong>Docker 🐳:</strong> Logy, Compose a obnova herního serveru</li>
+              <li class="fragment"><strong>Python 🐍:</strong> TCP, UDP, sockety a malý port scanner</li>
+              <li class="fragment"><strong>Web 🌐:</strong> Hlavičky, <code>robots.txt</code>, SQLi a XSS v labu</li>
+              <li class="fragment"><strong>Bonus ⚡:</strong> Náročnější výzvy pro pokročilé</li>
             </ul>
           </section>
 
           <section>
-            <h2>Detail úlohy a odevzdání vlajky</h2>
-            <div class="two-cols">
-              <div class="col fragment">
-                <span class="badge-purple">Co v úloze najdete:</span>
-                <ul style="font-size: 0.8em; margin-top: 0.5rem;">
-                  <li>Text zadání a instrukce</li>
-                  <li>Odkaz na web / IP a port (<code>nc dork.cz 1337</code>)</li>
-                  <li>Soubory ke stažení (pcap, zip, binary)</li>
-                  <li>Nápovědy (Hints) – pozor na odečet bodů!</li>
-                </ul>
-              </div>
-              <div class="col fragment">
-                <span class="badge-green">Odevzdání (Submit):</span>
-                <ul style="font-size: 0.8em; margin-top: 0.5rem;">
-                  <li>Do pole vložte přesný tvar <code>FLAG{...}</code></li>
-                  <li>Klikněte na <strong>Submit</strong></li>
-                  <li>Systém ihned potvrdí správnost (Correct / Incorrect)</li>
-                </ul>
-              </div>
-            </div>
+            <h2>Dočasné stroje (Spustit stroj) 🚀</h2>
+            <p style="font-size: 0.85em;">Některé úlohy vyžadují spuštění dynamického kontejneru:</p>
+            <ol style="font-size: 0.8em;">
+              <li class="fragment">U úlohy klikněte na tlačítko <strong>Spustit stroj</strong>.</li>
+              <li class="fragment">Získáte vyhrazené prostředí na <strong>15 minut</strong> a příkaz s IP a portem:
+                <pre><code class="language-bash code-block">nc 192.168.1.182 PORT</code></pre>
+              </li>
+              <li class="fragment">Připojení probíhá přímo bez hesla (Linux/macOS: <code>nc</code>, Windows: <code>ncat.exe</code> nebo WSL).</li>
+              <li class="fragment">Tlačítkem na webu lze čas 1x prodloužit o 10 minut. Uprostřed terminálu ukončíte relaci příkazem <code>exit</code>.</li>
+            </ol>
           </section>
 
           <section>
-            <h2>Scoreboard a průběh soutěže</h2>
-            <ul>
-              <li class="fragment"><strong>Scoreboard (Žebříček):</strong> Průběžné pořadí všech týmů a graf vývoje bodů v čase.</li>
-              <li class="fragment"><strong>Notifications (Oznámení):</strong> Důležité zprávy od organizátorů (opravy zadání, hinty pro všechny).</li>
+            <h2>Minecraft úloha 🧊🎮</h2>
+            <div class="highlight-box">
+              <p><strong>3 navazující místnosti tvoří jednu krátkou mapu!</strong></p>
+            </div>
+            <ul style="font-size: 0.85em; margin-top: 1rem;">
+              <li class="fragment">Vyžaduje clienta <strong>Minecraft Java Edition 1.20.4</strong>.</li>
+              <li class="fragment">Adresu serveru uvidíte přímo v detailu úlohy na dork.cz.</li>
+              <li class="fragment">Každý hráč postupuje sám, ale v týmu si získané vlajky <code>LS{...}</code> můžete normálně předat!</li>
+              <li class="fragment"> Server je dostupný pouze během soutěže v učební síti.</li>
             </ul>
           </section>
         </section>
 
-        <!-- KATEGORIE 4: Přehled kategorií úloh a nástrojů -->
+        <!-- KATEGORIE 4: Pravidla bezpečnosti & Kde se smí hrát -->
         <section>
           <section>
             <h2>Kategorie 4</h2>
-            <h3>Soutěžní kategorie a doporučené nástroje</h3>
+            <h3>Bezpečnostní pravidla – Kde se smí hrát 🛑</h3>
           </section>
 
           <section>
-            <h2>1. Web Hacking</h2>
-            <p style="font-size: 0.85em;">Hledání zranitelností ve webových aplikacích (HTML, JS, Cookies, SQLi, LFI).</p>
-            <div class="two-cols">
-              <div class="col fragment">
-                <span class="badge-blue">Kde hledat vlajku:</span>
-                <ul style="font-size: 0.8em; margin-top: 0.5rem;">
-                  <li>Zdrojový kód stránky (F12 &rarr; Inspector)</li>
-                  <li>Komentáře v HTML / JavaScriptu</li>
-                  <li>Soubory <code>robots.txt</code>, <code>.git/</code>, cookies</li>
-                </ul>
-              </div>
-              <div class="col fragment">
-                <span class="badge-orange">Nástroje:</span>
-                <ul style="font-size: 0.8em; margin-top: 0.5rem;">
-                  <li>DevTools v prohlížeči (F12)</li>
-                  <li><code>curl</code> / <code>Postman</code></li>
-                  <li>Burp Suite / OWASP ZAP</li>
-                </ul>
-              </div>
+            <h2>Povolený rozsah testování (/lab)</h2>
+            <div class="highlight-box" style="border-left-color: #dc3545;">
+              <p style="color: #dc3545; font-weight: bold; font-size: 1.1em;">Aktivní testování je povolené POUZE v cestě /lab!</p>
             </div>
+            <ul style="font-size: 0.85em; margin-top: 1rem;">
+              <li class="fragment"><strong>Kde útočit:</strong> Stránky v cestě <code>https://dork.cz/lab</code>, přidělené dočasné stroje a stažené soubory.</li>
+              <li class="fragment"><strong>Kde NEÚTOČIT:</strong> Samotné CTFd rozhraní mimo <code>/lab</code> není cíl! Nezkoušejte jeho účty, API ani administraci.</li>
+              <li class="fragment"><strong>Wi-Fi provoz:</strong> Wi-Fi záznam je syntetický offline soubor PCAP. Nezkoušejte nic na reálné školní ani cizí síti!</li>
+              <li class="fragment"><strong>Zakázané praktiky:</strong> Phishing, zahlcování služby (DoS), mazání dat ani zkoušení cizích účtů.</li>
+            </ul>
           </section>
 
           <section>
-            <h2>2. Sítě &amp; Forenzní analýza (Forensics)</h2>
-            <p style="font-size: 0.85em;">Analýza síťového provozu (PCAP), skrytých dat v obrázcích a souborech.</p>
-            <pre><code class="language-bash code-block"># Analýza PCAP souboru
-wireshark chyceny_provoz.pcap
-
-# Vytažení čitelných řetězců ze souboru
-strings tajemny_soubor.bin | grep -i "FLAG"
-
-# Analýza metadat obrázku a hledání skrytých dat
-exiftool fotka.jpg
-binwalk -e obrazek.png</code></pre>
-          </section>
-
-          <section>
-            <h2>3. Linux &amp; Příkazová řádka (Misc / System)</h2>
-            <p style="font-size: 0.85em;">Práce na vzdálených serverech přes SSH nebo Netcat, prohledávání souborů.</p>
-            <pre><code class="language-bash code-block"># Připojení k netcat službě
-nc dork.cz 9999
-
-# Vyhledání souboru s vlajkou na Linux serveru
-find / -name "*flag*" 2>/dev/null
-grep -rnw '/var/www/' -e 'FLAG{'</code></pre>
-          </section>
-
-          <section>
-            <h2>4. Kryptografie &amp; Kódování (Crypto)</h2>
-            <p style="font-size: 0.85em;">Dekódování a dešifrování zpráv (Base64, Caesar cipher, Hashing, RSA, XOR).</p>
-            <div class="highlight-box fragment">
-              <p><strong>Základní dekódování Base64 v terminálu:</strong></p>
-              <pre><code class="language-bash code-block">echo "RkxBR3tzMXRvdms0XzIwMjZ9" | base64 -d</code></pre>
-            </div>
-            <p style="font-size: 0.85em; margin-top: 1rem;" class="fragment">💡 <strong>Nejlepší pomocník:</strong> <a href="https://gchq.github.io/CyberChef/" target="_blank" style="color:#007acc; font-weight:bold;">CyberChef</a> (Švýcarský nůž na kryptografii a kódování).</p>
+            <h2>Když nevíš jak dál... 🤔💡</h2>
+            <ul>
+              <li class="fragment"><strong>Zkus jinou úlohu:</strong> Nemusíš dělat úlohy pořadě.</li>
+              <li class="fragment"><strong>Poraď se v týmu:</strong> Ukažte si soubor nebo obrazovku.</li>
+              <li class="fragment"><strong>Po 10 minutách zavolej lektora!</strong> Pokud se 10 minut nezvedne žádný posun, ukažte lektorovi, co jste zkusili – rád vás nasměruje.</li>
+              <li class="fragment"><strong>Vestavěné nápovědy:</strong> Není potřeba utrácet body za nápovědy v CTFd, lektor vám pomůže zadarmo!</li>
+            </ul>
           </section>
         </section>
 
-        <!-- KATEGORIE 5: Pravidla a strategie -->
+        <!-- KATEGORIE 5: Start soutěže -->
         <section>
           <section>
             <h2>Kategorie 5</h2>
-            <h3>Pravidla soutěže a týmová strategie</h3>
+            <h3>Start soutěže!</h3>
           </section>
 
           <section>
-            <h2>Pravidla Fair Play 🛑</h2>
-            <div class="highlight-box" style="border-left-color: #dc3545;">
-              <p style="color: #dc3545; font-weight: bold;">Cílem je učit se a bavit se férově!</p>
-            </div>
-            <ul style="font-size: 0.85em; margin-top: 1rem;">
-              <li class="fragment">❌ <strong>NEÚTOČTE na server <code>dork.cz</code>:</strong> Testují se pouze určené soutěžní úlohy, ne web CTFd!</li>
-              <li class="fragment">❌ <strong>ZÁKAZ sdílení vlajek mezi týmy:</strong> Každý tým řeší úlohy samostatně.</li>
-              <li class="fragment">❌ <strong>ZÁKAZ Denial of Service (DoS):</strong> Nepoužívejte bruteforce ani nepřeťažujte servery automatizovanými skripty, pokud to není zadáním úlohy.</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2>Doporučená týmová strategie 🚀</h2>
-            <ul>
-              <li class="fragment"><strong>Rozdělte si úlohy:</strong> Jeden se zaměří na Web, druhý na Sítě/Wireshark, třetí na Crypto.</li>
-              <li class="fragment"><strong>Začněte nejlehčími úlohami:</strong> Nasbírejte rychlé body pro zahřátí a získání sebevědomí.</li>
-              <li class="fragment"><strong>Nezasekněte se na jedné úloze:</strong> Pokud 20 minut nevíte jak dál, předejte úlohu kolegovi nebo vyzkoušejte jinou.</li>
-              <li class="fragment"><strong>Sdílejte poznatky v týmu:</strong> Víc očí víc vidí!</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2>Připraveni? Jdeme na to! 🏆</h2>
+            <h2>Vše je připraveno 🏆</h2>
             <div class="highlight-box" style="text-align: center; border-left-color: #28a745;">
               <h3 style="color: #28a745; margin: 0;">Portál: <a href="https://dork.cz" target="_blank" style="color: #28a745; text-decoration: underline;">https://dork.cz</a></h3>
-              <p style="margin-top: 0.5rem; font-size: 1.1em;">Hodně štěstí a ulovte co nejvíce vlajek!</p>
+              <p style="margin-top: 0.8rem; font-size: 1.1em;">Průvodce: <a href="https://dork.cz/pruvodce" target="_blank" style="color: #007acc;">dork.cz/pruvodce</a></p>
+              <p style="margin-top: 0.8rem; font-weight: bold;">Hledejte vlajky ve tvaru LS{...} a bavte se!</p>
             </div>
           </section>
         </section>
