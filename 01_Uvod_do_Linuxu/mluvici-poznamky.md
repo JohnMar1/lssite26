@@ -1,28 +1,29 @@
-# Mluvené poznámky ke každému slajdu — Letní škola sítí: 1. Úvod do Linuxu
+# Mluvené poznámky ke každému slajdu - Letní škola sítí: 1. Úvod do Linuxu
 
-Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho doslova. Text po značce **Řekni** můžeš použít skoro jako hotovou formulaci, **Zapojení / ukázka** říká, co máš udělat s publikem, a **Přechod** ti pomůže plynule n   avázat.
+Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho doslova. Text po značce **Řekni** můžeš použít skoro jako hotovou formulaci, **Zapojení / ukázka** říká, co máš udělat s publikem, a **Přechod** ti pomůže plynule navázat.
 
-U příkazů nečti kód z obrazovky jako holý text – vysvětli nejprve účel příkazu, pak vylož jeho příznaky (flags) a argumenty.
+U příkazů nečti kód z obrazovky jako holý text - vysvětli nejprve účel příkazu, pak vylož jeho příznaky (flags) a argumenty.
 
 ## Doporučené tempo
 
-- Slajdy 1–9: Úvod, kernel vs GNU, distribuce a Unixová filozofie, přibližně 25 minut.
-- Slajdy 10–20: Terminál, shell, nápověda, bezpečné návyky a info o systému, přibližně 35 minut.
-- Slajdy 21–43: Souborový systém, navigace, vytváření, čtení, mazání a globy, přibližně 60 minut.
+- Slajdy 1-9: Úvod, kernel vs GNU, distribuce a Unixová filozofie, přibližně 25 minut.
+- Slajdy 10-20: Terminál, shell, nápověda, bezpečné návyky a info o systému, přibližně 35 minut.
+- Slajdy 21-43: Souborový systém, navigace, vytváření, čtení, mazání a globy, přibližně 60 minut.
 - Slajd 44: Přestávka (10 min).
-- Slajdy 45–51: Vyhledávání, grep, roury a přesměrování výstupu, přibližně 45 minut.
-- Slajdy 52–62: Uživatelé, skupiny, oprávnění (chmod, chown, sudo, umask), přibližně 45 minut.
+- Slajdy 45-51: Vyhledávání, grep, roury a přesměrování výstupu, přibližně 45 minut.
+- Slajdy 52-62: Uživatelé, skupiny, oprávnění (chmod, chown, sudo, umask), přibližně 45 minut.
 - Slajd 63: Přestávka (10 min).
-- Slajdy 64–71: Shell ve větší hloubce, uvozovky, návratové kódy a procesy, přibližně 30 minut.
-- Slajdy 72–79: Filesystem do hloubky, symlinky, /proc, /sys a tar, přibližně 30 minut.
-- Slajdy 80–91: Pokročilé textové nástroje (sed, xargs, sticky bit, ACL), přibližně 30 minut.
-- Slajdy 92–98: Praktická cvičení, kontrolní otázky a závěr, přibližně 30–45 minut.
+- Slajdy 64-71: Shell ve větší hloubce, uvozovky, návratové kódy a procesy, přibližně 30 minut.
+- Slajdy 72-79: Filesystem do hloubky, symlinky, /proc, /sys a tar, přibližně 30 minut.
+- Slajdy 80-85: Textové nástroje (sort, uniq, cut, tr, sed, xargs), přibližně 30 minut.
+- Slajdy 86-91: Oprávnění do hloubky (sticky bit, setuid, ACL, stat), přibližně 25 minut.
+- Slajdy 92-98: Praktická cvičení, kontrolní otázky a závěr, přibližně 30-45 minut.
 
 ---
 
 ## 1. Úvod do Linuxu
 
-**Řekni:** „Vítám vás u prvního bloku výuky. Dnes se naučíme ovládat operační systém Linux z rozhraní příkazového řádku – terminálu.“
+**Řekni:** „Vítám vás u prvního bloku výuky. Dnes se naučíme ovládat operační systém Linux z rozhraní příkazového řádku - terminálu. Probereme souborový systém, správu práv a základní nástroje pro každodenní práci na serveru.“
 
 **Zapojení / ukázka:** Zeptej se: „Kdo z vás už někdy viděl černé okno terminálu a bál se do něj cokoliv napsat?“
 
@@ -30,7 +31,7 @@ U příkazů nečti kód z obrazovky jako holý text – vysvětli nejprve úče
 
 ## 2. Co dnes zvládneme
 
-**Řekni:** „Dnes zvládneš základy rozhraní shellu, souborový systém, práci s uživatelskými právy, vyhledávání, přesměrování výstupů a základy procesů.“
+**Řekni:** „Dnes projdeme 5 hlavních kapitol: orientaci v terminálu, základní příkazy a navigaci, práci se soubory, vyhledávání s rourami a přesměrováním a na závěr uživatele a systémová práva.“
 
 **Zapojení / ukázka:** Ujisti všechny: „Začínáme od nuly, tempo přizpůsobíme tak, aby nikdo nezůstal pozadu.“
 
@@ -38,876 +39,763 @@ U příkazů nečti kód z obrazovky jako holý text – vysvětli nejprve úče
 
 ## 3. Co je Linux?
 
-**Řekni:** „Linux je open-source operační systém. Původně ho v roce 1991 vytvořil Linus Torvalds jako volně dostupný koncept jádra.“
+**Řekni:** „Linux je v přesném slova smyslu jádro operačního systému - kernel. Vytvořil ho v roce 1991 Linus Torvalds. Jádro je mostem mezi hardwarem počítače a běžícími programy; stará se o přidělování paměti, procesorového času a obsluhu disků.“
 
-**Zapojení / ukázka:** Zeptej se: „Víte, jaký je rozdíl mezi volným softwarem a komerčním systémem jako Windows?“
+**Zapojení / ukázka:** Zeptej se: „Víte, jaký je rozdíl mezi samotným jádrem a kompletním operačním systémem?“
 
-**Přechod:** „Důležité je vědět, že samotný Kernel ještě není celý operační systém.“
+**Přechod:** „Samotné jádro totiž uživateli k práci nestačí.“
 
 ## 4. Kernel není celý systém
 
-**Řekni:** „Kernel je jádro – vrstva, která komunikuje přímo s hardwerem (procesor, paměť, disky). Samotné jádro ale uživateli nestačí.“
+**Řekni:** „Když mluvíme o operačním systému Linux, skládá se z několika vrstev: Linux kernel na spodu, nad ním GNU systémové nástroje a knihovny, inicializační systém (systemd), shell a volitelně grafické rozhraní.“
 
-**Zapojení / ukázka:** Ukaž schéma: Jádo doplňují systémové nástroje, knihovny a uživatelské rozhraní.
+**Zapojení / ukázka:** Použij příměr s autem: Kernel je motor pod kapotou, ale abyste mohli řídit, potřebujete volant, pedály a palubní desku (GNU nástroje a shell).
 
-**Přechod:** „A právě tyto uživatelské nástroje pocházejí z projektu GNU.“
+**Přechod:** „A právě většina základních nástrojů pochází z projektu GNU.“
 
 ## 5. GNU
 
-**Řekni:** „Projekt GNU založil Richard Stallman. Poskytl svobodné utility jako kompilátory, shelly a základní unixové příkazy. Proto správné označení systému je GNU/Linux.“
+**Řekni:** „Projekt GNU založil Richard Stallman s cílem vytvořit kompletně svobodný unixový systém. GNU poskytlo základní utility jako ls, cp, grep i samotný překladač GCC. Proto se v odborných kruzích správně říká GNU/Linux.“
 
-**Zapojení / ukázka:** Zeptej se pro odlehčení: „Kdo ví, co znamená zkratka GNU? (GNU's Not Unix).“
+**Zapojení / ukázka:** Pro odlehčení vysvětli rekurzivní zkratku: „GNU znamená GNU's Not Unix.“
 
-**Přechod:** „Kde všude se dnes s Linuxem setkáte?“
+**Přechod:** „Kde všude se s Linuxem dnes setkáváme?“
 
 ## 6. Kde Linux potkáš?
 
-**Řekni:** „Linux potkáte všude: běží na něm drtivá většina webových serverů, superpočítače, mobilní telefony Android, routery i chytrá elektronika.“
+**Řekni:** „Linux běží na drtivé většině webových serverů a cloudů (AWS, Google Cloud, Azure). Pohání chytré telefony s Androidem, domácí routery, televizory, vesmírné sondy, superpočítače a je skvělý i pro vývojáře na desktopech jako Ubuntu nebo Fedora.“
 
-**Zapojení / ukázka:** Vyzvy účastníky: „Vytáhněte telefon – pokud máte Android, nosíte v kapse linuxové jádro.“
+**Zapojení / ukázka:** Vyzvi účastníky: „Pokud máte v kapse telefon s Androidem, nosíte v něm skutečné linuxové jádro.“
 
-**Přechod:** „Proč vlastně dávají vývojáři a síťaři přednost Linuxu?“
+**Přechod:** „Proč vlastně linuxový svět tak dominuje serverům?“
 
 ## 7. Proč Linux?
 
-**Řekni:** „Hlavní výhody jsou: stabilitu, vysoký výkon, bezpečnost, nulové licenční poplatky a kompletní kontrolu nad systémem.“
+**Řekni:** „Linux je open source - jeho zdrojový kód může kdokoliv číst, zkoumat a vylepšovat. Je stabilní, bezpečný, vysoce přizpůsobitelný a běží spolehlivě i na slabším hardware bez zbytečné režie grafiky.“
 
-**Zapojení / ukázka:** Ukaž kontrast: V Linuxu nic neprobíhá za vašimi zády bez vašeho vědomí.
+**Zapojení / ukázka:** Zdůrazni: „V Linuxu máte nad systémem absolutní kontrolu - ale s ní přichází i plná zodpovědnost.“
 
-**Přechod:** „Jak se tyto systémy distribuují uživatelům?“
+**Přechod:** „Jak si může běžný uživatel Linux vyzkoušet a nainstalovat?“
 
 ## 8. Distribuce
- 
 
-**Zapojení / ukázka:** Zeptej se: „Vyzkoušel už někdo z vás nějakou linuxovou distribuci doma?“
+**Řekni:** „Distribuce je hotový zabalený operační systém postavený na Linux jádře. Nejznámější je rodina Debian (kam patří Debian, Ubuntu a Linux Mint se správcem balíčků apt), dále rodina Red Hat / Fedora (se správcem dnf), Arch Linux (pacman) nebo openSUSE (zypper).“
 
-**Přechod:** „Důležitým filozofickým základem Linuxu je Unixová filozofie.“
+**Zapojení / ukázka:** Zeptej se zvednutím ruky: „Zkoušel už někdo z vás doma nainstalovat Ubuntu nebo jinou distribuci?“
+
+**Přechod:** „Důležitým základem celého unixového myšlení je filozofie malých nástrojů.“
 
 ## 9. Filozofie Unixu
 
-**Řekni:** „Unixová filozofie říká: Dělej jednu věc a dělej ji dobře. Programy spolu komunikují pomocí textu a vše v systému je reprezentováno jako soubor.“
+**Řekni:** „Unixová filozofie stojí na jednoduchém pravidle: Dělej jednu věc a dělej ji pořádně. Místo jednoho obřího programu máme desítky malých specializovaných utilit, které posíláme textový výstup dál přes roury. A platí pravidlo: Všechno je soubor.“
 
-**Zapojení / ukázka:** Zdůrazni: Tento princip spojování malých nástrojů do velkých řetězců uvidíme za chvíli u rour.
+**Zapojení / ukázka:** Připomeň: „Tuto stavebnicovou logiku si brzy vyzkoušíme v praxi při spojování příkazů.“
 
-**Přechod:** „Nyní si otevřeme terminál a vysvětlíme si základní pojmy.“
+**Přechod:** „Pojďme si otevřít terminál a vysvětlit si základní pojmy.“
 
 ## 10. Terminál, shell a příkaz
 
-**Řekni:** „Terminál je aplikace/okno. Shell je interpreter, který čte příkazy a spouští je (např. Bash, Zsh). Příkaz je instrukce pro systém.“
+**Řekni:** „Rozlišujeme tři pojmy: Terminál je grafické okno na obrazovce. Shell je interpret na pozadí (nejčastěji bash, případně zsh), který čte textové příkazy a spouští programy. Příkaz je samotný program nebo vestavěný pokyn, který zadáváme.“
 
-**Zapojení / ukázka:** Nechte účastníky otevřít okno terminálu.
+**Zapojení / ukázka:** Nechte všechny účastníky otevřít terminál na svých počítačích.
 
-**Přechod:** „Co znamenají značky na začátku řádku terminálu?“
+**Přechod:** „Co znamenají texty a symboly na začátku řádku terminálu?“
 
 ## 11. Prompt
 
-**Řekni:** „Příkazová výzva (Prompt) ukazuje: jméno uživatele (`student`), jméno stroje (`pc`), aktuální adresář (`~`) a symbol znaku (`$` pro běžného uživatele, `#` pro root).“
+**Řekni:** „Příkazová výzva neboli prompt nám říká, kdo a kde jsme. V zápisu student@pc:~/projekty$ je student uživatel, pc název stroje, ~/projekty aktuální složka a symbol $ značí běžného uživatele. U administrátora root bývá znak #.“
 
-**Zapojení / ukázka:** Zkontroluj, že všichni vidí ve svém terminálu znak `$`.
+**Zapojení / ukázka:** Zkontrolujte, že všichni účastníci vidí na obrazovce znak dolaru $.
 
-**Přechod:** „Z jakých částí se skládá samotný příkaz?“
+**Přechod:** „Z jakých částí se skládá zadávaný příkaz?“
 
 ## 12. Anatomie příkazu
 
-**Řekni:** „Anatomie příkazu se skládá z: název příkazu (`ls`), volby/příznaky (`-la`) a argumenty (`/var/log`).“
+**Řekni:** „Příkaz se obvykle skládá ze tří částí: jméno příkazu (ls), volby neboli přepínače (-la), které mění chování příkazu, a argumenty (/var/log), což bývají cílové cesty nebo názvy souborů.“
 
-**Zapojení / ukázka:** Ukaž rozdíl mezi spuštěním samotného `ls` a `ls -l`.
+**Zapojení / ukázka:** Ukažte v terminálu rozdíl mezi spuštěním holého ls a ls -la.
 
-**Přechod:** „Když nevím, co příkaz dělá, jak získám nápovědu?“
+**Přechod:** „Když nevíte, jaké volby příkaz nabízí, jak získat pomoc?“
 
 ## 13. Nápověda
 
-**Řekni:** „Nápovědu získáš pomocí `man <příkaz>` (manuálové stránky, ukončíš stiskem `q`), `--help` nebo vestavěného `help` pro shell prkazy.“
+**Řekni:** „Máme tři hlavní cesty: man <příkaz> otevře podrobný manuál (ukončíte stiskem klávesy q), <příkaz> --help vypíše rychlý přehled parametrů a pro vestavěné příkazy shellu slouží help <příkaz>.“
 
-**Zapojení / ukázka:** Nechte všechny vyzkoušet napište `man ls` a opustit klávesou `q`.
+**Zapojení / ukázka:** Vyzvěte studenty, aby napsali man ls, prolistovali šipkami a zmáčkli q.
 
-**Přechod:** „Jak si ušetřit psaní pomocí klávesových zkratek?“
+**Přechod:** „Jak si usnadnit práci pomocí klávesových zkratek?“
 
 ## 14. Historie a doplňování
 
-**Řekni:** „Šipky nahoru/dolů prochází historii, klávesa Tab automaticky doplňuje cesty, `Ctrl+C` zastaví proces a `Ctrl+L` vyčistí obrazovku.“
+**Řekni:** „Nejdůležitější klávesa v terminálu je Tabulátor - automaticky doplňuje názvy souborů a příkazů. Šipky nahoru a dolů listují historií, Ctrl+C bezpečně přeruší běžící program a Ctrl+L vyčistí obrazovku.“
 
-**Zapojení / ukázka:** Předveď rychlé doplnění Tabulátorem v terminálu.
+**Zapojení / ukázka:** Předveďte psaní cd /v a stisk Tabulátoru pro doplnění /var/.
 
-**Přechod:** „Dříve než začneme zkoušet další příkazy, řekněme si pravidla bezpečnosti.“
+**Přechod:** „Než začneme pracovat se soubory, musíme si říct důležitá bezpečnostní pravidla.“
 
 ## 15. Bezpečné návyky
 
-**Řekni:** „Než něco smažeš, zkontroluj cestu (`pwd`). Cesty s mezerami dávej do uvozovek. Nikdy nespouštěj cizí skripty bez přečtení a před `sudo` vždy přemýšlej.“
+**Řekni:** „V terminálu neexistuje tlačítko Zpět ani Koš. Než spustíte mazací příkaz, ověřte si cestu přes pwd a ls. Pokud má název složky mezeru, dejte ji do uvozovek. A u příkazů se sudo si vždy dvakrát zkontrolujte, co přesně spouštíte.“
 
-**Zapojení / ukázka:** Zdůrazni: V terminálu neexistuje tlačítko 'Zpět'.
+**Zapojení / ukázka:** Zdůrazněte: „Nikdy nekopírujte z internetu příkazy, kterým nerozumíte.“
 
 **Přechod:** „Pojďme si zjistit základní informace o našem počítači.“
 
 ## 16. Základní informace o systému
 
-**Řekni:** Vysvětli téma slajdu "Základní informace o systému". 
+**Řekni:** „V této části si ukážeme příkazy, kterými zjistíme, pod jakým uživatelem pracujeme, jaký máme operační systém a hardware.“
 
-**Zapojení / ukázka:** Polož publiku otázku k tématu slajdu nebo nechte účastníky vyzkoušet příkaz v terminálu.
+**Zapojení / ukázka:** Uveďte, že tyto příkazy jsou první věc, kterou síťař na cizím serveru spustí.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Začneme příkazy pro identifikaci uživatele.“
 
 ## 17. Kdo jsem?
 
-**Řekni:** Vysvětli téma slajdu "Kdo jsem?". Projdi následující klíčové body: whoamivypíše aktuální uživatelské jméno., idpřidá UID, primární skupinu a další skupiny.. Na obrazovce ukaž příkaz/zápis `whoami
-id` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz whoami vypíše jméno aktuálního uživatele. Příkaz id k tomu přidá číselné UID (User ID), primární skupinu GID a seznam všech dalších skupin, do kterých uživatel patří.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte všechny spustit whoami a id v terminálu a porovnat výstupy.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak zjistíme název stroje a verzi jádra?“
 
 ## 18. Stroj a systém
 
-**Řekni:** Vysvětli téma slajdu "Stroj a systém". Projdi následující klíčové body: hostname— název počítače., uname -a— informace o jádře a architektuře., /etc/os-release— informace o distribuci.. Na obrazovce ukaž příkaz/zápis `hostname
-uname -a
-cat /etc/os-release` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz hostname vrátí jméno počítače v síti. uname -a vypíše kompletní informace o jádře a architektuře procesoru (např. x86_64). A soubor /etc/os-release obsahuje přesný název a verzi distribuce.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte účastníky spustit cat /etc/os-release a najít řádek s verzí systému.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak v terminálu zjistíme aktuální datum a čas?“
 
 ## 19. Čas a kalendář
 
-**Řekni:** Vysvětli téma slajdu "Čas a kalendář". dateukazuje aktuální datum a čas.calzobrazí kalendář (pokud je nainstalovaný). Na obrazovce ukaž příkaz/zápis `date
-cal` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz date ukazuje přesný systémový čas, datum a časové pásmo. Příkaz cal vypíše přehledný textový kalendář pro aktuální měsíc.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte účastníky vyzkoušet date a cal.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak můžeme vypisovat vlastní texty a proměnné prostředí?“
 
 ## 20. Echo a proměnné
 
-**Řekni:** Vysvětli téma slajdu "Echo a proměnné". Projdi následující klíčové body: echovypisuje text., $HOMEje domovský adresář aktuálního uživatele., $SHELLukazuje výchozí shell.. Na obrazovce ukaž příkaz/zápis `echo "Ahoj světe"
-echo $HOME
-echo $SHELL` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz echo slouží k vypsání textu na obrazovku. Pokud před název vložíme znak dolaru, například $HOME nebo $SHELL, shell text nahradí hodnotou dané proměnné prostředí.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.  
+**Zapojení / ukázka:** Vyzkoušejte společně echo $HOME a echo $SHELL.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Nyní se posuneme k zásadnímu tématu: struktuře souborového systému v Linuxu.“
 
 ## 21. Souborový systém
 
-**Řekni:** Vysvětli téma slajdu "Souborový systém". 
+**Řekni:** „V Linuxu neexistují disky C: a D: jako ve Windows. Všechny soubory a disky jsou uspořádány do jednoho jediného stromu začínajícího kořenem /.“
 
-**Zapojení / ukázka:** Polož publiku otázku k tématu slajdu nebo nechte účastníky vyzkoušet příkaz v terminálu.
+**Zapojení / ukázka:** Zeptejte se: „Kdo ví, jak se liší cesty ve Windows (zpětná lomítka) od Linuxu (obyčejná lomítka)?“
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Podívejme se na základní větve tohoto stromu.“
 
 ## 22. Strom adresářů
 
-**Řekni:** Vysvětli téma slajdu "Strom adresářů". Na obrazovce ukaž příkaz/zápis `/
-├── home/     domovské adresáře uživatelů
-├── etc/      konfigurace systému a služeb
-├── usr/      programy, knihovny a sdílená data
-├── var/      proměnlivá data, například logy
-├── tmp/      dočasné soubory
-├── dev/      zařízení jako soubory
-└── proc/     informace o procesech a jádře` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „V kořeni / najdeme standardní systémové složky: /home pro uživatelské složky, /etc pro konfigurační soubory služeb, /var pro proměnlivá data a logy, /tmp pro dočasné soubory, /usr pro nainstalované programy a /proc pro informace o procesech.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Projděte schéma na slajdu a vysvětlete účel jednotlivých větví.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Které z těchto cest jsou pro nás nejdůležitější?“
 
 ## 23. Důležité cesty
 
-**Řekni:** Vysvětli téma slajdu "Důležité cesty". Projdi následující klíčové body: /— kořen souborového systému, root., /home/alice— domovský adresář běžného uživatele., /root— domovský adresář administrátora root., /var/log— systémové a aplikační logy., /tmp— dočasná data; nespoléhej, že přežijí restart.. Na obrazovce ukaž příkaz/zápis `/` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Nejdůležitější cesty jsou: / (kořen systému), /home/student (váš domovský adresář, kde máte plná práva), /root (domovská složka správce), /var/log (systémové logy pro řešení problémů) a /tmp (dočasné soubory, které se při restartu mažou).“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Zdůrazněte, že běžný uživatel smí zapisovat především do svého /home.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak se zapisují cesty k souborům?“
 
 ## 24. Absolutní a relativní cesty
 
-**Řekni:** Vysvětli téma slajdu "Absolutní a relativní cesty". Začíná lomítkem a vždy vede od kořene. Vychází z aktuálního adresáře. Na obrazovce ukaž příkaz/zápis `/home/student/poznamky.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Absolutní cesta začíná vždy lomítkem / a vede přímo od kořene systému bez ohledu na to, kde se právě nacházíte. Relativní cesta lomítkem nezačíná a počítá se od aktuálního pracovního adresáře.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Uveďte příměr s navigací: Absolutní adresa je plné PSČ, město, ulice a číslo. Relativní směr je 'jdi o dvoje dveře doleva'.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jaké speciální zkratky v cestách používáme?“
 
 ## 25. Speciální zápisy cest
 
-**Řekni:** Vysvětli téma slajdu "Speciální zápisy cest". Napříkladcd ~tě vrátí domů acd -přepne zpět na předchozí cestu. Na obrazovce ukaž příkaz/zápis `.       # aktuální adresář
-..      # nadřazený adresář
-~       # domovský adresář
--       # předchozí adresář` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „V cestách používáme 4 důležité zkratky: tečka . označuje aktuální adresář, dvě tečky .. nadřazený adresář, vlnka ~ domovský adresář a pomlčka - přepne zpět do předchozí navštívené složky.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Ukažte cd ~ pro rychlý návrat domů a cd - pro přepínání mezi dvěma složkami.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jakým příkazem zjistíme, v jaké složce se právě nacházíme?“
 
-## 26. pwd — kde právě jsem?
+## 26. pwd - kde právě jsem?
 
-**Řekni:** Vysvětli téma slajdu "pwd — kde právě jsem?". pwdznamenáprint working directorya vypíše absolutní cestu aktuálního adresáře. Na obrazovce ukaž příkaz/zápis `pwd
-# /home/student/projekty` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz pwd znamená print working directory. Vypíše kompletní absolutní cestu k adresáři, ve kterém se váš terminál právě nachází.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte všechny napsat pwd a zkontrolovat výstup.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak se mezi adresáři pohybujeme?“
 
-## 27. cd — změna adresáře
+## 27. cd - změna adresáře
 
-**Řekni:** Vysvětli téma slajdu "cd — změna adresáře". Projdi následující klíčové body: Bez argumentucdvede do domovského adresáře., Jména rozlišují velká a malá písmena:Dokumenty≠dokumenty.. Na obrazovce ukaž příkaz/zápis `cd /var/log
-cd dokumenty
-cd ..
-cd ~` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz cd (change directory) slouží k přepnutí do jiného adresáře. Pokud zadáte cd bez argumentů, vrátí vás rovnou domů. Pamatujte, že Linux striktně rozlišuje velká a malá písmena: Dokumenty a dokumenty jsou dvě různé složky.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte účastníky zkusit cd /var/log, ověřit přes pwd a vrátit se domů příkazem cd ~ .
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak vypíšeme obsah složky?“
 
-## 28. ls — výpis obsahu
+## 28. ls - výpis obsahu
 
-**Řekni:** Vysvětli téma slajdu "ls — výpis obsahu". Projdi následující klíčové body: -lpodrobný výpis, -avčetně skrytých položek, -hčitelné velikosti. Na obrazovce ukaž příkaz/zápis `ls
-ls -l
-ls -a
-ls -lah` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz ls vypíše soubory a složky v aktuálním adresáři. Nejpoužívanější přepínače jsou -l (podrobný výpis s právy a velikostmi), -a (zobrazí i skryté soubory) a -h (čitelné jednotky jako KB, MB). Často se kombinují jako ls -lah.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte účastníky spustit ls -la /etc a sledovat rozdíl.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Pojďme si rozebrat, co jednotlivé sloupce podrobného výpisu znamenají.“
 
 ## 29. Jak číst ls -l
 
-**Řekni:** Vysvětli téma slajdu "Jak číst ls -l". Projdi následující klíčové body: typ a oprávnění, počet odkazů, vlastník a skupina, velikost, datum, název. Na obrazovce ukaž příkaz/zápis `-rw-r--r--  1 student studenti  1240  9. srp  poznamky.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Podrobný výpis má jasnou strukturu: 1. sloupec jsou práva a typ položky, 2. počet odkazů, 3. vlastník a skupina, 4. velikost v bajtech, 5. datum poslední změny a 6. název souboru.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Ukažte na řádek na projektoru a nechte účastníky určit, kdo je vlastníkem a jak je soubor velký.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Co přesně jsou skryté soubory?“
 
 ## 30. Skryté soubory
 
-**Řekni:** Vysvětli téma slajdu "Skryté soubory". Název začínající tečkou je běžně skrytý. Nejde o bezpečnostní mechanismus — pouze se ve výchozím výpisu nezobrazuje. Na obrazovce ukaž příkaz/zápis `ls -a
-.bashrc  .config  .ssh` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „V Linuxu je skrytý každý soubor nebo složka, jejíž název začíná tečkou (např. .bashrc nebo .ssh). Není to bezpečnostní zámek, slouží to pouze k tomu, aby konfigurační soubory nepřekážely v běžném výpisu.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Spusťte ls a pak ls -a v domovském adresáři a porovnejte počet položek.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Nyní se naučíme vytvářet a číst nové soubory a adresáře.“
 
 ## 31. Vytváření a čtení souborů
 
-**Řekni:** Vysvětli téma slajdu "Vytváření a čtení souborů". 
+**Řekni:** „V této kapitole si vyzkoušíme vytváření adresářů, prázdných souborů, čtení textů různými způsoby a práci s textovým editorem nano.“
 
-**Zapojení / ukázka:** Polož publiku otázku k tématu slajdu nebo nechte účastníky vyzkoušet příkaz v terminálu.
+**Zapojení / ukázka:** Připravte studenty na praktickou práci v jejich domovských složkách.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Prvním příkazem je mkdir.“
 
-## 32. mkdir — nový adresář
+## 32. mkdir - nový adresář
 
-**Řekni:** Vysvětli téma slajdu "mkdir — nový adresář". -pvytvoří i chybějící nadřazené adresáře a nevadí mu, když už existují. Na obrazovce ukaž příkaz/zápis `mkdir projekt
-mkdir -p projekt/src/js` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz mkdir vytvoří novou složku. Pokud potřebujete vytvořit vnořenou strukturu více složek naráz, použijte přepínač -p (např. mkdir -p projekt/src/js), který vytvoří i chybějící mezisložky bez chybového hlášení.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte účastníky vytvořit složku mkdir -p lssite/data.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak vytvoříme nový prázdný soubor?“
 
-## 33. touch — prázdný soubor
+## 33. touch - prázdný soubor
 
-**Řekni:** Vysvětli téma slajdu "touch — prázdný soubor". Pokud soubor existuje,touchaktualizuje jeho časové razítko. Na obrazovce ukaž příkaz/zápis `touch poznamky.txt
-touch index.html style.css` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz touch vytvoří prázdný textový soubor. Pokud soubor už existuje, touch nesmaže jeho obsah, ale pouze aktualizuje datum a čas jeho poslední změny.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte všechny vytvořit soubor touch lssite/poznamky.txt.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jakými nástroji můžeme obsah souboru přečíst?“
 
 ## 34. cat, less a head
 
-**Řekni:** Vysvětli téma slajdu "cat, less a head". Projdi následující klíčové body: catse hodí na krátké soubory., lessumožní stránkování a hledání; ukončíšq., head/tailukáží začátek/konec.. Na obrazovce ukaž příkaz/zápis `cat poznamky.txt
-less /var/log/syslog
-head -n 20 soubor.txt
-tail -n 20 soubor.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Pro zobrazení obsahu máme více nástrojů: cat vypíše celý soubor naráz na obrazovku. less umožní velkým souborem pohodlně listovat a vyhledávat (ukončí se q). head -n 20 zobrazí prvních 20 řádků a tail -n 20 posledních 20 řádků.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Vyzkoušejte head -n 5 /etc/passwd a less /etc/services.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak můžeme sledovat soubor, do kterého se právě zapisují nová data?“
 
-## 35. tail -f — sledování logu
+## 35. tail -f - sledování logu
 
-**Řekni:** Vysvětli téma slajdu "tail -f — sledování logu". Průběžně vypisuje nové řádky. Ukonči pomocíCtrl+C. Na obrazovce ukaž příkaz/zápis `tail -f /var/log/auth.log` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Přepínač -f u příkazu tail znamená follow. Nechá soubor otevřený a v reálném čase vypisuje každý nový řádek, který do něj systém nebo aplikace zapíše. Ukončí se stiskem Ctrl+C.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Ukažte tail -f /var/log/syslog a vysvětlete, že je to hlavní nástroj při hledání chyb na serveru.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak soubor přímo v terminálu upravit a napsat do něj text?“
 
-## 36. nano — jednoduchý editor
+## 36. nano - jednoduchý editor
 
-**Řekni:** Vysvětli téma slajdu "nano — jednoduchý editor". Projdi následující klíčové body: Nápověda je dole v okně; znak^znamenáCtrl., Ctrl+Ouloží,Ctrl+Xukončí., Pro první práci na serveru jenanonejpřívětivější.. Na obrazovce ukaž příkaz/zápis `nano poznamky.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Editor nano je nejpřívětivější textový editor pro začátečníky. Ve spodní liště máte stálou nápovědu zkratek, kde stříška ^ znamená klávesu Ctrl. Soubor uložíte pomocí Ctrl+O (potvrdíte Enterem) a editor opustíte pomocí Ctrl+X.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte každého otevřít nano soubor.txt, napsat větu, uložit a odejít.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak soubory kopírovat?“
 
-## 37. cp — kopírování
+## 37. cp - kopírování
 
-**Řekni:** Vysvětli téma slajdu "cp — kopírování". -rkopíruje adresář rekurzivně včetně jeho obsahu. Na obrazovce ukaž příkaz/zápis `cp poznamky.txt zaloga.txt
-cp -r projekt projekt-zaloha` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz cp zkopíruje soubor ze zdroje do cíle: cp stary.txt kopie.txt. Chcete-li zkopírovat celou složku včetně jejího obsahu, musíte přidat přepínač -r pro rekurzivní kopírování.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Vyzkoušejte cp poznamky.txt zaloha.txt.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak soubory přesouvat nebo přejmenovávat?“
 
-## 38. mv — přesun a přejmenování
+## 38. mv - přesun a přejmenování
 
-**Řekni:** Vysvětli téma slajdu "mv — přesun a přejmenování". Stejný příkaz soubor přejmenuje, nebo ho přesune — záleží na cíli. Na obrazovce ukaž příkaz/zápis `mv stary.txt novy.txt
-mv poznamky.txt dokumenty/` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „V Linuxu je přesun i přejmenování stejná operace: příkaz mv. Pokud zadáte nový název ve stejné složce, soubor se přejmenuje (mv stary.txt novy.txt). Pokud zadáte cestu k jiné složce, soubor se do ní přesune.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Předveďte přejmenování souboru a ověřte výsledek přes ls.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak nepotřebné soubory smazat?“
 
 ## 39. rm a rmdir
 
-**Řekni:** Vysvětli téma slajdu "rm a rmdir". Na obrazovce ukaž příkaz/zápis `rmdir prazdna-slozka
-rm soubor.txt
-rm -r adresar` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz rm odstraní soubor. Pro smazání celé složky i s obsahem slouží rm -r. Pro prázdné složky existuje rmdir. Pamatujte: v Linuxu není Koš - smazání je definitivní. S příkazem rm -rf zacházejte s maximální opatrností!“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Upozorněte na nebezpečí překlepů při mazání s právy roota.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak mazat bezpečněji?“
 
 ## 40. Bezpečnější mazání
 
-**Řekni:** Vysvětli téma slajdu "Bezpečnější mazání". Projdi následující klíčové body: -ise ptá před odstraněním., -Ise zeptá jednou před hromadným/rekurzivním mazáním., -vvypisuje, co se děje.. Na obrazovce ukaž příkaz/zápis `rm -i soubor.txt
-rm -Iv adresar/` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Přepínač -i u příkazu rm se před každým smazáním zeptá na potvrzení (y/n). Přepínač -I se zeptá jednou před hromadným mazáním více než tří položek a -v podrobně vypisuje každou smazanou položku.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Zkuste rm -i test.txt a ukažte dialog potvrzení.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak pracovat s více soubory naráz pomocí zástupných znaků?“
 
 ## 41. Globy: více souborů najednou
 
-**Řekni:** Vysvětli téma slajdu "Globy: více souborů najednou". Projdi následující klíčové body: *znamená libovolný počet znaků., ?znamená právě jeden znak., --ukončí volby — hodí se pro názvy začínající pomlčkou.. Na obrazovce ukaž příkaz/zápis `ls *.txt
-cp obrazek?.png galerie/
-rm -- *.tmp` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Zástupné znaky (globy) umožňují vybrat skupinu souborů: hvězdička * nahrazuje libovolný počet znaků (např. *.txt), otazník ? nahrazuje právě jeden znak (např. obrazek?.png) a dvojitá pomlčka -- ukončí seznam přepínačů pro soubory začínající pomlčkou.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Spusťte ls *.txt a ukažte, jak shell automaticky rozbalí seznam.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak zjistit, co je soubor skutečně zač, bez ohledu na jeho příponu?“
 
-## 42. file — skutečný typ souboru
+## 42. file - skutečný typ souboru
 
-**Řekni:** Vysvětli téma slajdu "file — skutečný typ souboru". Linux nebere příponu jako autoritu; nástrojfilezkoumá obsah a hlavičku souboru. Na obrazovce ukaž příkaz/zápis `file dokument.docx
-# Microsoft Word 2007+` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „V Linuxu přípona souboru neurčuje jeho formát - soubor bez přípony může být obrázek nebo skript. Nástroj file prozkoumá hlavičku a magické bajty na začátku souboru a vypíše jeho skutečný formát.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Zkuste přejmenovat textový soubor na .jpg a spusťte na něj file - Linux pozná, že jde o text.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak zjistit velikost souborů a volné místo na disku?“
 
 ## 43. tree a velikost
 
-**Řekni:** Vysvětli téma slajdu "tree a velikost". Projdi následující klíčové body: treevypíše strom adresářů (nemusí být nainstalovaný)., du -shvelikost konkrétní cesty., df -hvolné místo na připojených filesystémech.. Na obrazovce ukaž příkaz/zápis `tree
-du -sh projekt/
-df -h` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz tree zobrazí stromovou strukturu složek. Příkaz du -sh <cesta> spočítá celkovou velikost vybrané složky na disku a df -h vypíše celkové volné a obsazené místo na všech připojených diskových oddílech.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte všechny spustit df -h a najít kořenový diskový oddíl /.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Nyní si dáme zaslouženou desetiminutovou přestávku.“
 
 ## 44. Přestávka (10 min)
 
-**Řekni:** „Máme za sebou první velký blok práce se soubory. Dáme si 10 minut přestávku na vyvětrání a kávu/vodu.“
+**Řekni:** „Dáme si 10 minut pauzu na vydechnutí, kávu a toaletu. Po přestávce navážeme vyhledáváním, rourami a správou uživatelských práv.“
 
-**Zapojení / ukázka:** Vyhlašte pauzu a nastavte časovač 10 minut.
+**Zapojení / ukázka:** Nastavte odpočet 10 minut.
 
-**Přechod:** „Po přestávce se podíváme na vyhledávání a filtrování textu.“
+**Přechod:** „Pokračujeme vyhledáváním a zpracováním textu.“
 
 ## 45. Vyhledávání a zpracování textu
 
-**Řekni:** Vysvětli téma slajdu "Vyhledávání a zpracování textu". 
+**Řekni:** „V tomto bloku si ukážeme, jak v tisících souborů najít přesně to, co hledáme, a jak spojovat výstupy programů dohromady pomocí rour.“
 
-**Zapojení / ukázka:** Polož publiku otázku k tématu slajdu nebo nechte účastníky vyzkoušet příkaz v terminálu.
+**Zapojení / ukázka:** Zdůrazněte, že vyhledávání a filtrování je denní chléb každého správce i bezpečnostního analytika.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Prvním mocným nástrojem je příkaz find.“
 
-## 46. find — hledání podle vlastností
+## 46. find - hledání podle vlastností
 
-**Řekni:** Vysvětli téma slajdu "find — hledání podle vlastností". findprochází strom adresářů. Tečka znamená „začni zde“. Na obrazovce ukaž příkaz/zápis `find . -name "*.txt"
-find ~/Dokumenty -type f
-find . -type d -name "node_modules"` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz find prohledává strom složek podle jména, typu, velikosti nebo stáří. První argument je výchozí složka (např. . pro aktuální místo), -name "*.txt" hledá podle vzoru a -type f omezí hledání pouze na soubory (-type d na složky).“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Spusťte find /etc -name "*.conf" 2>/dev/null a ukažte výsledky.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak hledat text uvnitř obsahu souborů?“
 
-## 47. grep — hledání v obsahu
+## 47. grep - hledání v obsahu
 
-**Řekni:** Vysvětli téma slajdu "grep — hledání v obsahu". Projdi následující klíčové body: -iignoruje velikost písmen., -rhledá rekurzivně., -npřidá čísla řádků.. Na obrazovce ukaž příkaz/zápis `grep "chyba" aplikace.log
-grep -i "linux" poznamky.txt
-grep -rn "TODO" projekt/` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Nástroj grep prohledává obsah souborů a vypisuje řádky odpovídající hledanému vzoru. Klíčové přepínače jsou -i (nerozlišuje velká a malá písmena), -r (prohledává celou složku rekurzivně) a -n (vypíše číslo řádku).“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte studenty vyhledat své uživatelské jméno v souboru: grep "student" /etc/passwd.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „A jak poslat výstup jednoho příkazu přímo do vstupu druhého?“
 
 ## 48. Roura |
 
-**Řekni:** Vysvětli téma slajdu "Roura |". Operátor|pošle standardní výstup prvního programu na standardní vstup dalšího. Na obrazovce ukaž příkaz/zápis `ls -la | less
-ps aux | grep nginx
-cat pristupy.log | grep "404"` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Roura (svislítko |, pipe) je srdcem Unixu. Vezme standardní výstup prvního programu a pošle ho jako standardní vstup druhému programu. Například ls -la /etc | less umožní stránkovat dlouhý výpis a ps aux | grep nginx vyfiltruje běžící procesy.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Napište na klávesnici znak | (pravý Alt + W nebo Alt + 124) a ujistěte se, že ho všichni umí napsat.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak uložit výstup příkazu do souboru na disku?“
 
 ## 49. Přesměrování výstupu
 
-**Řekni:** Vysvětli téma slajdu "Přesměrování výstupu". Projdi následující klíčové body: >soubor vytvoří nebo přepíše., >>výstup přidá na konec souboru., Před použitím>se vždy zastav: přepis je tichý.. Na obrazovce ukaž příkaz/zápis `echo "Ahoj" > pozdrav.txt
-echo "Druhý řádek" >> pozdrav.txt
-ls -la > vypis.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Výstup do souboru přesměrujeme operátory: jedno zobáček > soubor vytvoří nebo jeho původní obsah přepíše. Dva zobáčky >> přidají nový výstup na konec existujícího souboru bez smazání původních dat.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Předveďte rozdíl mezi echo "Ahoj" > test.txt a následným echo "Svět" >> test.txt.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Co když příkaz skončí chybou? Kam putují chybová hlášení?“
 
 ## 50. Chyby: stderr
 
-**Řekni:** Vysvětli téma slajdu "Chyby: stderr". Projdi následující klíčové body: 1je standardní výstup,2standardní chybový výstup., 2>&1spojí chyby s běžným výstupem., /dev/nulldata zahodí.. Na obrazovce ukaž příkaz/zápis `prikaz > vystup.txt 2> chyby.txt
-prikaz > vse.txt 2>&1
-prikaz 2>/dev/null` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Každý linuxový program má dva výstupní kanály: 1 je standardní výstup (stdout) a 2 je chybový výstup (stderr). Zápisem 2> chyby.txt uložíme pouze chyby. Zápis 2>&1 sloučí chyby s běžným výstupem a 2>/dev/null chyby tiše zahodí do černé díry.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Spusťte ls /root 2>/dev/null jako běžný uživatel a ukažte, jak chybová hláška 'Permission denied' zmizí.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Pojďme si ukázat praktický řetězec spojující více těchto nástrojů.“
 
 ## 51. Praktický řetězec
 
-**Řekni:** Vysvětli téma slajdu "Praktický řetězec". Malé nástroje lze poskládat do užitečného pracovního postupu. Na obrazovce ukaž příkaz/zápis `find . -type f -name "*.log" | sort > seznam-logu.txt
-grep -ri "error" /var/log 2>/dev/null | less` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „V praxi běžně spojujeme více kroků: například vyhledáme logy, seřadíme je podle abecedy a uložíme do souboru: find . -type f -name "*.log" | sort > seznam-logu.txt. Nebo prohledáme systémové logy a stránkujeme chyby přes less.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte studenty sestavit vlastní pipeline zkoumající systémové soubory.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Přejdeme k další klíčové kapitole: uživatelům, skupinám a oprávněním.“
 
 ## 52. Uživatelé, skupiny a práva
 
-**Řekni:** Vysvětli téma slajdu "Uživatelé, skupiny a práva". 
+**Řekni:** „Linux je od základu víceuživatelský a zabezpečený systém. Každý soubor, složka i proces má přesně definovaného vlastníka a přístupová práva.“
 
-**Zapojení / ukázka:** Polož publiku otázku k tématu slajdu nebo nechte účastníky vyzkoušet příkaz v terminálu.
+**Zapojení / ukázka:** Zeptejte se: „Proč je důležité, aby běžný uživatel nemohl měnit systémové soubory?“
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jaké tři kategorie uživatelů u každého souboru rozlišujeme?“
 
 ## 53. Vlastník, skupina, ostatní
 
-**Řekni:** Vysvětli téma slajdu "Vlastník, skupina, ostatní". Projdi následující klíčové body: aliceje vlastník souboru., vyvojarije skupina., Práva se vyhodnocují pro vlastníka, pak skupinu, jinak pro ostatní.. Na obrazovce ukaž příkaz/zápis `-rwxr-x--- 1 alice vyvojari  523 start.sh` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Oprávnění se v Linuxu dělí do tří úrovní: Vlastník (User u, konkrétní člověk), Skupina (Group g, sdružení uživatelů) a Ostatní (Others o, všichni ostatní na počítači). Systém vyhodnocuje práva v tomto pořadí odshora dolů.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Ukažte řádek -rwxr-x--- 1 alice vyvojari a vysvětlete, jaká práva má Alice a jaká lidé ze skupiny vyvojari.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jaká konkrétní práva můžeme nastavit?“
 
 ## 54. r, w, x
 
-**Řekni:** Vysvětli téma slajdu "r, w, x". Projdi následující klíčové body: rčtení obsahu, wzměna obsahu, xspuštění jako programu, rvýpis jmen, wvytváření/mazání položek, xprůchod do adresáře. Na obrazovce ukaž příkaz/zápis `r` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Máme tři základní práva: r (read, čtení), w (write, zápis a změna) a x (execute, spuštění). U adresářů má r význam čtení seznamu souborů, w vytváření a mazání souborů a x možnost do adresáře vstoupit.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Zdůrazněte rozdíl mezi spustitelným programem a pouhým textovým souborem.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak celkový řetězec oprávnění rozkódovat?“
 
 ## 55. Rozebrání oprávnění
 
-**Řekni:** Vysvětli téma slajdu "Rozebrání oprávnění". První znak určuje typ:-soubor,dadresář,lsymbolický odkaz. Na obrazovce ukaž příkaz/zápis `- rwx r-x r--
-  │   │   └─ ostatní: čtení
-  │   └───── skupina: čtení, spuštění
-  └───────── vlastník: čtení, zápis, spuštění` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Desetimístný řetězec čteme po částech: 1. znak určuje typ položky (- pro soubor, d pro adresář, l pro symbolický odkaz). Následuje trojice pro vlastníka (rwx), trojice pro skupinu (r-x) a trojice pro ostatní (r--).“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Napište na tabuli náhodný řetězec typu drwxr-xr-x a nechte studenty určit typ a práva.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Kromě písmen se práva velmi často zapisují pomocí čísel.“
 
 ## 56. Číselný zápis práv
 
-**Řekni:** Vysvětli téma slajdu "Číselný zápis práv". Trojice754znamená vlastníkrwx, skupinar-x, ostatnír--. Na obrazovce ukaž příkaz/zápis `r = 4   w = 2   x = 1
+**Řekni:** „Každé právo má svou číselnou hodnotu: r = 4, w = 2, x = 1. Jejich součtem získáme hodnotu pro danou trojici: 7 = rwx, 6 = rw-, 5 = r-x, 4 = r--. Zápis chmod 754 tedy znamená vlastník 7 (rwx), skupina 5 (r-x) a ostatní 4 (r--).“
 
-7 = rwx   6 = rw-   5 = r-x   4 = r--
-chmod 754 skript.sh` a vysvětli jeho syntaktické složky a výstup.
+**Zapojení / ukázka:** Procvičte rychlé počítání z hlavy: „Kolik je čtení + zápis? 4 + 2 = 6.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Přechod:** „Jakým příkazem práva souboru změníme?“
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+## 57. chmod - změna práv
 
-## 57. chmod — změna práv
+**Řekni:** „Příkaz chmod mění oprávnění souboru. Můžeme použít číselný zápis (chmod 755 skript.sh) nebo symbolický zápis (chmod u+x skript.sh přidá spouštění vlastníkovi, chmod g-w soubor.txt odebere zápis skupině).“
 
-**Řekni:** Vysvětli téma slajdu "chmod — změna práv". Projdi následující klíčové body: Číselný zápis nastaví všechna tři pole najednou., Symbolický zápis:uuser,ggroup,oothers,aall.. Na obrazovce ukaž příkaz/zápis `chmod 644 poznamky.txt
-chmod 755 skript.sh
-chmod u+x skript.sh
-chmod g-w soukromy.txt` a vysvětli jeho syntaktické složky a výstup.
+**Zapojení / ukázka:** Nechte každého vytvořit skript touch skript.sh, přidat právo spouštění chmod +x skript.sh a ověřit barvu ve výpisu ls -l.
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
-
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jaká nastavení práv se v praxi používají nejčastěji?“
 
 ## 58. Běžná nastavení
 
-**Řekni:** Vysvětli téma slajdu "Běžná nastavení". Na obrazovce ukaž příkaz/zápis `644` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Čtyři nejčastější masky v praxi: 644 (vlastník čte i píše, ostatní jen čtou - standard pro web a dokumenty), 600 (přístup pouze pro vlastníka - nutnost pro SSH klíče), 755 (spustitelný skript nebo veřejná složka) a 700 (soukromá složka přístupná jen autorovi).“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Upozorněte, že SSH klient odmítne použít privátní klíč, pokud nemá striktní práva 600.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak změnit vlastníka nebo skupinu souboru?“
 
 ## 59. chown a chgrp
 
-**Řekni:** Vysvětli téma slajdu "chown a chgrp". Vlastníka a skupinu mění obvykle jen root nebo vlastník podle pravidel systému. Na obrazovce ukaž příkaz/zápis `sudo chown alice soubor.txt
-sudo chown alice:vyvojari soubor.txt
-sudo chgrp vyvojari projekt/` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz chown mění vlastníka: sudo chown alice soubor.txt, případně vlastníka i skupinu naráz: sudo chown alice:vyvojari soubor.txt. Příkaz chgrp mění samostatně skupinu. Tuto operaci smí z bezpečnostních důvodů provádět pouze správce root.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Vysvětlete, proč běžný uživatel nemůže své soubory jen tak 'přehodit' na někoho jiného.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Co přesně je příkaz sudo a jak funguje?“
 
 ## 60. sudo
 
-**Řekni:** Vysvětli téma slajdu "sudo". Projdi následující klíčové body: sudospustí konkrétní příkaz s administrátorskými právy., Není to „opravovač chyb“ — nepoužívej ho bez pochopení příkazu., Pro každodenní práci zůstávej běžným uživatelem.. Na obrazovce ukaž příkaz/zápis `sudo apt update
-sudo systemctl restart nginx` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz sudo (superuser do) umožní oprávněnému uživateli spustit konkrétní příkaz s plnými administrátorskými právy uživatele root. sudo není kouzelná hůlka na opravu chyb - používejte ho jen tehdy, když přesně víte, jaký systémový zásah provádíte.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Zdůrazněte: „Při psaní hesla k sudo se na obrazovce z bezpečnostních důvodů nezobrazují žádné hvězdičky ani tečky - píšete naslepo a potvrdíte Enterem.“
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak systém určuje výchozí práva pro nově vytvořené soubory?“
 
 ## 61. Umask
 
-**Řekni:** Vysvětli téma slajdu "Umask". umaskodebírá výchozí práva nově vytvářeným souborům a adresářům. Častá hodnota022vede typicky k souborům644a adresářům755. Na obrazovce ukaž příkaz/zápis `umask
-umask 022` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Nástroj umask funguje jako filtr, který odebírá výchozí práva nově vznikajícím souborům a složkám. Výchozí hodnota 022 způsobí, že nové složky automaticky dostanou práva 755 (777 - 022) a nové soubory 644 (666 - 022).“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Spusťte v terminálu příkaz umask a podívejte se na aktuální masku.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Je důležité pamatovat, že práva souboru nejsou jediným faktorem.“
 
 ## 62. Práva nejsou vše
 
-**Řekni:** Vysvětli téma slajdu "Práva nejsou vše". Projdi následující klíčové body: Přístup mohou řídit i ACL, SELinux/AppArmor nebo oprávnění síťového úložiště., Na smazání souboru jsou důležitá právaadresáře, ve kterém leží., Ssudoobcházíš běžná omezení — proto je rizikové.. Na obrazovce ukaž příkaz/zápis `sudo` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Pamatujte na tři zásady: K tomu, abyste soubor smazali, nepotřebujete mít právo zápisu k samotnému souboru - rozhodují práva nadřazeného adresáře! Dále mohou přístup omezovat rozšířená ACL nebo bezpečnostní moduly SELinux/AppArmor.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Ukažte zajímavost: pokud máte práva zápisu do složky, můžete smazat i soubor s právy 444.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Nyní máme za sebou kompletní základní část a dáme si krátkou přestávku.“
 
 ## 63. Přestávka (10 min)
 
-**Řekni:** „Dostali jsme se přes uživatele a práva. Dáme si druhou 10minutovou přestávku na oddych.“
+**Řekni:** „Dáme si 10 minut pauzu. Základní látku máme hotovou. V navazující části se podíváme na pokročilejší témata pro fajnšmekry: hlubší fungování shellu, procesy na pozadí, práci s archivy tar a detailní textové filtry.“
 
-**Zapojení / ukázka:** Vyhlašte pauzu 10 minut.
+**Zapojení / ukázka:** Nechte prostor pro dotazy účastníků k základní části.
 
-**Přechod:** „V poslední třetině si probereme shell do hloubky a tar archivaci.“
+**Přechod:** „Pokračujeme pokročilejšími funkcemi shellu.“
 
 ## 64. Shell ve větší hloubce
 
-**Řekni:** Vysvětli téma slajdu "Shell ve větší hloubce". Méně důležité (jen při dostatku času) 
+**Řekni:** „V této rozšiřující sekci se podíváme na to, jak shell pracuje s uvozovkami, jak fungují návratové kódy a jak spouštět úlohy na pozadí.“
 
-**Zapojení / ukázka:** Polož publiku otázku k tématu slajdu nebo nechte účastníky vyzkoušet příkaz v terminálu.
+**Zapojení / ukázka:** Ujistěte účastníky, že tyto znalosti se jim budou skvěle hodit při psaní vlastních skriptů.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jaký je rozdíl mezi jednoduchými a dvojitými uvozovkami?“
 
 ## 65. Uvozovky a mezery
 
-**Řekni:** Vysvětli téma slajdu "Uvozovky a mezery". Projdi následující klíčové body: Jednoduché uvozovky zachovají text doslova., Dvojité uvozovky rozbalí proměnné jako$HOME., Bez uvozovek shell rozdělí mezeru na více argumentů.. Na obrazovce ukaž příkaz/zápis `touch "moje poznamky.txt"
-cat 'moje poznamky.txt'
-echo "Jsem v $HOME"
-echo 'Jsem v $HOME'` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Jednoduché uvozovky 'text' zachovají text přesně doslova bez jakýchkoliv úprav. Dvojité uvozovky "text" umožní shellu rozbalit proměnné jako $HOME nebo speciální znaky. Pokud uvozovky vynecháte, shell mezeru vyhodnotí jako oddělovač více různých parametrů.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Porovnejte v terminálu výstup echo '$HOME' a echo "$HOME".
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak napsat speciální znaky pomocí zpětného lomítka?“
 
 ## 66. Escapování
 
-**Řekni:** Vysvětli téma slajdu "Escapování". Zpětné lomítko\říká shellu, že následující znak nemá mít svůj speciální význam. Na obrazovce ukaž příkaz/zápis `echo "Cena je \$10"
-echo 'Cena je $10'
-touch soubor\ s\ mezerami.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Zpětné lomítko \ (escape znak) říká shellu: Následující znak ber jako obyčejné písmeno bez jeho speciální funkce. Tímto způsobem můžeme zapsat znak dolaru \$10 nebo mezeru v názvu souboru bez uvozovek: soubor\ s\ mezerou.txt.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Vyzkoušejte echo "Cena je \$100".
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak programy po svém skončení sdělují, zda proběhly úspěšně?“
 
 ## 67. Návratový kód
 
-**Řekni:** Vysvětli téma slajdu "Návratový kód". Projdi následující klíčové body: 0znamená úspěch., Nenulová hodnota znamená chybu nebo jiný stav., Příkazy a skripty tak mohou rozhodovat, co udělat dál.. Na obrazovce ukaž příkaz/zápis `grep "Linux" poznamky.txt
-echo $?` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Každý příkaz po svém dokončení vrátí celočíselný návratový kód (exit code), který se uloží do speciální proměnné $?. Kód 0 znamená stoprocentní úspěch. Jakékoliv nenulové číslo (1 až 255) signalizuje chybu nebo varování.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Spusťte ls /etc a následně echo $? (vrátí 0). Pak zkuste ls /neexistuje a echo $? (vrátí 2).
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak na základě úspěchu či neúspěchu řetězit příkazy?“
 
 ## 68. Logické operátory
 
-**Řekni:** Vysvětli téma slajdu "Logické operátory". Projdi následující klíčové body: &&spustí další příkaz jen po úspěchu., ||spustí další příkaz při neúspěchu.. Na obrazovce ukaž příkaz/zápis `mkdir projekt && cd projekt
-test -f poznamky.txt && cat poznamky.txt
-ping -c 1 example.com || echo "Nedostupné"` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Dva ampersandy && spustí následující příkaz pouze tehdy, když předchozí skončil úspěchem (např. mkdir projekt && cd projekt). Dvě svislítka || naopak spustí další příkaz jen při neúspěchu (např. ping -c 1 server || echo "Server je nedostupný").“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Vyzkoušejte obě konstrukce v terminálu.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak si v shellu vytvářet vlastní proměnné?“
 
 ## 69. Proměnné shellu
 
-**Řekni:** Vysvětli téma slajdu "Proměnné shellu". Projdi následující klíčové body: Při přiřazení nesmí být mezery kolem=., exportpředá proměnnou i programům spouštěným ze shellu.. Na obrazovce ukaž příkaz/zápis `jmeno="Ada"
-echo "Ahoj, $jmeno"
-export EDITOR=nano
-printenv | less` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Vlastní proměnnou vytvoříme zápisem jmeno="Jan". Pozor: kolem rovnítka nesmí být žádné mezery! Pokud chceme, aby proměnnou viděly i ostatní programy spouštěné z tohoto shellu, musíme ji exportovat pomocí export EDITOR=nano.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Zkuste vytvořit proměnnou a vypsat ji přes echo $jmeno.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak si vytvořit vlastní trvalé zkratky pro dlouhé příkazy?“
 
 ## 70. Aliasy
 
-**Řekni:** Vysvětli téma slajdu "Aliasy". Alias je zkratka v aktuálním shellu. Trvalé aliasy se obvykle zapisují do~/.bashrcnebo konfigurace používaného shellu. Na obrazovce ukaž příkaz/zápis `alias ll='ls -lah'
-alias ..='cd ..'
-alias` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Alias je uživatelská zkratka v shellu. Například alias ll='ls -lah' vytvoří příkaz ll. Chceme-li, aby zkratka fungovala i po restartu terminálu, zapíšeme ji do konfiguračního souboru ~/.bashrc.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte účastníky nastavit alias ll='ls -lah' a vyzkoušet ho.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak spustit program tak, aby nám neblokoval terminál?“
 
 ## 71. Pozadí a procesy
 
-**Řekni:** Vysvětli téma slajdu "Pozadí a procesy". Projdi následující klíčové body: &pustí úlohu na pozadí., jobsukazuje úlohy aktuálního shellu., fgvrátí úlohu do popředí.. Na obrazovce ukaž příkaz/zápis `sleep 60 &
-jobs
-fg
-ps aux | less` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Pokud na konec příkazu přidáme znak ampersand & (např. sleep 60 &), proces poběží na pozadí a terminál zůstane volný pro další práci. Příkaz jobs vypíše běžící úlohy na pozadí a fg vrátí úlohu zpět do popředí.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Spusťte sleep 30 &, ověřte přes jobs a vraťte do popředí přes fg.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Nyní se podíváme hlouběji na souborový systém, odkazy a virtuální složky.“
 
 ## 72. Filesystem do hloubky
 
-**Řekni:** Vysvětli téma slajdu "Filesystem do hloubky". 
+**Řekni:** „V této části si vysvětlíme symbolické a pevné linky, připojování disků a nahlédneme do virtuálních adresářů jádra /proc a /sys.“
 
-**Zapojení / ukázka:** Polož publiku otázku k tématu slajdu nebo nechte účastníky vyzkoušet příkaz v terminálu.
+**Zapojení / ukázka:** Uveďte, že pochopení odkazů ušetří spoustu místa na disku.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Co je to symbolický odkaz?“
 
 ## 73. Symbolické odkazy
 
-**Řekni:** Vysvětli téma slajdu "Symbolické odkazy". Symbolický odkaz je speciální soubor ukazující na jinou cestu. Poznáš ho podlelna začátku výpisuls -l. Na obrazovce ukaž příkaz/zápis `ln -s /var/log moje-logy
-ls -l moje-logy
-cat moje-logy/syslog` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Symbolický odkaz (symlink) vytvoříme příkazem ln -s <cíl> <název_odkazu>. Je to obdoba zástupce z Windows - malý soubor, který pouze ukazuje na jinou cestu. Ve výpisu ls -l ho poznáte podle počátečního písmene l a šipky ->.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Vytvořte symlink ln -s /var/log moje-logy a otevřete přes něj soubor.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak se od symbolického liší pevný odkaz?“
 
 ## 74. Pevné odkazy
 
-**Řekni:** Vysvětli téma slajdu "Pevné odkazy". Pevný odkaz je další jméno pro stejná data na disku. Nejde vytvořit přes filesystémy ani na adresáře. Na obrazovce ukaž příkaz/zápis `ln puvodni.txt druhe-jmeno.txt
-ls -li puvodni.txt druhe-jmeno.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Pevný odkaz (hard link) vytvoříme příkazem ln puvodni.txt kopie.txt. Je to další rovnocenný název pro stejný datový blok na disku (stejný inode). Smazáním jednoho jména data nezmizí, dokud existuje alespoň jeden pevný odkaz. Nelze ho vytvořit pro složky ani přes různé disky.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Ukažte shodu čísel inode pomocí příkazu ls -li.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak systém připojuje disky a oddíly?“
 
 ## 75. Připojené filesystémy
 
-**Řekni:** Vysvětli téma slajdu "Připojené filesystémy". Projdi následující klíčové body: Disk nebo oddíl se zpřístupní připojením do určitého adresáře., lsblkukáže bloková zařízení., findmntzobrazí strom připojení.. Na obrazovce ukaž příkaz/zápis `mount | less
-findmnt
-lsblk
-df -hT` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Disky a USB flashky se v Linuxu zpřístupňují připojením (mountováním) do konkrétní složky. Příkaz lsblk přehledně vypíše strom všech blokových zařízení a oddílů, findmnt ukáže jejich přípojné body a df -hT zobrazí typ souborového systému (ext4, btrfs apod.).“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte účastníky spustit lsblk a prozkoumat diskové oddíly.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak Linux reprezentuje hardware v adresáři /dev?“
 
 ## 76. Zařízení v /dev
 
-**Řekni:** Vysvětli téma slajdu "Zařízení v /dev". Projdi následující klíčové body: /dev/nullzahazuje data., /dev/zeroposkytuje nulové bajty., /dev/randomposkytuje náhodná data.. Na obrazovce ukaž příkaz/zápis `ls -l /dev/null /dev/zero /dev/random` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Ve složce /dev reprezentuje Linux zařízení jako speciální soubory. Tři nejznámější jsou: /dev/null (černá díra, co do ní zapíšete, to zahodí), /dev/zero (nekonečný zdroj nulových bajtů) a /dev/random (zdroj kryptograficky bezpečných náhodných dat).“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Spusťte head -c 10 /dev/random | xxd a ukažte náhodné bajty.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Co najdeme ve virtuálních složkách /proc a /sys?“
 
 ## 77. Virtuální /proc a /sys
 
-**Řekni:** Vysvětli téma slajdu "Virtuální /proc a /sys". Jádro přes tyto adresáře zpřístupňuje informace o procesech, paměti, zařízeních a systému. Na obrazovce ukaž příkaz/zápis `cat /proc/cpuinfo | less
-cat /proc/meminfo | head
-ls /sys` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Adresáře /proc a /sys neexistují na fyzickém disku - generuje je přímo linuxové jádro v RAM. Například soubor /proc/cpuinfo obsahuje parametry procesoru a /proc/meminfo aktuální stav operační paměti.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Zkuste cat /proc/cpuinfo | grep "model name" a zjistěte model vašeho CPU.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak v Linuxu vytvářet a rozbalovat archivy souborů?“
 
 ## 78. Archivace pomocí tar
 
-**Řekni:** Vysvětli téma slajdu "Archivace pomocí tar". Projdi následující klíčové body: -cvytvoří archiv,-xrozbalí,-tvypíše obsah., -zpoužije gzip,-furčuje název souboru.. Na obrazovce ukaž příkaz/zápis `tar -czf zaloha.tar.gz projekt/
-tar -tzf zaloha.tar.gz
-tar -xzf zaloha.tar.gz` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Nástroj tar spojuje více souborů do jednoho archivu a obvykle je komprimuje přes gzip (.tar.gz). Pamatujte si zkratky: tar -czf archiv.tar.gz slozka/ archiv vytvoří (c=create), tar -xzf archiv.tar.gz ho rozbalí (x=extract) a tar -tzf vypíše jeho obsah (t=list).“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Vytvořte zkušební archiv složky a následně ho rozbalte.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Pojďme si shrnout, jaký nástroj zvolit pro jakou situaci.“
 
 ## 79. Výběr správného nástroje
 
-**Řekni:** Vysvětli téma slajdu "Výběr správného nástroje". Na obrazovce ukaž příkaz/zápis `find` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Rychlý přehled pro orientaci: Hledáte podle názvu souboru? Použijte find. Hledáte text uvnitř souboru? Použijte grep. Chcete vědět velikost složky? Použijte du -sh. Chcete vědět volné místo na disku? Použijte df -h. A pro zjištění typu souboru poslouží file.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Projděte souhrnnou tabulku na slajdu.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Podíváme se na pokročilé nástroje pro zpracování textových proudů.“
 
 ## 80. Textové nástroje
 
-**Řekni:** Vysvětli téma slajdu "Textové nástroje". 
+**Řekni:** „V této části si ukážeme nástroje pro třídění, řezání sloupců a hromadné úpravy textu: sort, uniq, cut, tr, sed a xargs.“
 
-**Zapojení / ukázka:** Polož publiku otázku k tématu slajdu nebo nechte účastníky vyzkoušet příkaz v terminálu.
+**Zapojení / ukázka:** Uveďte, že tyto nástroje umožňují provádět komplexní datovou analýzu bez nutnosti programování.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Začneme řazením a počítáním unikátních řádků.“
 
 ## 81. sort, uniq a wc
 
-**Řekni:** Vysvětli téma slajdu "sort, uniq a wc". Projdi následující klíčové body: sortřadí řádky., uniqodstraní sousední duplicity., wc -lpočítá řádky.. Na obrazovce ukaž příkaz/zápis `sort jmena.txt
-sort jmena.txt | uniq
-sort jmena.txt | uniq -c
-wc -l jmena.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz sort seřadí řádky podle abecedy nebo číselně. uniq odstraní sousední duplicitní řádky (s přepínačem -c spočítá výskyty každé položky). A příkaz wc -l spočítá celkový počet řádků textu.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Spusťte cat /etc/passwd | cut -d: -f7 | sort | uniq -c a spočítejte, kolik uživatelů používá který shell.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak z řádků vyříznout konkrétní sloupec nebo nahradit písmena?“
 
 ## 82. cut a tr
 
-**Řekni:** Vysvětli téma slajdu "cut a tr". cutvybírá sloupce nebo znaky;trnahrazuje či maže znaky. Na obrazovce ukaž příkaz/zápis `cut -d: -f1 /etc/passwd
-echo "Linux" | tr '[:upper:]' '[:lower:]'
-cut -c1-10 poznamky.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Příkaz cut -d: -f1 /etc/passwd rozdělí řádek podle dvojtečky a vybere 1. pole (uživatelská jména). Nástroj tr slouží k transformaci znaků na vstupu, například převede malá písmena na velká: tr '[:lower:]' '[:upper:]'.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Vyzkoušejte echo "letni skola siti" | tr '[:lower:]' '[:upper:]'.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak provádět automatické úpravy a nahrazování textu pomocí regulárních výrazů?“
 
-## 83. sed — jednoduché úpravy
+## 83. sed - jednoduché úpravy
 
-**Řekni:** Vysvětli téma slajdu "sed — jednoduché úpravy". Projdi následující klíčové body: Bez-ise změněný text jen vypíše., -i.bakupraví soubor a nejdříve vytvoří zálohu.. Na obrazovce ukaž příkaz/zápis `sed 's/staré/nové/g' text.txt
-sed -n '1,10p' text.txt
-sed -i.bak 's/http:/https:/g' konfigurace.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Stream editor sed slouží k rychlým úpravám textu. Zápis sed 's/staré/nové/g' soubor.txt nahradí všechny výskyty v textu. Přepínač -i provede úpravu přímo v souboru a -i.bak navíc před úpravou vytvoří bezpečnostní zálohu.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Vyzkoušejte nahrazení slova v testovacím textu.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak předat textový výstup z roury jako parametry na příkazový řádek?“
 
 ## 84. xargs
 
-**Řekni:** Vysvětli téma slajdu "xargs". xargspřevádí řádky ze vstupu na argumenty příkazu. Kombinace-print0a-0bezpečně zvládne mezery v názvech. Na obrazovce ukaž příkaz/zápis `find . -name "*.tmp" -print0 | xargs -0 rm -i
-find . -type f -print0 | xargs -0 file` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Nástroj xargs čte položky ze standardního vstupu a spouští s nimi zadaný příkaz jako parametry. V kombinaci find . -name "*.tmp" -print0 | xargs -0 rm bezpečně smaže všechny nalezené soubory i v případě, že jejich názvy obsahují mezery.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Předveďte vyhledání a zjištění typu souborů: find . -type f -print0 | xargs -0 file.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Méně je někdy více - vyhněte se zbytečným rourám.“
 
 ## 85. Když je lepší použít méně
 
-**Řekni:** Vysvětli téma slajdu "Když je lepší použít méně". Mnoho programů už umí číst soubor přímo. Zbytečná roura scatzhoršuje čitelnost. Na obrazovce ukaž příkaz/zápis `grep -r "TODO" projekt/
-# místo: cat soubor | grep TODO` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Častou začátečnickou chybou je zbytečné psaní cat soubor.txt | grep text. Nástroj grep i většina ostatních utilit umí číst soubor přímo ze zadaného parametru: grep text soubor.txt. Je to rychlejší, úspornější a přehlednější.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Ukažte rozdíl v zápisu na obrazovce.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Podíváme se na pokročilá bezpečnostní oprávnění: sticky bit, setuid a ACL.“
 
 ## 86. Oprávnění do hloubky
 
-**Řekni:** Vysvětli téma slajdu "Oprávnění do hloubky". 
+**Řekni:** „Kromě základních práv rwx nabízí Linux speciální přístupové bity pro sdílené složky a jemnější řízení přístupu přes ACL.“
 
-**Zapojení / ukázka:** Polož publiku otázku k tématu slajdu nebo nechte účastníky vyzkoušet příkaz v terminálu.
+**Zapojení / ukázka:** Zeptejte se: „Napadá vás, jak zařídit, aby ve sdílené složce mohl každý vytvářet soubory, ale nikdo nemohl mazat soubory cizí?“
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „K tomu slouží takzvaný Sticky bit.“
 
 ## 87. Práva adresáře v praxi
 
-**Řekni:** Vysvětli téma slajdu "Práva adresáře v praxi". Proto se soubor obvykle nemaže podle svých práv, ale podle práv jeho nadřazeného adresáře. Na obrazovce ukaž příkaz/zápis `r` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Zopakujme si chování práv na složkách: r umožňuje číst seznam jmen souborů, w dovoluje soubory tvořit, přejmenovávat a mazat, a x je nutné pro vstup do složky a přístup k souborům uvnitř.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Upozorněte: „Bez práva x na složce si nepřečtete ani soubor uvnitř, i kdyby měl práva 777.“
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak přesně funguje Sticky bit na sdílených složkách?“
 
 ## 88. Sticky bit
 
-**Řekni:** Vysvětli téma slajdu "Sticky bit". Sticky bit na sdíleném adresáři dovolí uživatelům mazat jen jejich vlastní položky. Typický příklad je/tmp. Na obrazovce ukaž příkaz/zápis `ls -ld /tmp
-# drwxrwxrwt ... /tmp
-sudo chmod +t sdilene/` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Sticky bit (písmeno t na konci práv, např. drwxrwxrwt) zajistí, že ve sdílené složce smí soubor smazat nebo přejmenovat pouze jeho skutečný vlastník nebo root. Typickým příkladem je systémová složka /tmp.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Spusťte ls -ld /tmp a ukažte studentům písmeno t na konci oprávnění.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Co znamenají speciální bity Setuid a Setgid?“
 
 ## 89. Setuid a setgid
 
-**Řekni:** Vysvětli téma slajdu "Setuid a setgid". Projdi následující klíčové body: Setuid spouští program s právy vlastníka souboru., Setgid na adresáři zajistí, že nové položky dědí jeho skupinu., Tyto bity jsou pokročilé a nesmí se nastavovat bez důvodu.. Na obrazovce ukaž příkaz/zápis `ls -l /usr/bin/passwd
-# -rwsr-xr-x ... /usr/bin/passwd` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Setuid (písmeno s u práv vlastníka) způsobí, že se program spouští s právy vlastníka souboru namísto práv spouštějícího uživatele. Díky tomu může například běžný uživatel spustit `/usr/bin/passwd` a bezpečně si změnit heslo v systému. Setgid na složce zase zajistí dědění skupiny.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Spusťte `ls -l /usr/bin/passwd` a ukažte příznak `-rwsr-xr-x`.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak nastavit jemnější pravidla pro více uživatelů pomocí ACL?“
 
 ## 90. ACL
 
-**Řekni:** Vysvětli téma slajdu "ACL". Access Control Lists přidávají jemnější pravidla než vlastník/skupina/ostatní. Často se používají na sdílených úložištích. Na obrazovce ukaž příkaz/zápis `getfacl sdilene/
-setfacl -m u:alice:rw soubor.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Access Control Lists (ACL) umožňují přiřadit specifická práva konkrétním uživatelům nebo skupinám nad rámec standardní trojice vlastník-skupina-ostatní. Pro čtení slouží `getfacl <soubor>` a pro nastavení `setfacl -m u:alice:rw <soubor>`.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Vyzkoušejte `getfacl` na libovolný soubor a ukažte rozšířenou tabulku práv.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Jak ověřit práva celé cesty před provedením změny?“
 
 ## 91. Audit před změnou
 
-**Řekni:** Vysvětli téma slajdu "Audit před změnou". Projdi následující klíčové body: ls -ldukáže práva samotného adresáře., namei -lukáže práva každé části cesty., statvypíše podrobná metadata.. Na obrazovce ukaž příkaz/zápis `ls -ld cesta
-namei -l cesta/k/souboru
-stat soubor.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Před úpravami oprávnění se hodí tři kontrolní příkazy: `ls -ld <složka>` pro ověření práv samotného adresáře, `namei -l <cesta>` pro vypsání práv všech nadřazených složek v cestě a `stat <soubor>` pro kompletní metadata a časy.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Spusťte `namei -l /var/log/syslog` a sledujte přehledný strom oprávnění.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Pojďme si všechny získané znalosti vyzkoušet v praktickém cvičení.“
 
 ## 92. Praktické cvičení
 
-**Řekni:** Vysvětli téma slajdu "Praktické cvičení". 
+**Řekni:** „Nyní si v samostatném čtyřkrokovém cvičení ověříme vše, co jsme se dnes naučili: vytvoříme pracovní prostor, naplníme soubory, vyzkoušíme přesun a vyhledávání a nastavíme správná oprávnění.“
 
-**Zapojení / ukázka:** Polož publiku otázku k tématu slajdu nebo nechte účastníky vyzkoušet příkaz v terminálu.
+**Zapojení / ukázka:** Vyzvěte všechny, aby postupovali podle instrukcí na následujících čtyřech slajdech.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Krok 1: Příprava pracovního prostoru.“
 
 ## 93. 1. Připrav pracovní prostor
 
-**Řekni:** Vysvětli téma slajdu "1. Připrav pracovní prostor". Vytvoř adresář cvičení se dvěma podsložkami a ověř, kde jsi. Na obrazovce ukaž příkaz/zápis `mkdir -p ~/linux-cviceni/{data,zaloha}
-cd ~/linux-cviceni
-pwd
-ls -la` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Vytvořte si ve svém domovském adresáři složku `linux-cviceni` se dvěma podsložkami `data` a `zaloha`. Přepněte se do ní, ověřte svou polohu přes `pwd` a vypište obsah přes `ls -la`.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Příkazy: `mkdir -p ~/linux-cviceni/{data,zaloha}`, `cd ~/linux-cviceni`, `pwd`, `ls -la`.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Krok 2: Vytvoření a naplnění souboru.“
 
 ## 94. 2. Vytvoř a naplň soubor
 
-**Řekni:** Vysvětli téma slajdu "2. Vytvoř a naplň soubor". Všimni si rozdílu mezi>a>>. Na obrazovce ukaž příkaz/zápis `echo "Úvod do Linuxu" > data/poznamky.txt
-echo "Druhý řádek" >> data/poznamky.txt
-cat data/poznamky.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Vytvořte soubor `data/poznamky.txt` a zapište do něj dva řádky textu pomocí operátorů `>` a `>>`. Následně si výsledek zkontrolujte příkazem `cat`.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Příkazy: `echo "Úvod do Linuxu" > data/poznamky.txt`, `echo "Druhý řádek" >> data/poznamky.txt`, `cat data/poznamky.txt`.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Krok 3: Kopírování, přejmenování a vyhledávání.“
 
 ## 95. 3. Kopie, přesun, hledání
 
-**Řekni:** Vysvětli téma slajdu "3. Kopie, přesun, hledání". Na obrazovce ukaž příkaz/zápis `cp data/poznamky.txt zaloha/
-mv data/poznamky.txt data/linux.txt
-find . -name "*.txt"
-grep -n "Linux" data/linux.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Zkopírujte soubor do složky `zaloha/`, původní soubor přejmenujte na `linux.txt`, vyhledejte všechny textové soubory přes `find` a prohledejte obsah pomocí `grep`.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Příkazy: `cp data/poznamky.txt zaloha/`, `mv data/poznamky.txt data/linux.txt`, `find . -name "*.txt"`, `grep -n "Linux" data/linux.txt`.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Krok 4: Nastavení striktních oprávnění.“
 
 ## 96. 4. Oprávnění
 
-**Řekni:** Vysvětli téma slajdu "4. Oprávnění". Popiš, co znamená výsledek-rw-------. Na obrazovce ukaž příkaz/zápis `ls -l data/linux.txt
-chmod 600 data/linux.txt
-ls -l data/linux.txt` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Zkontrolujte aktuální práva souboru `data/linux.txt`, nastavte mu práva `600` (pouze pro čtení a zápis vlastníka) a popište, co znamená výsledek `-rw-------`.“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Příkazy: `ls -l data/linux.txt`, `chmod 600 data/linux.txt`, `ls -l data/linux.txt`.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Pojďme si na závěr ověřit pochopení látky 5 kontrolními otázkami.“
 
 ## 97. Kontrolní otázky
 
-**Řekni:** Vysvětli téma slajdu "Kontrolní otázky". Projdi následující klíčové body: Jaký je rozdíl mezi terminálem a shellem?, Jak se liší absolutní a relativní cesta?, Co dělá>a co>>?, Co znamenáchmod 754?, Proč jerm -rfnebezpečné?. Na obrazovce ukaž příkaz/zápis `>` a vysvětli jeho syntaktické složky a výstup.
+**Řekni:** „Pojďme si společně projít 5 rychlých otázek: 1. Jaký je rozdíl mezi terminálem a shellem? 2. Jak se liší absolutní a relativní cesta? 3. Co dělá `>` a co `>>`? 4. Co znamená číselné oprávnění `chmod 754`? 5. Proč je příkaz `rm -rf` nebezpečný?“
 
-**Zapojení / ukázka:** Vyzvěte účastníky, aby si otevřeli terminál a sami napsali příkaz a sledovali výstup.
+**Zapojení / ukázka:** Nechte jednotlivé účastníky dobrovolně odpovídat a doplňujte jejich odpovědi.
 
-**Přechod:** Nyní se posuneme k dalším aspektům v následujícím slajdu.
+**Přechod:** „Máme hotovo!“
 
 ## 98. Hotovo
 

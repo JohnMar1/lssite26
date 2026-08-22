@@ -1,22 +1,22 @@
-# Mluvené poznámky ke každému slajdu — Letní škola sítí: 11. Návod na CTF a závěrečná soutěž (CTFd na https://dork.cz)
+# Mluvené poznámky ke každému slajdu - Letní škola sítí: 11. Návod na CTF a závěrečná soutěž (CTFd na https://dork.cz)
 
 Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho doslova. Text po značce **Řekni** můžeš použít skoro jako hotovou formulaci, **Zapojení / ukázka** říká, co máš udělat s publikem, a **Přechod** ti pomůže plynule navázat.
 
 ## Doporučené tempo
 
-- Slajd 1–3 (Úvod, Harmonogram & Vlajka `LS{...}`): přibližně 10 minut (09:00–09:10).
-- Slajd 4–5 (Registrace a Týmy na dork.cz): přibližně 5 minut.
-- Slajd 6–9 (Přehled úloh, Dočasné stroje & Minecraft): přibližně 15 minut.
-- Slajd 10–12 (Pravidla bezpečnosti `/lab` & Jak postupovat): přibližně 10 minut.
-- Samotný start soutěže (První část): 09:10–12:00.
-- Druhá část po obědě: 13:00–14:45.
-- Vyhodnocení a společný rozbor: 15:00–16:00.
+- Slajd 1-3 (Úvod, Harmonogram & Vlajka `LS{...}`): přibližně 10 minut (09:00-09:10).
+- Slajd 4-5 (Registrace a Týmy na dork.cz): přibližně 5 minut.
+- Slajd 6-9 (Přehled úloh, Dočasné stroje & Minecraft): přibližně 15 minut.
+- Slajd 10-12 (Pravidla bezpečnosti `/lab` & Jak postupovat): přibližně 10 minut.
+- Samotný start soutěže (První část): 09:10-12:00.
+- Druhá část po obědě: 13:00-14:45.
+- Vyhodnocení a společný rozbor: 15:00-16:00.
 
 ---
 
-## 1. Titulní slajd — 11. Návod na CTF & Závěrečná soutěž
+## 1. Titulní slajd - 11. Návod na CTF & Závěrečná soutěž
 
-**Řekni:** „Vítám vás u závěrečného modulu Letní školy sítí – 11. Návod na CTF a závěrečná soutěž! Dnes si vyzkoušíte vyřešit praktické bezpečnostní a síťové výzvy. Všechny úlohy a bodování probíhá přes portál na adrese https://dork.cz.“
+**Řekni:** „Vítám vás u závěrečného modulu Letní školy sítí - 11. Návod na CTF a závěrečná soutěž! Dnes si vyzkoušíte vyřešit praktické bezpečnostní a síťové výzvy. Všechny úlohy a bodování probíhá přes portál na adrese https://dork.cz.“
 
 **Zapojení / ukázka:** Promítněte titulní slajd na projektoru a nechte účastníky otevřít stránku https://dork.cz.
 
@@ -30,7 +30,7 @@ Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho dosl
 
 **Zapojení / ukázka:** Ukažte časové milníky na slajdu a zdůrazněte čas uzavření odevzdávání (14:45).
 
-**Přechod:** „Pojďme se podívat na první kategorii – jak CTF funguje a jak vypadá vlajka.“
+**Přechod:** „Pojďme se podívat na první kategorii - jak CTF funguje a jak vypadá vlajka.“
 
 ---
 
@@ -46,7 +46,7 @@ Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho dosl
 
 ## 4. Formát vlajky: LS{...}
 
-**Řekni:** „Všechny vlajky na našem CTF mají formát `LS{text_uvnitr}` – kde LS znamená Letní škola sítí. Jakmile v souboru, v logu nebo na serveru objevíte řetězec v tomto tvaru, zkopírujte ho celý včetně `LS{` a `}` a vložte do pole u dané úlohy na dork.cz. Pozor na malá a velká písmena!“
+**Řekni:** „Všechny vlajky na našem CTF mají formát `LS{text_uvnitr}` - kde LS znamená Letní škola sítí. Jakmile v souboru, v logu nebo na serveru objevíte řetězec v tomto tvaru, zkopírujte ho celý včetně `LS{` a `}` a vložte do pole u dané úlohy na dork.cz. Pozor na malá a velká písmena!“
 
 **Zapojení / ukázka:** Ukažte příklad `LS{neco_uvnitr_zde}` na slajdu a upozorněte, abyste nekopírovali nechtěné mezery okolo.
 
@@ -80,7 +80,7 @@ Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho dosl
 
 **Zapojení / ukázka:** Vyjmenujte oblasti a ukažte, že pokrývají přesně témata jednotlivých dní Letní školy sítí.
 
-**Přechod:** „Některé úlohy vyžadují spuštění vlastní instance – pojďme si ukázat dočasné stroje.“
+**Přechod:** „Některé úlohy vyžadují spuštění vlastní instance - pojďme si ukázat dočasné stroje.“
 
 ---
 
@@ -100,13 +100,13 @@ Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho dosl
 
 **Zapojení / ukázka:** Upozorněte na verzi Minecraftu 1.20.4 a ujistěte se, že studenti vědí, kde najdou adresu serveru.
 
-**Přechod:** „Nyní to nejdůležitější – bezpečnostní pravidla soutěže.“
+**Přechod:** „Nyní to nejdůležitější - bezpečnostní pravidla soutěže.“
 
 ---
 
-## 10. Kategorie 4: Bezpečnostní pravidla – Kde se smí hrát
+## 10. Kategorie 4: Bezpečnostní pravidla - Kde se smí hrát
 
-**Řekni:** „Pozor na pravidla rozsahu: Aktivní bezpečnostní testování je povolené POUZE v cestě /lab (tedy https://dork.cz/lab), v dočasných strojích a nad přiloženými soubory! Samotné rozhraní CTFd mimo /lab NENÍ cíl útoku – nezkoušejte zranitelnosti na přihlašování, API ani administraci dork.cz. Wi-Fi soubory PCAP jsou syntetické offline nahrávky – nezkoušejte nic na reálné školní Wi-Fi. Zákaz phishingu, DoS a mazání dat!“
+**Řekni:** „Pozor na pravidla rozsahu: Aktivní bezpečnostní testování je povolené POUZE v cestě /lab (tedy https://dork.cz/lab), v dočasných strojích a nad přiloženými soubory! Samotné rozhraní CTFd mimo /lab NENÍ cíl útoku - nezkoušejte zranitelnosti na přihlašování, API ani administraci dork.cz. Wi-Fi soubory PCAP jsou syntetické offline nahrávky - nezkoušejte nic na reálné školní Wi-Fi. Zákaz phishingu, DoS a mazání dat!“
 
 **Zapojení / ukázka:** Zdůrazněte červeně podbarvenou cestu `/lab` a ukažte, že zkoušení útoku mimo `/lab` znamená diskvalifikaci.
 

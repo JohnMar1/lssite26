@@ -1,4 +1,4 @@
-# Mluvené poznámky ke každému slajdu — Letní škola sítí: 4. MikroTik Konfigurace
+# Mluvené poznámky ke každému slajdu - Letní škola sítí: 4. MikroTik Konfigurace
 
 Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho doslova. Text po značce **Řekni** můžeš použít skoro jako hotovou formulaci, **Zapojení / ukázka** říká, co máš udělat s publikem, a **Přechod** ti pomůže plynule navázat.
 
@@ -6,14 +6,14 @@ U konfiguračních slajdů nečti příkazy jako text; ukaž postup živě ve Wi
 
 ## Doporučené tempo
 
-- Slajdy 1–5: Úvod, zapojení a nástroje (WinBox vs CLI, zálohování), přibližně 15–20 minut.
-- Slajdy 6–8: Fyzické zapojení, připojení přes WinBox a tovární vs. čisté nastavení, přibližně 15 minut.
-- Slajdy 9–11: Konfigurace LAN (Bridge, IP adresa, DHCP server), přibližně 25 minut.
-- Slajdy 12–16: Konfigurace WAN (DHCP client, Statická IP, PPPoE) a ověření pingu, přibližně 25 minut.
-- Slajdy 17–18: NAT, Masquerade a Port Forwarding (DstNAT), přibližně 20 minut.
-- Slajdy 19–22: Zabezpečení routeru (hesla, MAC server, firewall pravidla, vypnutí služeb), přibližně 30 minut.
-- Slajdy 23–25: Nastavení Wi-Fi, ochrana klientů a blokování webů přes Web Proxy, přibližně 25 minut.
-- Slajdy 26–27: Diagnostika a závěrečné shrnutí, přibližně 15 minut.
+- Slajdy 1-5: Úvod, zapojení a nástroje (WinBox vs CLI, zálohování), přibližně 15-20 minut.
+- Slajdy 6-8: Fyzické zapojení, připojení přes WinBox a tovární vs. čisté nastavení, přibližně 15 minut.
+- Slajdy 9-11: Konfigurace LAN (Bridge, IP adresa, DHCP server), přibližně 25 minut.
+- Slajdy 12-16: Konfigurace WAN (DHCP client, Statická IP, PPPoE) a ověření pingu, přibližně 25 minut.
+- Slajdy 17-18: NAT, Masquerade a Port Forwarding (DstNAT), přibližně 20 minut.
+- Slajdy 19-22: Zabezpečení routeru (hesla, MAC server, firewall pravidla, vypnutí služeb), přibližně 30 minut.
+- Slajdy 23-25: Nastavení Wi-Fi, ochrana klientů a blokování webů přes Web Proxy, přibližně 25 minut.
+- Slajdy 26-27: Diagnostika a závěrečné shrnutí, přibližně 15 minut.
 
 ---
 
@@ -111,7 +111,7 @@ U konfiguračních slajdů nečti příkazy jako text; ukaž postup živě ve Wi
 
 **Zapojení / ukázka:** Zeptej se: „Kdo ví, jaký typ připojení máte doma?“
 
-**Přechod:** „Podíváme se na nejčastější variantu – DHCP client.“
+**Přechod:** „Podíváme se na nejčastější variantu - DHCP client.“
 
 ## 13. WAN Option A: DHCP Client
 

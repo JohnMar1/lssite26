@@ -1,4 +1,4 @@
-# Mluvené poznámky ke každému slajdu — Letní škola sítí: 2. Základy sítí
+# Mluvené poznámky ke každému slajdu - Letní škola sítí: 2. Základy sítí
 
 Scénář je psaný pro úplné začátečníky. Není potřeba učit se ho doslova. Text po značce **Řekni** můžeš použít skoro jako hotovou formulaci, **Zapojení / ukázka** říká, co máš udělat s publikem, a **Přechod** ti pomůže plynule navázat.
 
@@ -6,16 +6,16 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ## Doporučené tempo
 
-- Slajdy 1–8: Úvod a úplné základy, co je internet, přenos dat, kabely a síťová zařízení, přibližně 30 minut.
-- Slajdy 9–19: Adresace (IPv4/v6), síťové vrstvy, porty a protokoly (TCP vs UDP, Handshake, vrstvy), přibližně 45 minut.
-- Slajdy 20–33: Síťová bezpečnost, příkazy, nástroje, útoky (DoS/DDoS, MITM, SQLi, XSS, Spoofing), přibližně 45 minut.
+- Slajdy 1-8: Úvod a úplné základy, co je internet, přenos dat, kabely a síťová zařízení, přibližně 30 minut.
+- Slajdy 9-19: Adresace (IPv4/v6), síťové vrstvy, porty a protokoly (TCP vs UDP, Handshake, vrstvy), přibližně 45 minut.
+- Slajdy 20-33: Síťová bezpečnost, příkazy, nástroje, útoky (DoS/DDoS, MITM, SQLi, XSS, Spoofing), přibližně 45 minut.
 - Slajd 34: Závěr a shrnutí, přibližně 5 minut.
 
 ---
 
 ## 1. Základy sítí
 
-**Řekni:** „Vítám vás u druhého bloku Letní školy sítí – Základy sítí. Dnes si vysvětlíme, jak funguje internet pod pokličkou, jak cestují bajty přes kabely a vzduch, co jsou IP adresy a porty, a na závěr si ukážeme základy síťové bezpečnosti a útoků.“
+**Řekni:** „Vítám vás u druhého bloku Letní školy sítí - Základy sítí. Dnes si vysvětlíme, jak funguje internet pod pokličkou, jak cestují bajty přes kabely a vzduch, co jsou IP adresy a porty, a na závěr si ukážeme základy síťové bezpečnosti a útoků.“
 
 **Zapojení / ukázka:** Polož otázku: „Co všechno se podle vás musí stát během té jediné sekundy, než se vám po stisku Enteru načte webová stránka Google?“
 
@@ -49,7 +49,7 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 **Zapojení / ukázka:** Použij příměr s klasickou poštou: Přenos dat je silnice, připojení k serveru je adresát, adresace je ulice a číslo domu, port je číslo bytu a jméno konkrétního člověka.
 
-**Přechod:** „Podívejme se podrobněji na první pilíř – přenos dat a síťová média.“
+**Přechod:** „Podívejme se podrobněji na první pilíř - přenos dat a síťová média.“
 
 ---
 
@@ -63,9 +63,9 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ---
 
-## 6. Přenos dat — kabely
+## 6. Přenos dat - kabely
 
-**Řekni:** „Na slajdu vidíte srovnání dvou hlavních kabelových médií. Vlevo je klasický měděný kabel (kroucená dvoulinka s konektorem RJ-45), který zapojujete do počítače nebo routeru. Vpravo je optický kabel – uvnitř je tenké skleněné či plastové vlákno, kterým bliká laser nebo LED dioda. Optika přenáší obrovské množství dat rychlostí světla na desítky kilometrů bez ztráty kvality signálu.“
+**Řekni:** „Na slajdu vidíte srovnání dvou hlavních kabelových médií. Vlevo je klasický měděný kabel (kroucená dvoulinka s konektorem RJ-45), který zapojujete do počítače nebo routeru. Vpravo je optický kabel - uvnitř je tenké skleněné či plastové vlákno, kterým bliká laser nebo LED dioda. Optika přenáší obrovské množství dat rychlostí světla na desítky kilometrů bez ztráty kvality signálu.“
 
 **Zapojení / ukázka:** Zeptej se: „Proč nepoužíváme optické kabely úplně všude, třeba až do mobilu nebo myši?“ (Vysvětli vyšší cenu, křehkost vláken a náročnost spojování).
 
@@ -75,7 +75,7 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ## 7. Síťová zařízení
 
-**Řekni:** „Mezi hlavní síťové prvky patří: Router (směrovač), který propojuje různé sítě (např. vaši domácnost s internetem) a rozhoduje o cestě paketů. Switch (přepínač), který propojuje zařízení uvnitř jedné LAN sítě. Access Point (AP), který šíří bezdrátový Wi-Fi signál. Koncová zařízení jsou počítače, mobily, tiskárny nebo servery. Komunikace probíhá buď jako Server-Client (klient žádá, server odpovídá), nebo Peer-to-Peer (P2P – zařízení si mění data přímo mezi sebou, např. torrenty).“
+**Řekni:** „Mezi hlavní síťové prvky patří: Router (směrovač), který propojuje různé sítě (např. vaši domácnost s internetem) a rozhoduje o cestě paketů. Switch (přepínač), který propojuje zařízení uvnitř jedné LAN sítě. Access Point (AP), který šíří bezdrátový Wi-Fi signál. Koncová zařízení jsou počítače, mobily, tiskárny nebo servery. Komunikace probíhá buď jako Server-Client (klient žádá, server odpovídá), nebo Peer-to-Peer (P2P - zařízení si mění data přímo mezi sebou, např. torrenty).“
 
 **Zapojení / ukázka:** Zeptej se: „Když máte doma krabičku od poskytovatele internetu, co je to za zařízení?“ (Vysvětli, že domácí 'router' je v reálu kombinace routeru, switche, Wi-Fi AP a modemu v jednom těle).
 
@@ -83,7 +83,7 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ---
 
-## 8. Síťová zařízení — ukázky
+## 8. Síťová zařízení - ukázky
 
 **Řekni:** „Na obrázcích vidíte reálné ukázky: 1. Wi-Fi router / Access Point s anténami, 2. Rackový switch s mnoha porty pro zapojení kabelů RJ-45 v serverovně, a 3. Schéma síťové topologie, kde jsou počítače zapojené do switche a ten dále do routeru.“
 
@@ -105,7 +105,7 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ## 10. Adresace a důležité pojmy
 
-**Řekni:** „Každé síťové rozhraní má dvě hlavní adresy. MAC adresa je fyzická 48bitová hexadecimální adresa vypálená do síťové karty výrobcem (např. 00:0a:95:9d:67:16). IP adresa je logická adresa pridělená v síti. K IP adrese patří maska sítě (určuje část sítě a část hostitele), výchozí brána (Default Gateway – router pro odchozí provoz) a broadcast adresa. Dále rozlišujeme statické adresy (nastavené ručně) a dynamické (získané automaticky z DHCP). Speciální je Loopback (127.0.0.1 / localhost – odkaz na sebe sama) a VPN (zabezpečený virtuální tunel).“
+**Řekni:** „Každé síťové rozhraní má dvě hlavní adresy. MAC adresa je fyzická 48bitová hexadecimální adresa vypálená do síťové karty výrobcem (např. 00:0a:95:9d:67:16). IP adresa je logická adresa pridělená v síti. K IP adrese patří maska sítě (určuje část sítě a část hostitele), výchozí brána (Default Gateway - router pro odchozí provoz) a broadcast adresa. Dále rozlišujeme statické adresy (nastavené ručně) a dynamické (získané automaticky z DHCP). Speciální je Loopback (127.0.0.1 / localhost - odkaz na sebe sama) a VPN (zabezpečený virtuální tunel).“
 
 **Zapojení / ukázka:** Příměr: MAC adresa je jako vaše rodné číslo (neměnné, identifikuje hardware). IP adresa je jako vaše poštovní adresa (mění se podle toho, do jaké sítě / domu se připojíte).
 
@@ -115,7 +115,7 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ## 11. IPv4 a IPv6
 
-**Řekni:** „IPv4 adresa má 32 bitů zapsaných jako 4 čísla 0–255 oddělená tečkami (např. 1.1.1.1). Protože nabízí jen cca 4,3 miliardy adres, adresy došly. Proto používáme privátní rozsahy (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) pro vnitřní sítě. Dlouhodobým řešením je IPv6 – 128bitová adresa zapsaná hexadecimálně (např. 2001:db8:1::ab9:C0A8:102), která poskytuje prakticky neomezené množství adres.“
+**Řekni:** „IPv4 adresa má 32 bitů zapsaných jako 4 čísla 0-255 oddělená tečkami (např. 1.1.1.1). Protože nabízí jen cca 4,3 miliardy adres, adresy došly. Proto používáme privátní rozsahy (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) pro vnitřní sítě. Dlouhodobým řešením je IPv6 - 128bitová adresa zapsaná hexadecimálně (např. 2001:db8:1::ab9:C0A8:102), která poskytuje prakticky neomezené množství adres.“
 
 **Zapojení / ukázka:** Nechte účastníky otevřít terminál a spustit příkaz `ip a` (Linux) nebo `ipconfig` (Windows) a najít jejich IPv4 a IPv6 adresu.
 
@@ -125,7 +125,7 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ## 12. Síťové vrstvy
 
-**Řekni:** „Komunikaci rozděluje síťový model do vrstev. TCP/IP model má 4 hlavní vrstvy: 1. Linková/Fyzická vrstva (kabely, Wi-Fi, MAC adresy, bity), 2. Síťová vrstva (IP adresy, směrování – IP protokol), 3. Transportní vrstva (spojení a doručování aplikacím – TCP/UDP), 4. Aplikační vrstva (služby pro uživatele – HTTP, SSH, DNS). Při odesílání probíhá zapouzdření (encapsulation) – každá vrstva nabalí na data svou hlavičku.“
+**Řekni:** „Komunikaci rozděluje síťový model do vrstev. TCP/IP model má 4 hlavní vrstvy: 1. Linková/Fyzická vrstva (kabely, Wi-Fi, MAC adresy, bity), 2. Síťová vrstva (IP adresy, směrování - IP protokol), 3. Transportní vrstva (spojení a doručování aplikacím - TCP/UDP), 4. Aplikační vrstva (služby pro uživatele - HTTP, SSH, DNS). Při odesílání probíhá zapouzdření (encapsulation) - každá vrstva nabalí na data svou hlavičku.“
 
 **Zapojení / ukázka:** Příměr s obálkami: Napíšete dopis (aplikační data), dáte ho do obálky se jménem (transportní), vložíte do poštovní tašky s adresou ulice a města (síťová) a naložíte do auta (fyzická).
 
@@ -145,7 +145,7 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ## 14. Protokoly & Wi-Fi
 
-**Řekni:** „Protokol je soubor pravidel pro komunikaci – určuje formát zpráv, jejich pořadí i postup při chybě. U Wi-Fi sítí se setkáváme s různou úrovní zabezpečení: zastaralé a prolomené WEP, dnes nejběžnější WPA2 (Personal se sdíleným heslem nebo Enterprise s ověřovacím serverem) a nejnovější bezpečné WPA3.“
+**Řekni:** „Protokol je soubor pravidel pro komunikaci - určuje formát zpráv, jejich pořadí i postup při chybě. U Wi-Fi sítí se setkáváme s různou úrovní zabezpečení: zastaralé a prolomené WEP, dnes nejběžnější WPA2 (Personal se sdíleným heslem nebo Enterprise s ověřovacím serverem) a nejnovější bezpečné WPA3.“
 
 **Zapojení / ukázka:** Zdůrazni: „Na veřejných Wi-Fi bez hesla nikdy nezadávejte citlivé údaje bez HTTPS nebo zapnuté VPN, protože provoz může kdokoli v okolí odposlouchávat.“
 
@@ -155,7 +155,7 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ## 15. TCP vs. UDP
 
-**Řekni:** „TCP (Transmission Control Protocol) je spojovaný a spolehlivý protokol – garantuje doručení všech paketů ve správném pořadí a ztracené pakety pošle znovu. UDP (User Datagram Protocol) je nespojovaný a rychlý – pošle data bez kontroly doručení. TCP se používá tam, kde nesmí chybět ani bajt (web, e-mail, soubory). UDP se používá tam, kde je přednější rychlost a nízké zpoždění (online hry, videohovory, živý stream).“
+**Řekni:** „TCP (Transmission Control Protocol) je spojovaný a spolehlivý protokol - garantuje doručení všech paketů ve správném pořadí a ztracené pakety pošle znovu. UDP (User Datagram Protocol) je nespojovaný a rychlý - pošle data bez kontroly doručení. TCP se používá tam, kde nesmí chybět ani bajt (web, e-mail, soubory). UDP se používá tam, kde je přednější rychlost a nízké zpoždění (online hry, videohovory, živý stream).“
 
 **Zapojení / ukázka:** Příklad z praxe: „Při streamování videa nevadí, když vypadne 1 snímek obrazu (UDP). Ale kdyby vypadl 1 bajt v ZIP archivu nebo programu, soubor nepůjde otevřít (TCP).“
 
@@ -185,7 +185,7 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ## 18. Protokoly síťové vrstvy (Ukázka / Vtip)
 
-**Řekni:** „Na slajdu je klasický síťový vtip ilustrující rozdíl mezi TCP a UDP: 'Chceš slyšet vtip o TCP? – Ano, chci slyšet vtip o TCP. – Dobře, pošlu ti vtip o TCP...' (stálé potvazování a příprava) vs. UDP: 'Řeknu ti vtip o UDP a je mi úplně jedno, jestli jsi ho slyšel nebo zachytil.'“
+**Řekni:** „Na slajdu je klasický síťový vtip ilustrující rozdíl mezi TCP a UDP: 'Chceš slyšet vtip o TCP? - Ano, chci slyšet vtip o TCP. - Dobře, pošlu ti vtip o TCP...' (stálé potvazování a příprava) vs. UDP: 'Řeknu ti vtip o UDP a je mi úplně jedno, jestli jsi ho slyšel nebo zachytil.'“
 
 **Zapojení / ukázka:** Krátké odlehčení pro udržení pozornosti publika před přechodem k aplikační vrstvě.
 
@@ -225,7 +225,7 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ## 22. Nástroje síťové bezpečnosti
 
-**Řekni:** „Mezi hlavní síťové nástroje patří: `nmap` – síťový skener pro zjišťování aktivních hostitelů, otevřených portů a běžících služeb. `Wireshark` / `tcpdump` – analytické nástroje pro zachytávání a zkoumání síťového provozu paket po paketu. `whois` – vyhledač veřejných informací o vlastnících domén a IP rozsahů (OSINT). `Packet Tracer` – simulátor pro návrh a testování síťových topologií.“
+**Řekni:** „Mezi hlavní síťové nástroje patří: `nmap` - síťový skener pro zjišťování aktivních hostitelů, otevřených portů a běžících služeb. `Wireshark` / `tcpdump` - analytické nástroje pro zachytávání a zkoumání síťového provozu paket po paketu. `whois` - vyhledač veřejných informací o vlastnících domén a IP rozsahů (OSINT). `Packet Tracer` - simulátor pro návrh a testování síťových topologií.“
 
 **Zapojení / ukázka:** Příměr: Nmap je jako člověk, který obchází budovu a zkouší, které dveře a okna jsou odklenuté.
 
@@ -233,17 +233,17 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ---
 
-## 23. Wireshark — ukázka
+## 23. Wireshark - ukázka
 
 **Řekni:** „Na snímku vidíte rozhraní Wiresharku. V horní části je seznam zachycených paketů v reálném čase. Uprostřed vidíte rozpad jednotlivých vrstev vybraného paketu (Fyzická -> Ethernet -> IP -> TCP -> HTTP). Dole je surový výpis v hexadecimálním tvaru a ASCII textu.“
 
 **Zapojení / ukázka:** Upozorni: „Pokud zachytíte HTTP paket, v ASCII části přímo vidíte odeslané přihlašovací jméno a heslo. U HTTPS vidíte jen nečitelnou šifrovanou změť.“
 
-**Přechod:** „Nyní si ukážeme grafické rozhraní skeneru Nmap – Zenmap.“
+**Přechod:** „Nyní si ukážeme grafické rozhraní skeneru Nmap - Zenmap.“
 
 ---
 
-## 24. Zenmap (Nmap GUI) — ukázka
+## 24. Zenmap (Nmap GUI) - ukázka
 
 **Řekni:** „Zenmap je grafické uživatelské rozhraní pro skener Nmap. Zadáte cílovou IP adresu nebo rozsah (Target) a zvolíte profil skenování. Výstup přehledně ukáže otevřené porty (např. 22 SSH, 80 HTTP, 443 HTTPS), detekovaný operační systém a verze služeb.“
 
@@ -265,7 +265,7 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ## 26. DoS vs. DDoS
 
-**Řekni:** „DoS (Denial of Service) je útok odepření služby z jednoho zdroje – útočník zahltí cíl takovým množstvím požadavků, že server přestane odpovídat. DDoS (Distributed Denial of Service) je distribuovaná varianta – útočník ovládne síť tisíců nakažených zařízení (botnet) a zaútočí na cíl ze všech těchto strojů naráz. Výsledkem je nedostupnost služby pro legitimní uživatele.“
+**Řekni:** „DoS (Denial of Service) je útok odepření služby z jednoho zdroje - útočník zahltí cíl takovým množstvím požadavků, že server přestane odpovídat. DDoS (Distributed Denial of Service) je distribuovaná varianta - útočník ovládne síť tisíců nakažených zařízení (botnet) a zaútočí na cíl ze všech těchto strojů naráz. Výsledkem je nedostupnost služby pro legitimní uživatele.“
 
 **Zapojení / ukázka:** Příměr: DoS je jeden člověk blokující přepážku na poště. DDoS je skupina 500 lidí, která zaplní celou halu pošty, takže se běžný zákazník nedostane ani ke dveřím.
 
@@ -273,9 +273,9 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ---
 
-## 27. DDoS útok — schéma
+## 27. DDoS útok - schéma
 
-**Řekni:** „Na schématu vidíte strukturu DDoS útoku. Útočník (Attacker) neútočí přímo ze svého počítače, ale dává instrukce z řídicího serveru (Command & Control). Tyto příkazy obdrží tisíce zotročovaných zařízení (Botnet / Zombie PC – často špatně zabezpečené chytré kamery, routery nebo počítače). Všichni boti pak současně zahltí obětní webový server.“
+**Řekni:** „Na schématu vidíte strukturu DDoS útoku. Útočník (Attacker) neútočí přímo ze svého počítače, ale dává instrukce z řídicího serveru (Command & Control). Tyto příkazy obdrží tisíce zotročovaných zařízení (Botnet / Zombie PC - často špatně zabezpečené chytré kamery, routery nebo počítače). Všichni boti pak současně zahltí obětní webový server.“
 
 **Zapojení / ukázka:** Zmíni známý botnet Mirai z roku 2016, který sestával z napadených IoT kamer s výchozími hesly a shodil velké americké služby.
 
@@ -289,7 +289,7 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 **Zapojení / ukázka:** Názorná ukázka: Dva letoři si posílají papírek s tajnou zprávou, třetí lektor papírek uprostřed zachytí, přečte, změní text a pošle dál.
 
-**Přechod:** „Nyní se podíváme na aplikační útoky na webové stránky – prvním je SQL injection.“
+**Přechod:** „Nyní se podíváme na aplikační útoky na webové stránky - prvním je SQL injection.“
 
 ---
 
@@ -313,13 +313,13 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ---
 
-## 31. XSS — praktická část
+## 31. XSS - praktická část
 
 **Řekni:** „Vyzkoušejte si XSS útoky v bezpečném a legálním prostředí. Využijeme oficiální trenažér Google XSS Game na adrese `https://xss-game.appspot.com/`. V této hře si postupně vyzkoušíte obcházení zranitelných vstupních polí.“
 
 **Zapojení / ukázka:** Nechte studenty otevřít odkaz v prohlížeči a zkusit splnit 1. úroveň vložením kódového řetězce `<script>alert(1)</script>` do vyhledávacího okna aplikace.
 
-**Přechod:** „Přejdeme k útokům využívaným při phishingu – DNS spoofing.“
+**Přechod:** „Přejdeme k útokům využívaným při phishingu - DNS spoofing.“
 
 ---
 
@@ -335,7 +335,7 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ## 33. URL spoofing
 
-**Řekni:** „URL spoofing (Typosquatting) spoléhá na nepozornost a překlepy uživatelů. Útočník zaregistruje doménu, která vypadá téměř stejně jako originál – například zamění písmena (`goggle.com` místo `google.com`), zamění malé L za velké i (`dlscord.com` místo `discord.com`), nebo použije znaky z azbuky (`ib.airbaпk.cz`). Návštěvník si drobné změny nevšimne a zadá své údaje útočníkovi.“
+**Řekni:** „URL spoofing (Typosquatting) spoléhá na nepozornost a překlepy uživatelů. Útočník zaregistruje doménu, která vypadá téměř stejně jako originál - například zamění písmena (`goggle.com` místo `google.com`), zamění malé L za velké i (`dlscord.com` místo `discord.com`), nebo použije znaky z azbuky (`ib.airbaпk.cz`). Návštěvník si drobné změny nevšimne a zadá své údaje útočníkovi.“
 
 **Zapojení / ukázka:** Ukaž příklady na slajdu a nechte studenty vyhledat rozdíly v uvedených názvech domén.
 
@@ -345,8 +345,9 @@ U schémat a vrstev vysvětli principy na přirozených příměrech (pošta, ba
 
 ## 34. Závěr a shrnutí
 
-**Řekni:** „Děkuji za pozornost! Dnes jsme zvládli velký přehled – od fyzických kabelů a síťových prvků přes IP adresaci, síťové vrstvy, porty a TCP/UDP protokoly až po základy síťové bezpečnosti a útoků. Tyto znalosti využijete odpoledne u služeb DHCP a DNS a v dalších dnech při praktické konfiguraci sítí.“
+**Řekni:** „Děkuji za pozornost! Dnes jsme zvládli velký přehled - od fyzických kabelů a síťových prvků přes IP adresaci, síťové vrstvy, porty a TCP/UDP protokoly až po základy síťové bezpečnosti a útoků. Tyto znalosti využijete odpoledne u služeb DHCP a DNS a v dalších dnech při praktické konfiguraci sítí.“
 
 **Zapojení / ukázka:** Otevři prostor pro dotazy publiku: „Máte k dnešním tématům jakékoliv otázky nebo nejasnosti?“
 
 **Přechod:** „Odpoledne navážeme 3. modulem: Základní služby DHCP a DNS.“
+

@@ -1,4 +1,4 @@
-# Mluvené poznámky — Letní škola sítí (Kompletní přehled)
+# Mluvené poznámky - Letní škola sítí (Kompletní přehled)
 
 Vítáme vás v kompletním scénáři mluvených poznámek pro lektory **Letní školy sítí**. Scénáře jsou strukturovány stejně jako v kurzu programování: každý slajd obsahuje sekce **Řekni**, **Zapojení / ukázka** a **Přechod**.
 
@@ -13,9 +13,9 @@ Vítáme vás v kompletním scénáři mluvených poznámek pro lektory **Letní
 4. [03. Základní služby: DHCP a DNS](file:///home/johnmar1/Documents/lssite26/03_Zakladni_sluzby_DHCP_DNS/mluvici-poznamky.md)
    - DHCP (princip DORA, lease time, DHCP na Linuxu), DNS (hierarchie, A/AAAA/CNAME záznamy, `/etc/resolv.conf`, `/etc/hosts`, diagnostika pomocí `dig`).
 5. [04. MikroTik konfigurace](file:///home/johnmar1/Documents/lssite26/04_MikroTik_konfigurace/mluvici-poznamky.md)
-   - RouterOS, WinBox rozhraní, DHCP server/klient, NAT a pravidla ve firewallu.
+   - RouterOS, WinBox rozhraní, Bridge, DHCP server/klient, NAT, port forwarding, zabezpečení a firewall.
 6. [05. Docker](file:///home/johnmar1/Documents/lssite26/05_Docker/mluvici-poznamky.md)
-   - Základy kontejnerizace, `docker run`, `docker ps`, tvorba `Dockerfile`.
+   - Základy kontejnerizace, `docker run`, `docker ps`, architektura, tvorba `Dockerfile`, Docker Compose a práce se svazky.
 7. [06. Minecraft v Dockeru](file:///home/johnmar1/Documents/lssite26/06_Minecraft_v_Dockeru/mluvici-poznamky.md)
    - Stavba Minecraft serveru pomocí `docker-compose.yml`, persistentní volumy a port mapping.
 8. [07. Cloudflare věci](file:///home/johnmar1/Documents/lssite26/07_Cloudflare_veci/mluvici-poznamky.md)
@@ -27,4 +27,4 @@ Vítáme vás v kompletním scénáři mluvených poznámek pro lektory **Letní
 11. [10. Hacking Wi-Fi](file:///home/johnmar1/Documents/lssite26/10_Hackovani_WiFi/mluvici-poznamky.md)
     - Bezdrátová bezpečnost, monitorovací mód, zachycení WPA2 handshaku a etický hacking.
 12. [11. Návod na CTF](file:///home/johnmar1/Documents/lssite26/11_Navod_na_CTF/mluvici-poznamky.md)
-    - Pravidla závěrečné Capture The Flag soutěže na platformě Haxagon a strategie týmového řešení.
+    - Pravidla závěrečné Capture The Flag soutěže na platformě dork.cz (CTFd) a strategie týmového řešení.

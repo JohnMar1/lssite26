@@ -1,10 +1,10 @@
-# Mluvené poznámky ke každému slajdu — Letní škola sítí: 9. Síťová analýza a Wireshark
+# Mluvené poznámky ke každému slajdu - Letní škola sítí: 9. Síťová analýza a Wireshark
 
 Scénář je psaný pro lektory i účastníky na základě prezentace *Síťová Analýza*. Text po značce **Řekni** představuje výklad srozumitelným jazykem, **Zapojení / ukázka** uvádí praktické akce v učebně a **Přechod** pomáhá navázat na další slajd.
 
 ---
 
-## 1. Titulní slajd — Síťová analýza & Wireshark
+## 1. Titulní slajd - Síťová analýza & Wireshark
 
 **Řekni:** „Vítám vás u modulu 9: Síťová analýza a Wireshark. Dnes si ukážeme, jak 'vidět pod pokličku' síťového provozu. Naučíme se odchytávat letící pakety na síťové kartě a analyzovat je v grafickém nástroji Wireshark.“
 
@@ -26,7 +26,7 @@ Scénář je psaný pro lektory i účastníky na základě prezentace *Síťov�
 
 ## 3. Wireshark vs. Tshark
 
-**Řekni:** „Wireshark je grafická aplikace dostupná na Windows, Linux i macOS. Nabízí maximální přehlednost, grafy a bohaté možnosti filtrů. Tshark (případně Termshark) je jeho terminálový bratr – je extrémně rychlý, lehký a ideální tam, kde nemáme k dispozici grafické rozhraní.“
+**Řekni:** „Wireshark je grafická aplikace dostupná na Windows, Linux i macOS. Nabízí maximální přehlednost, grafy a bohaté možnosti filtrů. Tshark (případně Termshark) je jeho terminálový bratr - je extrémně rychlý, lehký a ideální tam, kde nemáme k dispozici grafické rozhraní.“
 
 **Zapojení / ukázka:** Ukažte porovnání na slajdu a snímek obrazovky terminálu Tshark.
 
@@ -86,7 +86,7 @@ Scénář je psaný pro lektory i účastníky na základě prezentace *Síťov�
 
 ## 9. UDP komunikace
 
-**Řekni:** „UDP se používá tam, kde je přednější rychlost než garance doručení – například u streaming videa, hlasových hovorů (VoIP) nebo DNS. UDP nevytváří žádné podání ruky, prostě posílá pakety. Proto často v pcapu vidíme masivní proud UDP paketů.“
+**Řekni:** „UDP se používá tam, kde je přednější rychlost než garance doručení - například u streaming videa, hlasových hovorů (VoIP) nebo DNS. UDP nevytváří žádné podání ruky, prostě posílá pakety. Proto často v pcapu vidíme masivní proud UDP paketů.“
 
 **Zapojení / ukázka:** Porovnejte hlavičku TCP paketu s mnohem jednodušší hlavičkou UDP paketu.
 
@@ -96,7 +96,7 @@ Scénář je psaný pro lektory i účastníky na základě prezentace *Síťov�
 
 ## 10. HTTP & HTTPS komunikace
 
-**Řekni:** „Dnes už většina webu běží na HTTPS, ale v pcapu nešifrovaného HTTP vidíme vše v čistém textu – příkazy `GET`, `POST`, cesty i odeslané formuláře. U HTTPS je veškerý provoz šifrovaný přes TLS a v pcapu vidíme jen nečitelné shluky dat.“
+**Řekni:** „Dnes už většina webu běží na HTTPS, ale v pcapu nešifrovaného HTTP vidíme vše v čistém textu - příkazy `GET`, `POST`, cesty i odeslané formuláře. U HTTPS je veškerý provoz šifrovaný přes TLS a v pcapu vidíme jen nečitelné shluky dat.“
 
 **Zapojení / ukázka:** Ukažte pravé tlačítko na HTTP paket -> `Follow -> TCP Stream` a ukažte kompletní přenesený text webové stránky.
 

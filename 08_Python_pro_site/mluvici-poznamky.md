@@ -1,10 +1,10 @@
-# Mluvené poznámky ke každému slajdu — Letní škola sítí: 8. Python pro sítě (Základy pro začátečníky)
+# Mluvené poznámky ke každému slajdu - Letní škola sítí: 8. Python pro sítě (Základy pro začátečníky)
 
 Scénář je psaný pro lektory vyučující úplné začátečníky v programování. Text po značce **Řekni** představuje výklad srozumitelným jazykem bez složité hantýrky, **Zapojení / ukázka** uvádí praktické akce v učebně a **Přechod** pomáhá navázat na další slajd.
 
 ---
 
-## 1. Titulní slajd — Python pro sítě
+## 1. Titulní slajd - Python pro sítě
 
 **Řekni:** „Vítám vás u modulu 8. Dnes si ukážeme, jak nám Python pomůže při práci se sítěmi. Pokud jste v Pythonu nikdy neprogramovali, nemějte vůbec strach. Vše si vysvětlíme od úplného základu krok za krokem.“
 
@@ -16,7 +16,7 @@ Scénář je psaný pro lektory vyučující úplné začátečníky v programov
 
 ## 2. Nebojte se Pythonu!
 
-**Řekni:** „Cílem dneška není udělat z vás softwarové vývojáře. Chceme z Pythonu udělat náš síťový švýcarský nůž – jednoduchý nástroj, kterým si ověříme funkčnost portu nebo zkontrolujeme síť, když standardní příkazy nestačí.“
+**Řekni:** „Cílem dneška není udělat z vás softwarové vývojáře. Chceme z Pythonu udělat náš síťový švýcarský nůž - jednoduchý nástroj, kterým si ověříme funkčnost portu nebo zkontrolujeme síť, když standardní příkazy nestačí.“
 
 **Zapojení / ukázka:** Ukažte na projektoru otevřené okno terminálu s Pythonem.
 
@@ -66,7 +66,7 @@ Scénář je psaný pro lektory vyučující úplné začátečníky v programov
 
 ## 7. Podmínka: Rozhodování v kódu
 
-**Řekni:** „Podmínka `if` říká počítači: 'Pokud platí toto, udělej akci A, jinak udělej akci B'. Všimněte si odsazení (mezer) na začátku řádku pod `if` – v Pythonu tím určujeme, co patří dovnitř podmínky.“
+**Řekni:** „Podmínka `if` říká počítači: 'Pokud platí toto, udělej akci A, jinak udělej akci B'. Všimněte si odsazení (mezer) na začátku řádku pod `if` - v Pythonu tím určujeme, co patří dovnitř podmínky.“
 
 **Zapojení / ukázka:** Poukažte na tabulátor / 4 mezerové odsazení u příkazů `print`.
 
@@ -196,9 +196,9 @@ Scénář je psaný pro lektory vyučující úplné začátečníky v programov
 
 ## 20. Co dělá Port Scanner?
 
-**Řekni:** „Port scanner nedělá nic složitého – jednoduše zkouší postupné připojení na různé porty. Pokud se spojení podaří, prohlásí port za otevřený.“
+**Řekni:** „Port scanner nedělá nic složitého - jednoduše zkouší postupné připojení na různé porty. Pokud se spojení podaří, prohlásí port za otevřený.“
 
-**Zapojení / ukázka:** Přrovnejte to k obcházení domu a zkoušení, které dveře a okna jsou odklinuté.
+**Zapojení / ukázka:** Přirovnejte to k obcházení domu a zkoušení, které dveře a okna jsou odemknuté.
 
 **Přechod:** „Běžné `connect()` by nám při zavřeném portu spadlo. Co s tím?“
 

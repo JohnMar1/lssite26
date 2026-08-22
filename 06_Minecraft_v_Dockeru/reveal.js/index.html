@@ -198,11 +198,11 @@ ENTRYPOINT ["start-minecraft"]
           <section>
             <h2>Vysvětlení instrukcí Dockerfile</h2>
             <ul style="font-size: 0.75em;">
-              <li class="fragment"><code>FROM</code> — Základní image s Java Runtime Environment (Temurin Java 26).</li>
-              <li class="fragment"><code>COPY</code> — Zkopíruje <code>server.jar</code> a <code>start.sh</code> do kontejneru.</li>
-              <li class="fragment"><code>RUN</code> — Nastaví práva a vytvoří neprivilegovaného uživatele <code>minecraft</code>.</li>
-              <li class="fragment"><code>EXPOSE 25565</code> — Deklaruje síťový port hry.</li>
-              <li class="fragment"><code>ENTRYPOINT</code> — Spustí náš skript, který opraví vlastnictví složky <code>/data</code> a spustí Minecraft pod neprivilegovaným uživatelem.</li>
+              <li class="fragment"><code>FROM</code> - Základní image s Java Runtime Environment (Temurin Java 26).</li>
+              <li class="fragment"><code>COPY</code> - Zkopíruje <code>server.jar</code> a <code>start.sh</code> do kontejneru.</li>
+              <li class="fragment"><code>RUN</code> - Nastaví práva a vytvoří neprivilegovaného uživatele <code>minecraft</code>.</li>
+              <li class="fragment"><code>EXPOSE 25565</code> - Deklaruje síťový port hry.</li>
+              <li class="fragment"><code>ENTRYPOINT</code> - Spustí náš skript, který opraví vlastnictví složky <code>/data</code> a spustí Minecraft pod neprivilegovaným uživatelem.</li>
             </ul>
           </section>
         </section>
@@ -250,9 +250,9 @@ services:
           <section>
             <h2>Vysvětlení: Souhlas s EULA a paměť</h2>
             <ul>
-              <li class="fragment"><code>EULA: "TRUE"</code> — Souhlas s licenčními podmínkami Mojangu. Skript <code>start.sh</code> ho zkontroluje a zapíše do <code>eula.txt</code>.</li>
-              <li class="fragment"><code>MEMORY: "2G"</code> — Předá parametr RAM pro Java proces (max 2 GB).</li>
-              <li class="fragment"><code>build: context: .</code> — Říká Compose, aby sestavil image z <code>Dockerfile</code> v aktuální složce.</li>
+              <li class="fragment"><code>EULA: "TRUE"</code> - Souhlas s licenčními podmínkami Mojangu. Skript <code>start.sh</code> ho zkontroluje a zapíše do <code>eula.txt</code>.</li>
+              <li class="fragment"><code>MEMORY: "2G"</code> - Předá parametr RAM pro Java proces (max 2 GB).</li>
+              <li class="fragment"><code>build: context: .</code> - Říká Compose, aby sestavil image z <code>Dockerfile</code> v aktuální složce.</li>
             </ul>
           </section>
         </section>
@@ -284,7 +284,7 @@ ports:
           <section>
             <h2>Proč potřebujeme Úložiště (Volume)?</h2>
             <ul>
-              <li class="fragment">Kontejnery jsou <em>ephemerální</em> (dočasné) — nepamatují si změny po smazání.</li>
+              <li class="fragment">Kontejnery jsou <em>ephemerální</em> (dočasné) - nepamatují si změny po smazání.</li>
               <li class="fragment">Bez úložiště by se po vypnutí kontejneru smazal celý vygenerovaný svět.</li>
             </ul>
           </section>
@@ -302,9 +302,9 @@ volumes:
           <section>
             <h2>Co se uloží do složky <code>./data</code>?</h2>
             <ul>
-              <li class="fragment"><code>world/</code> — Soubory mapy a terénu.</li>
-              <li class="fragment"><code>server.properties</code> — Hlavní nastavení serveru.</li>
-              <li class="fragment"><code>ops.json</code> — Seznam administrátorů serveru.</li>
+              <li class="fragment"><code>world/</code> - Soubory mapy a terénu.</li>
+              <li class="fragment"><code>server.properties</code> - Hlavní nastavení serveru.</li>
+              <li class="fragment"><code>ops.json</code> - Seznam administrátorů serveru.</li>
             </ul>
           </section>
         </section>

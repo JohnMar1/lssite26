@@ -1,10 +1,10 @@
-# Mluvené poznámky ke každému slajdu — Letní škola sítí: 10. Hacking Wi-Fi a bezdrátové sítě
+# Mluvené poznámky ke každému slajdu - Letní škola sítí: 10. Hacking Wi-Fi a bezdrátové sítě
 
 Scénář je psaný pro lektory vyučující testování bezpečnosti Wi-Fi v prostředí Kali Linux. Text po značce **Řekni** představuje výklad srozumitelným jazykem, **Zapojení / ukázka** uvádí praktické akce v učebně a **Přechod** pomáhá navázat na další slajd.
 
 ---
 
-## 1. Titulní slajd — Hacking Wi-Fi & Bezdrátové sítě
+## 1. Titulní slajd - Hacking Wi-Fi & Bezdrátové sítě
 
 **Řekni:** „Vítám vás u modulu 10: Hacking Wi-Fi a bezdrátové sítě. Dnes se naučíme, jak funguje bezpečnost bezdrátových sítí v praxi. V prostředí Kali Linux si krok za krokem vyzkoušíme odchytávání síťového provozu a zachycení přihlašovacího handshaku.“
 
@@ -76,7 +76,7 @@ Scénář je psaný pro lektory vyučující testování bezpečnosti Wi-Fi v pr
 
 ## 8. Módy Wi-Fi karty (Managed vs Monitor)
 
-**Řekni:** „Běžně karta běží v Managed módu – přijímá jen pakety určené pro váš počítač a ostatní zahazuje. Pro pentesting ji musíme přepnout do Monitor módu, ve kterém odchytává absolutně veškeré pakety, které létají ve vzduchu na daném kanálu.“
+**Řekni:** „Běžně karta běží v Managed módu - přijímá jen pakety určené pro váš počítač a ostatní zahazuje. Pro pentesting ji musíme přepnout do Monitor módu, ve kterém odchytává absolutně veškeré pakety, které létají ve vzduchu na daném kanálu.“
 
 **Zapojení / ukázka:** Ukažte na slajdu rozdíl mezi filtrovaným a nefiltrovaným příjmem.
 
@@ -176,7 +176,7 @@ Scénář je psaný pro lektory vyučující testování bezpečnosti Wi-Fi v pr
 
 ## 18. Jak vynutit přihlášení? (Deautentizace)
 
-**Řekni:** „Protože řídící rámce v 802.11 nejsou v WPA2 šifrované, můžeme jako útočník odeslat speciální deautentizační paket jménem routeru. Klient se na vteřinu odpojí a jeho zařízení se ihned automaticky zkusí přihlásit zpět – tím vygeneruje nový 4-Way Handshake!“
+**Řekni:** „Protože řídící rámce v 802.11 nejsou v WPA2 šifrované, můžeme jako útočník odeslat speciální deautentizační paket jménem routeru. Klient se na vteřinu odpojí a jeho zařízení se ihned automaticky zkusí přihlásit zpět - tím vygeneruje nový 4-Way Handshake!“
 
 **Zapojení / ukázka:** Přirovnejte deautentizaci k náhlému krátkému vypadnutí signálu.
 

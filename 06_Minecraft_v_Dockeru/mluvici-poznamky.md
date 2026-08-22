@@ -1,10 +1,10 @@
-# Mluvené poznámky ke každému slajdu — Letní škola sítí: 6. Minecraft v Dockeru
+# Mluvené poznámky ke každému slajdu - Letní škola sítí: 6. Minecraft v Dockeru
 
 Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** představuje hotovou formulaci výkladu, **Zapojení / ukázka** uvádí praktické akce v učebně a **Přechod** pomáhá plynule navázat na další téma.
 
 ---
 
-## 1. Titulní slajd — Minecraft v Dockeru
+## 1. Titulní slajd - Minecraft v Dockeru
 
 **Řekni:** „Vítám vás u modulu 6. Minecraft v Dockeru. Dnes si ukážeme, jak si vytvořit vlastní Docker image s Minecraft serverem a jak ho spouštět pomocí Docker Compose.“
 

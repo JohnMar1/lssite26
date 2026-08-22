@@ -1,10 +1,10 @@
-# Mluvené poznámky ke každému slajdu — Letní škola sítí: 7. Cloudflare, EmailProfi a publikování služeb
+# Mluvené poznámky ke každému slajdu - Letní škola sítí: 7. Cloudflare, EmailProfi a publikování služeb
 
 Scénář je psaný pro lektory i účastníky. Text po značce **Řekni** představuje hotovou formulaci výkladu, **Zapojení / ukázka** uvádí praktické akce v učebně a **Přechod** pomáhá plynule navázat na další téma.
 
 ---
 
-## 1. Titulní slajd — Cloudflare, EmailProfi a publikování služeb
+## 1. Titulní slajd - Cloudflare, EmailProfi a publikování služeb
 
 **Řekni:** „Vítám vás u modulu 7: Cloudflare, EmailProfi a publikování služeb. Dnes si ukážeme, jak plně ovládnout vaši novou doménu, jak si na ní zprovoznit profesionální e-mail na Seznamu zdarma a jak bezpečně publikovat vlastní webové i jiné servery do internetu pomocí Cloudflare Tunnel jako systémové služby.“
 

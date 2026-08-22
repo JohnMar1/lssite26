@@ -28,17 +28,17 @@
       <section>
       <section><h2>Co je Linux?</h2><ul><li class="fragment">Linux je především <strong>jádro systému</strong> (kernel).</li><li class="fragment">Jádro zprostředkovává komunikaci programů s hardwarem.</li><li class="fragment">Spravuje procesy, paměť, disky a zařízení.</li></ul></section>
       <section><h2>Kernel není celý systém</h2><p>Operační systém, který běžně nazýváme „Linux“, skládá více částí dohromady.</p><ul><li class="fragment">Linux kernel</li><li class="fragment">GNU nástroje a knihovny</li><li class="fragment">init systém, správce balíčků, shell</li><li class="fragment">volitelně grafické prostředí a aplikace</li></ul></section>
-      <section><h2>GNU</h2><ul><li><strong>GNU's Not Unix</strong> — projekt svobodného unixového systému.</li><li class="fragment">Dodává řadu každodenních nástrojů: <code>ls</code>, <code>cp</code>, <code>grep</code>, shell a další.</li><li class="fragment">Proto se někdy mluví o systému GNU/Linux.</li></ul></section>
+      <section><h2>GNU</h2><ul><li><strong>GNU's Not Unix</strong> - projekt svobodného unixového systému.</li><li class="fragment">Dodává řadu každodenních nástrojů: <code>ls</code>, <code>cp</code>, <code>grep</code>, shell a další.</li><li class="fragment">Proto se někdy mluví o systému GNU/Linux.</li></ul></section>
       <section><h2>Kde Linux potkáš?</h2><ul><li class="fragment">Webové a cloudové servery</li><li class="fragment">Android telefony, routery, televizory a IoT</li><li class="fragment">Superpočítače, vývojářské stroje a embedded zařízení</li><li class="fragment">Desktop: například Ubuntu, Fedora nebo Linux Mint</li></ul></section>
-      <section><h2>Proč Linux?</h2><ul><li class="fragment">Je open source: zdrojový kód je možné číst a upravovat.</li><li class="fragment">Je přizpůsobitelný, stabilní a běží i na slabším hardware.</li><li class="fragment">Dává uživateli velkou kontrolu — a tím i odpovědnost.</li></ul></section>
+      <section><h2>Proč Linux?</h2><ul><li class="fragment">Je open source: zdrojový kód je možné číst a upravovat.</li><li class="fragment">Je přizpůsobitelný, stabilní a běží i na slabším hardware.</li><li class="fragment">Dává uživateli velkou kontrolu - a tím i odpovědnost.</li></ul></section>
       <section><h2>Distribuce</h2><p>Distribuce je hotový operační systém postavený nad Linux kernelem.</p><div class="columns"><div><h3>Debian rodina</h3><p>Debian · Ubuntu · Linux Mint</p><p>Správce balíčků: <code>apt</code></p></div><div><h3>Další příklady</h3><p>Fedora · Arch · openSUSE</p><p><code>dnf</code> · <code>pacman</code> · <code>zypper</code></p></div></div></section>
       <section><h2>Filozofie Unixu</h2><blockquote>„Dělej jednu věc a dělej ji dobře.“</blockquote><ul><li class="fragment">Malé nástroje se skládají dohromady pomocí rour.</li><li class="fragment">Textový vstup a výstup je univerzální rozhraní.</li><li class="fragment">„Všechno je soubor“ je užitečné zjednodušení pro práci se systémem.</li></ul></section>
 
       </section>
       <section>
       <section><h2>Terminál, shell a příkaz</h2><ul><li class="fragment"><strong>Terminál</strong> je okno/aplikace pro textovou práci.</li><li class="fragment"><strong>Shell</strong> čte příkazy, vyhodnocuje je a spouští programy.</li><li class="fragment">Běžný shell je <code>bash</code>; existují i <code>zsh</code>, <code>fish</code> a další.</li></ul></section>
-      <section><h2>Prompt</h2><pre><code data-trim class="language-bash">student@pc:~/projekty$</code></pre><ul><li class="fragment"><code>student</code> — aktuální uživatel</li><li class="fragment"><code>pc</code> — jméno počítače</li><li class="fragment"><code>~/projekty</code> — aktuální adresář</li><li class="fragment"><code>$</code> — běžný uživatel; root mívá <code>#</code></li></ul></section>
-      <section><h2>Anatomie příkazu</h2><pre><code data-trim class="language-bash">ls -la /var/log</code></pre><ul><li class="fragment"><code>ls</code> je příkaz</li><li class="fragment"><code>-la</code> jsou volby (options)</li><li class="fragment"><code>/var/log</code> je argument — zde cílová cesta</li></ul></section>
+      <section><h2>Prompt</h2><pre><code data-trim class="language-bash">student@pc:~/projekty$</code></pre><ul><li class="fragment"><code>student</code> - aktuální uživatel</li><li class="fragment"><code>pc</code> - jméno počítače</li><li class="fragment"><code>~/projekty</code> - aktuální adresář</li><li class="fragment"><code>$</code> - běžný uživatel; root mívá <code>#</code></li></ul></section>
+      <section><h2>Anatomie příkazu</h2><pre><code data-trim class="language-bash">ls -la /var/log</code></pre><ul><li class="fragment"><code>ls</code> je příkaz</li><li class="fragment"><code>-la</code> jsou volby (options)</li><li class="fragment"><code>/var/log</code> je argument - zde cílová cesta</li></ul></section>
       <section><h2>Nápověda</h2><pre><code data-trim class="language-bash">man ls
 ls --help
 help cd</code></pre><ul><li class="fragment"><code>man</code> otevře manuál externího příkazu; ukončíš ho klávesou <code>q</code>.</li><li class="fragment"><code>--help</code> je rychlá nápověda.</li><li class="fragment"><code>help</code> funguje pro vestavěné příkazy shellu, třeba <code>cd</code>.</li></ul></section>
@@ -52,7 +52,7 @@ help cd</code></pre><ul><li class="fragment"><code>man</code> otevře manuál ex
 id</code></pre><ul><li class="fragment"><code>whoami</code> vypíše aktuální uživatelské jméno.</li><li class="fragment"><code>id</code> přidá UID, primární skupinu a další skupiny.</li></ul></section>
       <section><h2>Stroj a systém</h2><pre><code data-trim class="language-bash">hostname
 uname -a
-cat /etc/os-release</code></pre><ul><li class="fragment"><code>hostname</code> — název počítače.</li><li class="fragment"><code>uname -a</code> — informace o jádře a architektuře.</li><li class="fragment"><code>/etc/os-release</code> — informace o distribuci.</li></ul></section>
+cat /etc/os-release</code></pre><ul><li class="fragment"><code>hostname</code> - název počítače.</li><li class="fragment"><code>uname -a</code> - informace o jádře a architektuře.</li><li class="fragment"><code>/etc/os-release</code> - informace o distribuci.</li></ul></section>
       <section><h2>Čas a kalendář</h2><pre><code data-trim class="language-bash">date
 cal</code></pre><p><code>date</code> ukazuje aktuální datum a čas. <code>cal</code> zobrazí kalendář (pokud je nainstalovaný).</p></section>
       <section><h2>Echo a proměnné</h2><pre><code data-trim class="language-bash">echo "Ahoj světe"
@@ -70,44 +70,44 @@ echo $SHELL</code></pre><ul><li class="fragment"><code>echo</code> vypisuje text
 ├── tmp/      dočasné soubory
 ├── dev/      zařízení jako soubory
 └── proc/     informace o procesech a jádře</code></pre></section>
-      <section><h2>Důležité cesty</h2><ul><li><code>/</code> — kořen souborového systému, root.</li><li class="fragment"><code>/home/alice</code> — domovský adresář běžného uživatele.</li><li class="fragment"><code>/root</code> — domovský adresář administrátora root.</li><li class="fragment"><code>/var/log</code> — systémové a aplikační logy.</li><li class="fragment"><code>/tmp</code> — dočasná data; nespoléhej, že přežijí restart.</li></ul></section>
+      <section><h2>Důležité cesty</h2><ul><li><code>/</code> - kořen souborového systému, root.</li><li class="fragment"><code>/home/alice</code> - domovský adresář běžného uživatele.</li><li class="fragment"><code>/root</code> - domovský adresář administrátora root.</li><li class="fragment"><code>/var/log</code> - systémové a aplikační logy.</li><li class="fragment"><code>/tmp</code> - dočasná data; nespoléhej, že přežijí restart.</li></ul></section>
       <section><h2>Absolutní a relativní cesty</h2><div class="columns"><div><h3>Absolutní</h3><p>Začíná lomítkem a vždy vede od kořene.</p><pre><code>/home/student/poznamky.txt</code></pre></div><div><h3>Relativní</h3><p>Vychází z aktuálního adresáře.</p><pre><code>poznamky.txt
 ../spolecne</code></pre></div></div></section>
       <section><h2>Speciální zápisy cest</h2><pre><code data-trim class="language-bash">.       # aktuální adresář
 ..      # nadřazený adresář
 ~       # domovský adresář
 -       # předchozí adresář</code></pre><p>Například <code>cd ~</code> tě vrátí domů a <code>cd -</code> přepne zpět na předchozí cestu.</p></section>
-      <section><h2>pwd — kde právě jsem?</h2><pre><code data-trim class="language-bash">pwd
+      <section><h2>pwd - kde právě jsem?</h2><pre><code data-trim class="language-bash">pwd
 # /home/student/projekty</code></pre><p><code>pwd</code> znamená <em>print working directory</em> a vypíše absolutní cestu aktuálního adresáře.</p></section>
-      <section><h2>cd — změna adresáře</h2><pre><code data-trim class="language-bash">cd /var/log
+      <section><h2>cd - změna adresáře</h2><pre><code data-trim class="language-bash">cd /var/log
 cd dokumenty
 cd ..
 cd ~</code></pre><ul><li class="fragment">Bez argumentu <code>cd</code> vede do domovského adresáře.</li><li class="fragment">Jména rozlišují velká a malá písmena: <code>Dokumenty</code> ≠ <code>dokumenty</code>.</li></ul></section>
-      <section><h2>ls — výpis obsahu</h2><pre><code data-trim class="language-bash">ls
+      <section><h2>ls - výpis obsahu</h2><pre><code data-trim class="language-bash">ls
 ls -l
 ls -a
 ls -lah</code></pre><ul><li class="fragment"><code>-l</code> podrobný výpis</li><li class="fragment"><code>-a</code> včetně skrytých položek</li><li class="fragment"><code>-h</code> čitelné velikosti</li></ul></section>
       <section><h2>Jak číst ls -l</h2><pre><code data-trim>-rw-r--r--  1 student studenti  1240  9. srp  poznamky.txt</code></pre><ol><li class="fragment">typ a oprávnění</li><li class="fragment">počet odkazů</li><li class="fragment">vlastník a skupina</li><li class="fragment">velikost, datum, název</li></ol></section>
       <section><h2>Skryté soubory</h2><p>Název začínající tečkou je běžně skrytý.</p><pre><code data-trim class="language-bash">ls -a
-.bashrc  .config  .ssh</code></pre><p>Nejde o bezpečnostní mechanismus — pouze se ve výchozím výpisu nezobrazuje.</p></section>
+.bashrc  .config  .ssh</code></pre><p>Nejde o bezpečnostní mechanismus - pouze se ve výchozím výpisu nezobrazuje.</p></section>
 
       </section>
       <section>
       <section><h2>Vytváření a čtení souborů</h2></section>
-      <section><h2>mkdir — nový adresář</h2><pre><code data-trim class="language-bash">mkdir projekt
+      <section><h2>mkdir - nový adresář</h2><pre><code data-trim class="language-bash">mkdir projekt
 mkdir -p projekt/src/js</code></pre><p><code>-p</code> vytvoří i chybějící nadřazené adresáře a nevadí mu, když už existují.</p></section>
-      <section><h2>touch — prázdný soubor</h2><pre><code data-trim class="language-bash">touch poznamky.txt
+      <section><h2>touch - prázdný soubor</h2><pre><code data-trim class="language-bash">touch poznamky.txt
 touch index.html style.css</code></pre><p>Pokud soubor existuje, <code>touch</code> aktualizuje jeho časové razítko.</p></section>
       <section><h2>cat, less a head</h2><pre><code data-trim class="language-bash">cat poznamky.txt
 less /var/log/syslog
 head -n 20 soubor.txt
 tail -n 20 soubor.txt</code></pre><ul><li class="fragment"><code>cat</code> se hodí na krátké soubory.</li><li class="fragment"><code>less</code> umožní stránkování a hledání; ukončíš <code>q</code>.</li><li class="fragment"><code>head</code>/<code>tail</code> ukáží začátek/konec.</li></ul></section>
-      <section><h2>tail -f — sledování logu</h2><pre><code data-trim class="language-bash">tail -f /var/log/auth.log</code></pre><p>Průběžně vypisuje nové řádky. Ukonči pomocí <kbd>Ctrl</kbd>+<kbd>C</kbd>.</p></section>
-      <section><h2>nano — jednoduchý editor</h2><pre><code data-trim class="language-bash">nano poznamky.txt</code></pre><ul><li class="fragment">Nápověda je dole v okně; znak <code>^</code> znamená <kbd>Ctrl</kbd>.</li><li class="fragment"><kbd>Ctrl</kbd>+<kbd>O</kbd> uloží, <kbd>Ctrl</kbd>+<kbd>X</kbd> ukončí.</li><li class="fragment">Pro první práci na serveru je <code>nano</code> nejpřívětivější.</li></ul></section>
-      <section><h2>cp — kopírování</h2><pre><code data-trim class="language-bash">cp poznamky.txt zaloga.txt
+      <section><h2>tail -f - sledování logu</h2><pre><code data-trim class="language-bash">tail -f /var/log/auth.log</code></pre><p>Průběžně vypisuje nové řádky. Ukonči pomocí <kbd>Ctrl</kbd>+<kbd>C</kbd>.</p></section>
+      <section><h2>nano - jednoduchý editor</h2><pre><code data-trim class="language-bash">nano poznamky.txt</code></pre><ul><li class="fragment">Nápověda je dole v okně; znak <code>^</code> znamená <kbd>Ctrl</kbd>.</li><li class="fragment"><kbd>Ctrl</kbd>+<kbd>O</kbd> uloží, <kbd>Ctrl</kbd>+<kbd>X</kbd> ukončí.</li><li class="fragment">Pro první práci na serveru je <code>nano</code> nejpřívětivější.</li></ul></section>
+      <section><h2>cp - kopírování</h2><pre><code data-trim class="language-bash">cp poznamky.txt zaloga.txt
 cp -r projekt projekt-zaloha</code></pre><p><code>-r</code> kopíruje adresář rekurzivně včetně jeho obsahu.</p></section>
-      <section><h2>mv — přesun a přejmenování</h2><pre><code data-trim class="language-bash">mv stary.txt novy.txt
-mv poznamky.txt dokumenty/</code></pre><p>Stejný příkaz soubor přejmenuje, nebo ho přesune — záleží na cíli.</p></section>
+      <section><h2>mv - přesun a přejmenování</h2><pre><code data-trim class="language-bash">mv stary.txt novy.txt
+mv poznamky.txt dokumenty/</code></pre><p>Stejný příkaz soubor přejmenuje, nebo ho přesune - záleží na cíli.</p></section>
       <section><h2>rm a rmdir</h2><pre><code data-trim class="language-bash">rmdir prazdna-slozka
 rm soubor.txt
 rm -r adresar</code></pre><blockquote><strong>Pozor:</strong> <code>rm</code> běžně nemaže do koše. Příkaz <code>rm -rf</code> používej jen tehdy, když přesně víš, co a kde mažeš.</blockquote></section>
@@ -115,8 +115,8 @@ rm -r adresar</code></pre><blockquote><strong>Pozor:</strong> <code>rm</code> b�
 rm -Iv adresar/</code></pre><ul><li class="fragment"><code>-i</code> se ptá před odstraněním.</li><li class="fragment"><code>-I</code> se zeptá jednou před hromadným/rekurzivním mazáním.</li><li class="fragment"><code>-v</code> vypisuje, co se děje.</li></ul></section>
       <section><h2>Globy: více souborů najednou</h2><pre><code data-trim class="language-bash">ls *.txt
 cp obrazek?.png galerie/
-rm -- *.tmp</code></pre><ul><li class="fragment"><code>*</code> znamená libovolný počet znaků.</li><li class="fragment"><code>?</code> znamená právě jeden znak.</li><li class="fragment"><code>--</code> ukončí volby — hodí se pro názvy začínající pomlčkou.</li></ul></section>
-      <section><h2>file — skutečný typ souboru</h2><pre><code data-trim class="language-bash">file dokument.docx
+rm -- *.tmp</code></pre><ul><li class="fragment"><code>*</code> znamená libovolný počet znaků.</li><li class="fragment"><code>?</code> znamená právě jeden znak.</li><li class="fragment"><code>--</code> ukončí volby - hodí se pro názvy začínající pomlčkou.</li></ul></section>
+      <section><h2>file - skutečný typ souboru</h2><pre><code data-trim class="language-bash">file dokument.docx
 # Microsoft Word 2007+</code></pre><p>Linux nebere příponu jako autoritu; nástroj <code>file</code> zkoumá obsah a hlavičku souboru.</p></section>
       <section><h2>tree a velikost</h2><pre><code data-trim class="language-bash">tree
 du -sh projekt/
@@ -128,10 +128,10 @@ df -h</code></pre><ul><li class="fragment"><code>tree</code> vypíše strom adre
       </section>
       <section>
       <section><h2>Vyhledávání a zpracování textu</h2></section>
-      <section><h2>find — hledání podle vlastností</h2><pre><code data-trim class="language-bash">find . -name "*.txt"
+      <section><h2>find - hledání podle vlastností</h2><pre><code data-trim class="language-bash">find . -name "*.txt"
 find ~/Dokumenty -type f
 find . -type d -name "node_modules"</code></pre><p><code>find</code> prochází strom adresářů. Tečka znamená „začni zde“.</p></section>
-      <section><h2>grep — hledání v obsahu</h2><pre><code data-trim class="language-bash">grep "chyba" aplikace.log
+      <section><h2>grep - hledání v obsahu</h2><pre><code data-trim class="language-bash">grep "chyba" aplikace.log
 grep -i "linux" poznamky.txt
 grep -rn "TODO" projekt/</code></pre><ul><li class="fragment"><code>-i</code> ignoruje velikost písmen.</li><li class="fragment"><code>-r</code> hledá rekurzivně.</li><li class="fragment"><code>-n</code> přidá čísla řádků.</li></ul></section>
       <section><h2>Roura |</h2><pre><code data-trim class="language-bash">ls -la | less
@@ -159,7 +159,7 @@ grep -ri "error" /var/log 2>/dev/null | less</code></pre><p>Malé nástroje lze 
 
 7 = rwx   6 = rw-   5 = r-x   4 = r--
 chmod 754 skript.sh</code></pre><p>Trojice <code>754</code> znamená vlastník <code>rwx</code>, skupina <code>r-x</code>, ostatní <code>r--</code>.</p></section>
-      <section><h2>chmod — změna práv</h2><pre><code data-trim class="language-bash">chmod 644 poznamky.txt
+      <section><h2>chmod - změna práv</h2><pre><code data-trim class="language-bash">chmod 644 poznamky.txt
 chmod 755 skript.sh
 chmod u+x skript.sh
 chmod g-w soukromy.txt</code></pre><ul><li class="fragment">Číselný zápis nastaví všechna tři pole najednou.</li><li class="fragment">Symbolický zápis: <code>u</code> user, <code>g</code> group, <code>o</code> others, <code>a</code> all.</li></ul></section>
@@ -168,15 +168,15 @@ chmod g-w soukromy.txt</code></pre><ul><li class="fragment">Číselný zápis na
 sudo chown alice:vyvojari soubor.txt
 sudo chgrp vyvojari projekt/</code></pre><p>Vlastníka a skupinu mění obvykle jen root nebo vlastník podle pravidel systému.</p></section>
       <section><h2>sudo</h2><pre><code data-trim class="language-bash">sudo apt update
-sudo systemctl restart nginx</code></pre><ul><li class="fragment"><code>sudo</code> spustí konkrétní příkaz s administrátorskými právy.</li><li class="fragment">Není to „opravovač chyb“ — nepoužívej ho bez pochopení příkazu.</li><li class="fragment">Pro každodenní práci zůstávej běžným uživatelem.</li></ul></section>
+sudo systemctl restart nginx</code></pre><ul><li class="fragment"><code>sudo</code> spustí konkrétní příkaz s administrátorskými právy.</li><li class="fragment">Není to „opravovač chyb“ - nepoužívej ho bez pochopení příkazu.</li><li class="fragment">Pro každodenní práci zůstávej běžným uživatelem.</li></ul></section>
       <section><h2>Umask</h2><pre><code data-trim class="language-bash">umask
 umask 022</code></pre><p><code>umask</code> odebírá výchozí práva nově vytvářeným souborům a adresářům. Častá hodnota <code>022</code> vede typicky k souborům <code>644</code> a adresářům <code>755</code>.</p></section>
-      <section><h2>Práva nejsou vše</h2><ul><li class="fragment">Přístup mohou řídit i ACL, SELinux/AppArmor nebo oprávnění síťového úložiště.</li><li class="fragment">Na smazání souboru jsou důležitá práva <em>adresáře</em>, ve kterém leží.</li><li class="fragment">S <code>sudo</code> obcházíš běžná omezení — proto je rizikové.</li></ul></section>
+      <section><h2>Práva nejsou vše</h2><ul><li class="fragment">Přístup mohou řídit i ACL, SELinux/AppArmor nebo oprávnění síťového úložiště.</li><li class="fragment">Na smazání souboru jsou důležitá práva <em>adresáře</em>, ve kterém leží.</li><li class="fragment">S <code>sudo</code> obcházíš běžná omezení - proto je rizikové.</li></ul></section>
 
       </section>
       <section>
         <h2>Přestávka (10 min)</h2>
-        <p><small>Konec základní části — méně důležité věci se jedou jen při dostatku času</small></p>
+        <p><small>Konec základní části - méně důležité věci se jedou jen při dostatku času</small></p>
       </section>
 
       <section>
@@ -237,7 +237,7 @@ wc -l jmena.txt</code></pre><ul><li class="fragment"><code>sort</code> řadí ř
       <section><h2>cut a tr</h2><pre><code data-trim class="language-bash">cut -d: -f1 /etc/passwd
 echo "Linux" | tr '[:upper:]' '[:lower:]'
 cut -c1-10 poznamky.txt</code></pre><p><code>cut</code> vybírá sloupce nebo znaky; <code>tr</code> nahrazuje či maže znaky.</p></section>
-      <section><h2>sed — jednoduché úpravy</h2><pre><code data-trim class="language-bash">sed 's/staré/nové/g' text.txt
+      <section><h2>sed - jednoduché úpravy</h2><pre><code data-trim class="language-bash">sed 's/staré/nové/g' text.txt
 sed -n '1,10p' text.txt
 sed -i.bak 's/http:/https:/g' konfigurace.txt</code></pre><ul><li class="fragment">Bez <code>-i</code> se změněný text jen vypíše.</li><li class="fragment"><code>-i.bak</code> upraví soubor a nejdříve vytvoří zálohu.</li></ul></section>
       <section><h2>xargs</h2><pre><code data-trim class="language-bash">find . -name "*.tmp" -print0 | xargs -0 rm -i

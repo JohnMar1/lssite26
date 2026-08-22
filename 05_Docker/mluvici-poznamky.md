@@ -1,8 +1,8 @@
-# Mluvené poznámky — Letní škola sítí: 5. Docker
+# Mluvené poznámky - Letní škola sítí: 5. Docker
 
 Každá sekce níže odpovídá jednomu zobrazovanému slajdu v `reveal.js/index.html`. Text **Řekni** je návrh výkladu; **Ukaž / zeptej se** je krátká aktivita pro účastníky.
 
-## 1. Titulní slajd — Docker
+## 1. Titulní slajd - Docker
 
 **Řekni:** „Dnes si vysvětlíme Docker úplně od začátku. Nejdřív si řekneme, proč kontejnery používáme, potom spustíme hotový kontejner a nakonec si postavíme vlastní image.“
 
@@ -26,7 +26,7 @@ Každá sekce níže odpovídá jednomu zobrazovanému slajdu v `reveal.js/index
 
 **Přechod:** „Teď si tu krabičku rozebereme po částech.“
 
-## 5. Oddělovací slajd — Co je Docker a proč ho používat
+## 5. Oddělovací slajd - Co je Docker a proč ho používat
 
 **Řekni:** „V této části si vytvoříme základní představu. Nejdřív vysvětlíme, co Docker dělá, potom jeho části a rozdíl oproti virtuálnímu stroji.“
 
@@ -52,123 +52,131 @@ Každá sekce níže odpovídá jednomu zobrazovanému slajdu v `reveal.js/index
 
 **Přechod:** „Abychom věděli, co se při příkazu děje, podíváme se na části Dockeru.“
 
-## 10. Architektura Dockeru — Client
+## 10. Architektura Dockeru: Client
 
 **Řekni:** „Docker Client je program v terminálu. Když napíšeme například `docker run`, klient náš požadavek předá Docker Enginu.“
 
 **Ukaž / zeptej se:** Ukažte, že příkaz zadáváme my v terminálu, ale samotné vytvoření kontejneru provede služba na pozadí.
 
-## 11. Docker Engine
+## 11. Architektura Dockeru: Host
 
-**Řekni:** „Docker Engine je služba běžící na pozadí. Stará se o stahování imagů, vytváření kontejnerů, jejich spouštění i zastavování. Bez běžícího Enginu příkazy nebudou fungovat.“
+**Řekni:** „Docker Host je počítač, na kterém běží Docker Engine. Tento engine vytváří kontejnery, spravuje sítě a stahuje obrazy.“
 
-## 12. Docker Registry
+## 12. Architektura Dockeru: Registry
 
-**Řekni:** „Registry je katalog Docker imagů. Nejznámější veřejný katalog je Docker Hub. Když použijeme image, který zatím nemáme lokálně, Docker ho odtud stáhne.“
+**Řekni:** „Docker Registry je úložiště hotových obrazů. Když spustíme příkaz a obraz nemáme na disku, Docker ho automaticky stáhne z Docker Hubu.“
 
-## 13. Jaká jsou využití a výhody? — Izolace
+**Přechod:** „Víme, jak Docker funguje. Teď si řekneme, proč se používá v praxi.“
 
-**Řekni:** „První výhoda je izolace. Aplikace může mít vlastní verzi knihoven, aniž by rozbila programy nainstalované přímo na hostiteli.“
+## 13. Jaká jsou využití a výhody? Izolace
 
-## 14. Výhoda: stejné prostředí
+**Řekni:** „První velká výhoda je izolace. Dvě aplikace mohou mít různé verze stejné knihovny a nebudou si navzájem překážet.“
 
-**Řekni:** „Image můžeme použít u vývojáře, při testování i v produkci. Každé prostředí tak dostane stejný základ a ubývá překvapení typu *u mě to funguje*.“
+**Ukaž / zeptej se:** Uveďte příklad: jedna aplikace potřebuje Python 3.10, druhá Python 3.12. V Dockeru poběží obě vedle sebe.
 
-## 15. Výhoda: rychlý start
+## 14. Jaká jsou využití a výhody? Vývoj a testování
 
-**Řekni:** „Připravený kontejner spustíme jedním příkazem. Nemusíme pokaždé instalovat celý operační systém ani ručně nastavovat všechny závislosti.“
+**Řekni:** „Druhá výhoda je přenositelnost. Vývojář připraví kontejner a stejný kontejner pak běží na serveru bez ručního doinstalovávání.“
 
-## 16. VM vs. kontejner
+## 15. Jaká jsou využití a výhody? Mikroslužby
 
-**Řekni:** „Virtuální stroj obsahuje celý guest operační systém, proto je větší a startuje pomaleji. Kontejner sdílí jádro hostitele a obsahuje hlavně aplikaci s knihovnami, takže je lehčí.“
+**Řekni:** „Místo jedné velké aplikace můžeme systém rozdělit na menší části, například web, API a databázi. Každá část běží ve vlastním kontejneru a snadněji se spravuje.“
 
-**Ukaž / zeptej se:** Projděte tabulku po řádcích. Zdůrazněte, že uvedené hodnoty jsou orientační, ne slib pro každý počítač.
+## 16. Virtuální stroj vs Kontejner
 
-## 17. Oddělovací slajd — Koncepty, sítě a Dockerfile
+**Řekni:** „Virtuální stroj obsahuje vlastní plnohodnotný operační systém a startuje minuty. Kontejner sdílí jádro počítače a startuje během vteřin.“
 
-**Řekni:** „Teď přejdeme od obecné představy k věcem, se kterými budeme pracovat v příkazové řádce: image, kontejner, data, porty a Dockerfile.“
+**Ukaž / zeptej se:** Ukažte na schématu vrstvu Hypervisor vs Docker Engine.
 
-## 18. Docker Image vs. kontejner
+**Přechod:** „V druhé části se podíváme na základní stavební kameny: image, volume, síť a Dockerfile.“
 
-**Řekni:** „Image je neměnná šablona. Kontejner je konkrétní spuštěná instance této šablony. Image si můžeme představit jako recept a kontejner jako jídlo podle receptu, které právě vaříme.“
+## 17. Oddělovací slajd - Koncepty, sítě a Dockerfile
 
-## 19. Image = recept
+**Řekni:** „Teď si vysvětlíme čtyři důležité věci: rozdíl mezi imagí a kontejnerem, jak ukládat data, jak propojit síť a jak napsat vlastní Dockerfile.“
 
-**Řekni:** „Image obsahuje základní soubory a instrukce potřebné pro aplikaci. Hotové image můžeme stáhnout, například `nginx`, `ubuntu` nebo `python`.“
+## 18. Image vs Kontejner
 
-## 20. Kontejner = uvařený recept
+**Řekni:** „Image je neměnná šablona nebo recept. Kontejner je běžící instance vytvořená podle této šablony. Z jedné image můžeme spustit libovolný počet kontejnerů.“
 
-**Řekni:** „Příkazem `docker run` vezmeme image a spustíme z něj kontejner. Image samo o sobě neběží; běžící služba je až kontejner.“
+**Ukaž / zeptej se:** Použijte přirovnání: Image je stavební plán domu, kontejner je skutečně postavený dům.
 
-**Ukaž / zeptej se:** Nechte účastníky zopakovat větu: „Image je šablona, kontejner je běžící instance.“
+## 19. Životní cyklus kontejneru
 
-## 21. Jeden image, více kontejnerů
+**Řekni:** „Kontejner můžeme vytvořit, spustit, pozastavit, zastavit a smazat. Smazáním kontejneru se nepoškodí původní image.“
 
-**Řekni:** „Stejnou šablonu můžeme spustit vícekrát. Tady z jednoho image vzniknou `web-1` a `web-2`; každý kontejner může mít jiné jméno nebo port.“
+**Přechod:** „Co se stane se soubory uvnitř, když kontejner smažeme?“
 
-## 22. Persistence dat — Volumes
+## 20. Persistence dat: Problém
 
-**Řekni:** „Kontejner má vlastní zapisovatelnou vrstvu, ale ta je dočasná. Když kontejner smažeme, změny uvnitř mohou zmizet. Pro důležitá data používáme volume nebo bind mount.“
+**Řekni:** „Kontejnery jsou dočasné. Když do běžícího kontejneru zapíšeme soubor a kontejner smažeme, zapsaná data zmizí s ním.“
 
-## 23. Proč data mizí?
+**Ukaž / zeptej se:** „Proč je to u databáze problém?“
 
-**Řekni:** „Kontejner je dočasný pracovní prostor. Pokud do něj uložíme soubor a potom ho odstraníme, soubor s ním může zmizet. Proto databázi nenecháváme pouze uvnitř kontejneru.“
+## 21. Persistence dat: Řešení
 
-## 24. Volume = bezpečné místo pro data
+**Řekni:** „Aby data přežila smazání kontejneru, připojíme k němu prostor z hostitelského počítače. Tomu říkáme Volume nebo Bind mount.“
 
-**Řekni:** „Volume je úložiště spravované Dockerem, které žije odděleně od kontejneru. Použijeme ho například pro databáze, nahrané soubory nebo logy, které mají přežít výměnu kontejneru.“
+## 22. Persistence dat: Volumes
 
-## 25. Bind mount = sdílená složka
+**Řekni:** „Volume spravuje sám Docker. Hodí se pro databáze, protože data zůstávají uložena i po odstranění kontejneru.“
 
-**Řekni:** „Bind mount propojí konkrétní složku hostitele se složkou v kontejneru. V příkazu je vlevo cesta na počítači a vpravo cesta uvnitř kontejneru.“
+## 23. Persistence dat: Bind Mounts
 
-**Ukaž / zeptej se:** Vysvětlete `-v ./data:/app/data` slovně: „Tuto místní složku připoj do této složky v kontejneru.“
+**Řekni:** „Bind mount propojí konkrétní složku z vašeho počítače přímo do kontejneru. Když upravíte soubor na počítači, změna se hned projeví i uvnitř.“
 
-## 26. Mapování síťových portů
+**Ukaž / zeptej se:** Vysvětlete, že je to ideální při vývoji webu pro živou úpravu kódu.
 
-**Řekni:** „Kontejner má izolovanou síť. Parametr `-p` vytvoří průchod z portu hostitele na port uvnitř kontejneru. Bez něj se k webu z běžného prohlížeče nemusíme dostat.“
+## 24. Síťování v Dockeru
 
-## 27. Port = dveře do služby
+**Řekni:** „Kontejnery mají vlastní virtuální síť. Ve výchozím nastavení nejsou jejich porty zvenčí vidět, dokud je explicitně nezpřístupníme.“
 
-**Řekni:** „Port si představme jako dveře. Nginx uvnitř poslouchá na portu 80, ale dveře nejsou automaticky otevřené ven. Mapování portu řekne Dockeru, které dveře má zpřístupnit.“
+## 25. Typy sítí: Bridge
 
-## 28. Jak číst `-p 8080:80`?
+**Řekni:** „Bridge je výchozí izolovaná síť pro kontejnery na jednom počítači. Kontejnery v téže bridge síti mohou komunikovat navzájem podle jména.“
 
-**Řekni:** „Čteme zleva doprava: port 8080 na našem počítači pošli na port 80 uvnitř kontejneru. Proto pak otevřeme `localhost:8080`, i když Nginx uvnitř používá port 80.“
+## 26. Typy sítí: Host
 
-**Ukaž / zeptej se:** Zeptejte se: „Kde bychom otevřeli službu při mapování `9000:80`?“ Správně: na `localhost:9000`.
+**Řekni:** „Při nastavení sítě na Host kontejner nepoužívá virtuální síť, ale přímo síťová rozhraní počítače. Odpadá přesměrování portů, ale snižuje se izolace.“
 
-## 29. Dockerfile — základní instrukce
+## 27. Typy sítí: None
 
-**Řekni:** „Dockerfile je textový recept pro sestavení image. `FROM` vybere základ, `WORKDIR` nastaví pracovní složku a `COPY` vloží soubory z projektu do image.“
+**Řekni:** „Typ None kontejneru úplně vypne síť. Používá se pro úlohy, které ze zásady nesmí komunikovat se sítí.“
 
-## 30. Dockerfile — běh a příkazy
+## 28. Publikování portů: `-p 8080:80`
 
-**Řekni:** „`RUN` provádí příkazy při sestavování image, například instalaci balíčku. `USER` může přepnout na méně privilegovaného uživatele a `CMD` určuje výchozí příkaz při startu kontejneru.“
+**Řekni:** „Když chceme službu z kontejneru otevřít pro prohlížeč, použijeme parametr `-p`. Číslo vlevo je port na našem počítači, číslo vpravo je port uvnitř kontejneru.“
+
+**Ukaž / zeptej se:** Ukažte schéma: návštěvník jde na `http://localhost:8080` a Docker požadavek přepošle na port `80` uvnitř kontejneru.
+
+## 29. Dockerfile - Základní instrukce
+
+**Řekni:** „Dockerfile je textový návod na sestavení vlastní image. Instrukce `FROM` určuje základ, `WORKDIR` nastaví pracovní složku a `COPY` do ní nakopíruje naše soubory.“
+
+## 30. Dockerfile - Běh a příkazy
+
+**Řekni:** „Instrukce `RUN` provádí příkazy při sestavování image, například instalaci balíčků. `USER` nastavuje bezpečnějšího neprivilegovaného uživatele a `CMD` říká, jaký příkaz se má spustit při startu kontejneru.“
 
 ## 31. Ukázka Dockerfile
 
-**Řekni:** „Tento recept začne Debianem, nainstaluje curl, vytvoří složku, zkopíruje skript, nastaví uživatele a nakonec skript spustí. Důležité je rozlišit, co se děje při buildu a co až při startu.“
+**Řekni:** „Tady vidíme kompletní příklad: vezmeme Debian, doinstalujeme Nginx, nakopírujeme webovou stránku, otevřeme port 80 a spustíme webový server.“
 
-**Ukaž / zeptej se:** Čtěte řádky postupně. U `RUN` se zeptejte, zda se provede při buildu, nebo při každém startu. Správně: při buildu.
+## 32. Best practices pro Dockerfile
 
-## 32. Dockerfile: jedna instrukce
+**Řekni:** „Pro menší a bezpečnější obrazy spojujte související příkazy `apt update && apt install`, uklízejte dočasnou mezipaměť a používejte soubor `.dockerignore`, aby se do image nekopírovaly zbytečné soubory.“
 
-**Řekni:** „Začínáme řádkem `FROM nginx:alpine`. Říkáme tím, že chceme vyjít z malého image s Nginxem.“
+## 33. Shrnutí pojmů: Kvíz
 
-## 33. Dockerfile: soubory
+**Řekni:** „Pojďme si rychle ověřit základní pojmy: 1. Co je šablona a co běžící instance? 2. Kam ukládáme data, aby nepřežila smazání kontejneru? 3. Co znamená `-p 8080:80`?“
 
-**Řekni:** „`WORKDIR /app` nastaví pracovní složku uvnitř image. `COPY . .` do ní zkopíruje obsah aktuální složky projektu.“
+**Ukaž / zeptej se:** Nechte studenty krátce odpovědět.
 
-## 34. RUN vs. CMD
+## 34. Přestávka (10 min)
 
-**Řekni:** „`RUN` se provádí během buildu a výsledek se uloží do image. `CMD` se provede až po spuštění kontejneru a typicky nastartuje hlavní proces, třeba webserver.“
+**Řekni:** „Dáme si 10 minut pauzu na vydechnutí a po přestávce se posuneme k praktické práci v terminálu a skládání více služeb v Docker Compose.“
 
-**Ukaž / zeptej se:** Nechte účastníky doplnit: „Instalace curlu patří do RUN, spuštění serveru patří do CMD.“
+## 35. Oddělovací slajd - Práce s CLI a Docker Compose
 
-## 35. Oddělovací slajd — Práce s CLI a Docker Compose
-
-**Řekni:** „Teorii máme za sebou. Teď projdeme terminálové příkazy a nakonec způsob, jak více kontejnerů popsat jedním souborem.“
+**Řekni:** „V této části se naučíme ovládat Docker z příkazového řádku a skládat více kontejnerů do jednoho celku pomocí souboru `compose.yaml`.“
 
 ## 36. Instalace na Kali Linux
 
@@ -180,7 +188,7 @@ Každá sekce níže odpovídá jednomu zobrazovanému slajdu v `reveal.js/index
 
 **Řekni:** „`docker --version` je rychlý test, zda máme Docker CLI dostupné. Pokud příkaz neexistuje nebo Engine nereaguje, nejdřív opravíme instalaci, než budeme pokračovat.“
 
-## 38. Práce s imagi v CLI — stažení
+## 38. Práce s imagi v CLI - stažení
 
 **Řekni:** „`docker pull ubuntu` stáhne image Ubuntu z registru do našeho počítače. Stažení děláme typicky jednou; při dalším spuštění se použije místní kopie, pokud není potřeba novější verze.“
 
@@ -228,7 +236,7 @@ Každá sekce níže odpovídá jednomu zobrazovanému slajdu v `reveal.js/index
 
 **Řekni:** „Compose soubor je seznam požadovaného stavu. Řekneme, že chceme službu `web`, z jakého image má být a na jakém portu ji zpřístupnit.“
 
-## 48. Ukázka `docker-compose.yml`
+## 48. Ukázka compose.yaml
 
 **Řekni:** „V ukázce jsou dvě služby: `web` s Nginxem a `db` s MySQL. `ports` zpřístupňuje web a `environment` předává databázi nastavení.“
 
